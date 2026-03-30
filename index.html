@@ -1309,6 +1309,210 @@
           grid-template-columns: 1fr;
         }
       }
+
+      /* ============ IMAGINE TOGETHER ============ */
+      .imagine {
+        background: var(--dark-gray);
+        min-height: 100vh;
+        align-items: flex-start;
+      }
+
+      .imagine .section-inner {
+        padding-top: 100px;
+        padding-bottom: 100px;
+      }
+
+      .imagine-question {
+        font-family: var(--serif);
+        font-size: clamp(18px, 2.5vw, 26px);
+        font-weight: 300;
+        font-style: italic;
+        color: var(--text-gray);
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .imagine-input-wrap {
+        display: flex;
+        gap: 0;
+        margin: 52px auto 0;
+        max-width: 820px;
+        border: 1px solid rgba(201, 169, 110, 0.25);
+        transition: border-color 0.3s ease;
+      }
+
+      .imagine-input-wrap:focus-within {
+        border-color: var(--gold);
+      }
+
+      .imagine-input {
+        flex: 1;
+        background: var(--black);
+        border: none;
+        outline: none;
+        color: var(--cream);
+        font-family: var(--sans);
+        font-size: 15px;
+        padding: 20px 28px;
+      }
+
+      .imagine-input::placeholder {
+        color: rgba(153,153,153,0.5);
+      }
+
+      .imagine-btn {
+        background: var(--gold);
+        color: var(--black);
+        border: none;
+        font-family: var(--sans);
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        padding: 20px 36px;
+        cursor: pointer;
+        transition: background 0.3s ease, letter-spacing 0.3s ease;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+
+      .imagine-btn:hover {
+        background: var(--gold-light);
+        letter-spacing: 5px;
+      }
+
+      .imagine-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        letter-spacing: 3px;
+      }
+
+      .imagine-gallery {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin-top: 52px;
+      }
+
+      @media (max-width: 1200px) { .imagine-gallery { grid-template-columns: repeat(3, 1fr); } }
+      @media (max-width: 900px)  { .imagine-gallery { grid-template-columns: repeat(2, 1fr); } }
+      @media (max-width: 600px)  { .imagine-gallery { grid-template-columns: 1fr; } }
+
+      .imagine-card {
+        position: relative;
+        overflow: hidden;
+        background: var(--black);
+        border: 1px solid rgba(201, 169, 110, 0.08);
+        aspect-ratio: 4 / 3;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: cardAppear 0.6s ease forwards;
+      }
+
+      @keyframes cardAppear {
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .imagine-card-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.6s ease;
+      }
+
+      .imagine-card:hover .imagine-card-img {
+        transform: scale(1.04);
+      }
+
+      .imagine-card-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(10,10,10,0.92) 0%, rgba(10,10,10,0.2) 50%, transparent 100%);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 20px;
+      }
+
+      .imagine-card-tag {
+        position: absolute;
+        top: 14px;
+        left: 14px;
+        font-family: var(--sans);
+        font-size: 9px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--black);
+        background: var(--gold);
+        padding: 4px 10px;
+      }
+
+      .imagine-card-idea {
+        font-family: var(--serif);
+        font-size: 14px;
+        font-weight: 300;
+        font-style: italic;
+        color: var(--cream);
+        line-height: 1.5;
+      }
+
+      /* Loading shimmer state */
+      .imagine-card.loading .imagine-card-overlay {
+        background: transparent;
+      }
+
+      .imagine-card.loading::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg,
+          rgba(201,169,110,0.04) 25%,
+          rgba(201,169,110,0.12) 50%,
+          rgba(201,169,110,0.04) 75%
+        );
+        background-size: 200% 100%;
+        animation: shimmer 1.6s infinite;
+      }
+
+      .imagine-card.loading .imagine-card-idea {
+        color: var(--text-gray);
+      }
+
+      .imagine-loading-icon {
+        display: none;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 28px;
+        height: 28px;
+        border: 2px solid rgba(201,169,110,0.2);
+        border-top-color: var(--gold);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+      }
+
+      .imagine-card.loading .imagine-loading-icon { display: block; }
+
+      @keyframes spin {
+        to { transform: translate(-50%, -50%) rotate(360deg); }
+      }
+
+      @keyframes shimmer {
+        0%   { background-position: 200% 0; }
+        100% { background-position: -200% 0; }
+      }
+
+      .imagine-hint {
+        font-family: var(--sans);
+        font-size: 11px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: rgba(153,153,153,0.4);
+        text-align: center;
+        margin-top: 20px;
+      }
     </style>
   </head>
   <body>
@@ -1354,6 +1558,7 @@
           <span class="highlight">The Challenge:</span>
           <br />Expand your brand experience into new platforms for growth
         </p>
+        <br /><br />
         <p class="provocation-body fade-in">
           Because the next era of hospitality won't be defined by incremental
           improvements to today's model. It will be defined by a fundamental
@@ -1719,6 +1924,31 @@
       </div>
     </section>
 
+    <!-- ============ IMAGINE TOGETHER ============ -->
+    <section class="section imagine" data-section="Imagine Together">
+      <div class="section-inner">
+        <div style="text-align:center">
+          <div class="section-label fade-in">Co-Creation Space</div>
+          <h2 class="section-title fade-in">Let's imagine the future <em style="font-family:var(--serif);color:var(--gold)">together</em></h2>
+          <p class="imagine-question fade-in">How might guests experience Choice Hotels in 2030?</p>
+        </div>
+
+        <div class="imagine-input-wrap fade-in">
+          <input
+            class="imagine-input"
+            id="imagineInput"
+            type="text"
+            placeholder="Share your idea — any format, any scale, any possibility…"
+            maxlength="200"
+          />
+          <button class="imagine-btn" id="imagineBtn" onclick="submitIdea()">Imagine →</button>
+        </div>
+        <p class="imagine-hint fade-in">Press Enter or click Imagine — AI will visualize your idea</p>
+
+        <div class="imagine-gallery" id="imagineGallery"></div>
+      </div>
+    </section>
+
     <!-- ============ CLOSING ============ -->
     <section class="section closing" data-section="Let's Begin">
       <div class="section-inner">
@@ -1846,6 +2076,118 @@
           btn.textContent = "Close ←";
         }
       }
+
+      // ============ IMAGINE TOGETHER ============
+      const DEFAULTS = [
+        {
+          idea: "Biometric arrival — your face is your key, your history shapes the room before you walk in",
+          tag: "Inspiration"
+        },
+        {
+          idea: "A wellness-first stay where the AI concierge curates your morning routine like a personal coach",
+          tag: "Inspiration"
+        },
+        {
+          idea: "A lobby that transforms into a neighborhood market at night, connecting guests with local makers",
+          tag: "Inspiration"
+        },
+        {
+          idea: "Rooms that adapt their lighting, scent, and temperature to your circadian rhythm in real time",
+          tag: "Inspiration"
+        }
+      ];
+
+      function buildPrompt(idea) {
+        return `futuristic luxury hotel interior 2030, ${idea}, cinematic architectural photography, warm ambient lighting, premium hospitality design, photorealistic, 8k`;
+      }
+
+      function createCard(idea, tag, isLoading) {
+        const card = document.createElement('div');
+        card.className = 'imagine-card' + (isLoading ? ' loading' : '');
+
+        const loadingIcon = document.createElement('div');
+        loadingIcon.className = 'imagine-loading-icon';
+
+        const overlay = document.createElement('div');
+        overlay.className = 'imagine-card-overlay';
+
+        const tagEl = document.createElement('div');
+        tagEl.className = 'imagine-card-tag';
+        tagEl.textContent = tag;
+
+        const ideaEl = document.createElement('div');
+        ideaEl.className = 'imagine-card-idea';
+        ideaEl.textContent = `"${idea}"`;
+
+        overlay.appendChild(ideaEl);
+        card.appendChild(loadingIcon);
+        card.appendChild(overlay);
+        card.appendChild(tagEl);
+
+        if (!isLoading) {
+          const img = document.createElement('img');
+          img.className = 'imagine-card-img';
+          img.alt = idea;
+          const seed = Math.abs(idea.split('').reduce((a, c) => (a << 5) - a + c.charCodeAt(0), 0));
+          img.src = `https://image.pollinations.ai/prompt/${encodeURIComponent(buildPrompt(idea))}?width=800&height=600&nologo=true&seed=${seed}`;
+          card.insertBefore(img, loadingIcon);
+        }
+
+        return card;
+      }
+
+      async function addCard(idea, tag) {
+        const gallery = document.getElementById('imagineGallery');
+        const card = createCard(idea, tag, true);
+        gallery.insertBefore(card, gallery.firstChild);
+
+        const seed = Math.abs(idea.split('').reduce((a, c) => (a << 5) - a + c.charCodeAt(0), 0));
+        const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(buildPrompt(idea))}?width=800&height=600&nologo=true&seed=${seed}`;
+
+        const img = document.createElement('img');
+        img.className = 'imagine-card-img';
+        img.alt = idea;
+
+        img.onload = () => {
+          card.insertBefore(img, card.firstChild);
+          card.classList.remove('loading');
+        };
+
+        img.onerror = () => {
+          // Fallback: show card without image
+          card.classList.remove('loading');
+        };
+
+        img.src = url;
+      }
+
+      function submitIdea() {
+        const input = document.getElementById('imagineInput');
+        const btn = document.getElementById('imagineBtn');
+        const idea = input.value.trim();
+        if (!idea) return;
+
+        input.value = '';
+        btn.disabled = true;
+        btn.textContent = 'Generating…';
+
+        addCard(idea, 'Your Idea').then(() => {
+          btn.disabled = false;
+          btn.textContent = 'Imagine →';
+        });
+      }
+
+      document.getElementById('imagineInput').addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') submitIdea();
+      });
+
+      // Load default inspiration cards on page load
+      window.addEventListener('DOMContentLoaded', () => {
+        // Stagger the default cards slightly
+        DEFAULTS.forEach((d, i) => {
+          setTimeout(() => addCard(d.idea, d.tag), i * 200);
+        });
+      });
     </script>
   </body>
 </html>
