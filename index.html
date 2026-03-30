@@ -1,0 +1,1888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Creating New Verticals for Growth — IDEO × Choice Hotels</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap');
+
+  :root {
+    --black: #0a0a0a;
+    --white: #f5f0eb;
+    --cream: #f5f0eb;
+    --gold: #c9a96e;
+    --gold-light: #d4b87a;
+    --dark-gray: #1a1a1a;
+    --mid-gray: #2a2a2a;
+    --text-gray: #999;
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'Inter', -apple-system, sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-snap-type: y mandatory;
+    overflow-x: hidden;
+  }
+
+  body {
+    background: var(--black);
+    color: var(--cream);
+    font-family: var(--sans);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ============ NAVIGATION ============ */
+  .nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 48px;
+    transition: all 0.6s ease;
+  }
+
+  .nav.scrolled {
+    background: rgba(10,10,10,0.9);
+    backdrop-filter: blur(20px);
+    padding: 16px 48px;
+  }
+
+  .nav-logo {
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--cream);
+  }
+
+  .nav-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    z-index: 1001;
+    transition: width 0.3s ease;
+  }
+
+  .nav-section {
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+
+  .nav.scrolled .nav-section { opacity: 1; }
+
+  /* ============ SECTIONS ============ */
+  .section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    scroll-snap-align: start;
+    overflow: hidden;
+  }
+
+  .section-inner {
+    max-width: 1200px;
+    width: 100%;
+    padding: 80px 48px;
+  }
+
+  /* ============ HERO ============ */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    background: var(--black);
+  }
+
+  .hero-particles {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: var(--gold);
+    border-radius: 50%;
+    opacity: 0;
+    animation: float-particle 8s infinite ease-in-out;
+  }
+
+  @keyframes float-particle {
+    0% { opacity: 0; transform: translateY(100vh) scale(0); }
+    20% { opacity: 0.6; }
+    80% { opacity: 0.3; }
+    100% { opacity: 0; transform: translateY(-20vh) scale(1); }
+  }
+
+  .hero-overline {
+    font-family: var(--sans);
+    font-size: 12px;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 40px;
+    opacity: 0;
+    animation: fadeUp 1s 0.5s forwards;
+  }
+
+  .hero-title {
+    font-family: var(--serif);
+    font-size: clamp(52px, 8vw, 120px);
+    font-weight: 300;
+    line-height: 0.95;
+    letter-spacing: -2px;
+    color: var(--cream);
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 1.2s 0.8s forwards;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .hero-subtitle {
+    font-family: var(--serif);
+    font-size: clamp(18px, 2.5vw, 26px);
+    font-weight: 300;
+    color: var(--text-gray);
+    max-width: 600px;
+    line-height: 1.6;
+    opacity: 0;
+    animation: fadeUp 1s 1.2s forwards;
+  }
+
+  .hero-meta {
+    position: absolute;
+    bottom: 48px;
+    display: flex;
+    gap: 60px;
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-gray);
+    opacity: 0;
+    animation: fadeUp 1s 1.6s forwards;
+  }
+
+  .scroll-indicator {
+    position: absolute;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    animation: fadeUp 1s 2s forwards;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scroll-pulse 2s infinite;
+  }
+
+  @keyframes scroll-pulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(0.6); }
+    50% { opacity: 1; transform: scaleY(1); }
+  }
+
+  /* ============ PROVOCATION SECTION ============ */
+  .provocation {
+    background: var(--black);
+    text-align: center;
+  }
+
+  .provocation-text {
+    font-family: var(--serif);
+    font-size: clamp(22px, 3.5vw, 44px);
+    font-weight: 300;
+    line-height: 1.5;
+    max-width: 900px;
+    margin: 0 auto;
+    color: var(--cream);
+  }
+
+  .provocation-text .highlight {
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  /* ============ FORCES SECTION ============ */
+  .forces {
+    background: var(--black);
+  }
+
+  .forces-header {
+    text-align: center;
+    margin-bottom: 80px;
+  }
+
+  .section-label {
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+  }
+
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 300;
+    line-height: 1.2;
+  }
+
+  .forces-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+  }
+
+  .force-card {
+    background: var(--dark-gray);
+    border: 1px solid rgba(201, 169, 110, 0.1);
+    padding: 48px 36px;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s ease;
+  }
+
+  .force-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .force-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+  }
+
+  .force-number {
+    font-family: var(--serif);
+    font-size: 64px;
+    font-weight: 300;
+    color: rgba(201, 169, 110, 0.15);
+    line-height: 1;
+    margin-bottom: 24px;
+  }
+
+  .force-title {
+    font-family: var(--serif);
+    font-size: 24px;
+    font-weight: 400;
+    margin-bottom: 16px;
+    color: var(--gold);
+  }
+
+  .force-text {
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--text-gray);
+  }
+
+  /* ============ WHY IDEO SECTION ============ */
+  .why-ideo {
+    background: var(--dark-gray);
+  }
+
+  .why-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    margin-top: 60px;
+    align-items: start;
+  }
+
+  .why-left {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: rgba(245, 240, 235, 0.85);
+  }
+
+  .why-right {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .why-point {
+    padding-left: 20px;
+    border-left: 2px solid rgba(201, 169, 110, 0.3);
+  }
+
+  .why-point-label {
+    font-family: var(--sans);
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+
+  .why-point-text {
+    font-family: var(--sans);
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--text-gray);
+  }
+
+  /* ============ STATS SECTION ============ */
+  .stats {
+    background: var(--black);
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    margin-top: 60px;
+  }
+
+  .stat-card {
+    background: var(--dark-gray);
+    padding: 48px 32px;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease;
+  }
+
+  .stat-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .stat-card-number {
+    font-family: var(--serif);
+    font-size: 56px;
+    font-weight: 300;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+
+  .stat-card-label {
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-gray);
+    line-height: 1.6;
+  }
+
+  /* ============ APPROACH SECTION ============ */
+  .approach {
+    background: var(--black);
+  }
+
+  .approach-phases {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    margin-top: 60px;
+  }
+
+  .phase-card {
+    background: var(--dark-gray);
+    padding: 48px 32px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.5s ease;
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  .phase-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .phase-card:hover {
+    background: var(--mid-gray);
+  }
+
+  .phase-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transition: transform 0.5s ease;
+  }
+
+  .phase-card:hover::after {
+    transform: scaleX(1);
+  }
+
+  .phase-label {
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  .phase-weeks {
+    font-family: var(--sans);
+    font-size: 11px;
+    color: var(--text-gray);
+    margin-bottom: 24px;
+  }
+
+  .phase-name {
+    font-family: var(--serif);
+    font-size: 32px;
+    font-weight: 300;
+    margin-bottom: 20px;
+  }
+
+  .phase-desc {
+    font-family: var(--sans);
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--text-gray);
+    margin-bottom: 20px;
+  }
+
+  .phase-activities {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(201, 169, 110, 0.1);
+  }
+
+  .phase-activity {
+    font-family: var(--sans);
+    font-size: 12px;
+    color: var(--text-gray);
+    padding: 6px 0;
+    padding-left: 16px;
+    position: relative;
+  }
+
+  .phase-activity::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 6px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  /* ============ SCENARIO WORLDS (OPPORTUNITY TERRITORIES) ============ */
+  .scenarios {
+    background: var(--black);
+    padding: 0;
+  }
+
+  .scenario-world {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    scroll-snap-align: start;
+  }
+
+  .scenario-bg {
+    position: absolute;
+    inset: 0;
+    opacity: 0.15;
+    transition: opacity 1s ease;
+  }
+
+  .scenario-world:hover .scenario-bg {
+    opacity: 0.25;
+  }
+
+  .scenario-1 .scenario-bg {
+    background: radial-gradient(ellipse at 30% 50%, rgba(201, 169, 110, 0.3), transparent 60%),
+                radial-gradient(ellipse at 70% 80%, rgba(100, 180, 150, 0.15), transparent 50%);
+  }
+
+  .scenario-2 .scenario-bg {
+    background: radial-gradient(ellipse at 70% 40%, rgba(100, 160, 220, 0.25), transparent 60%),
+                radial-gradient(ellipse at 20% 70%, rgba(201, 169, 110, 0.2), transparent 50%);
+  }
+
+  .scenario-3 .scenario-bg {
+    background: radial-gradient(ellipse at 50% 30%, rgba(200, 100, 80, 0.2), transparent 60%),
+                radial-gradient(ellipse at 80% 80%, rgba(201, 169, 110, 0.2), transparent 50%);
+  }
+
+  .scenario-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    padding: 80px 48px;
+  }
+
+  .scenario-number {
+    font-family: var(--serif);
+    font-size: 120px;
+    font-weight: 300;
+    color: rgba(201, 169, 110, 0.1);
+    line-height: 1;
+    margin-bottom: -20px;
+  }
+
+  .scenario-title {
+    font-family: var(--serif);
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 300;
+    margin-bottom: 24px;
+    line-height: 1.2;
+  }
+
+  .scenario-year {
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: 5px;
+    color: var(--gold);
+    margin-bottom: 32px;
+  }
+
+  .scenario-description {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: rgba(245, 240, 235, 0.8);
+    margin-bottom: 40px;
+  }
+
+  .scenario-signals {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .signal-tag {
+    font-family: var(--sans);
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    border: 1px solid rgba(201, 169, 110, 0.3);
+    color: var(--gold);
+  }
+
+  .scenario-floats {
+    position: absolute;
+    right: 48px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    z-index: 2;
+  }
+
+  .scenario-stat {
+    text-align: right;
+    opacity: 0;
+    transform: translateX(30px);
+    transition: all 0.8s ease;
+  }
+
+  .scenario-world.visible .scenario-stat {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .stat-number {
+    font-family: var(--serif);
+    font-size: 48px;
+    font-weight: 300;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-gray);
+    margin-top: 4px;
+  }
+
+  /* ============ CONCEPT CARDS (CASE STUDIES) ============ */
+  .concepts {
+    background: var(--black);
+    min-height: auto;
+  }
+
+  .concepts-intro {
+    text-align: center;
+    padding: 120px 48px 60px;
+  }
+
+  .concepts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 2px;
+    padding: 0 48px 120px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .concept-card {
+    background: var(--dark-gray);
+    border: 1px solid rgba(201, 169, 110, 0.08);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    min-height: 380px;
+  }
+
+  .concept-card-front {
+    padding: 48px 36px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    transition: all 0.6s ease;
+    position: relative;
+    z-index: 2;
+  }
+
+  .concept-card:hover .concept-card-front {
+    transform: translateY(-8px);
+  }
+
+  .concept-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(201, 169, 110, 0.05), transparent);
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+
+  .concept-card:hover::before {
+    opacity: 1;
+  }
+
+  .concept-category {
+    font-family: var(--sans);
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .concept-name {
+    font-family: var(--serif);
+    font-size: 26px;
+    font-weight: 400;
+    margin-bottom: 14px;
+    line-height: 1.3;
+  }
+
+  .concept-tagline {
+    font-family: var(--serif);
+    font-size: 15px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--text-gray);
+    margin-bottom: 24px;
+    line-height: 1.5;
+  }
+
+  .concept-detail {
+    font-family: var(--sans);
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--text-gray);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.8s ease, opacity 0.6s ease;
+    opacity: 0;
+  }
+
+  .concept-card.expanded .concept-detail {
+    max-height: 600px;
+    opacity: 1;
+  }
+
+  .concept-expand {
+    font-family: var(--sans);
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 12px 0;
+    transition: all 0.3s ease;
+  }
+
+  .concept-expand:hover {
+    letter-spacing: 5px;
+  }
+
+  .concept-detail-section {
+    margin-bottom: 16px;
+  }
+
+  .concept-detail-label {
+    font-family: var(--sans);
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+
+  /* ============ TEAM SECTION ============ */
+  .team {
+    background: var(--dark-gray);
+  }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 60px;
+  }
+
+  .team-member {
+    background: var(--black);
+    padding: 48px 36px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease;
+  }
+
+  .team-member.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .team-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold), rgba(201, 169, 110, 0.3));
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--serif);
+    font-size: 24px;
+    color: var(--black);
+  }
+
+  .team-role {
+    font-family: var(--sans);
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  .team-name {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 400;
+    margin-bottom: 6px;
+  }
+
+  .team-desc {
+    font-family: var(--sans);
+    font-size: 12px;
+    line-height: 1.7;
+    color: var(--text-gray);
+    margin-top: 12px;
+  }
+
+  /* ============ DELIVERABLES ============ */
+  .deliverables {
+    background: var(--black);
+  }
+
+  .deliverables-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+    margin-top: 60px;
+  }
+
+  .deliverable-item {
+    background: var(--dark-gray);
+    padding: 48px 40px;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease;
+  }
+
+  .deliverable-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .deliverable-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+  }
+
+  .deliverable-number {
+    font-family: var(--serif);
+    font-size: 72px;
+    font-weight: 300;
+    color: rgba(201, 169, 110, 0.08);
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+
+  .deliverable-name {
+    font-family: var(--serif);
+    font-size: 26px;
+    font-weight: 400;
+    margin-bottom: 16px;
+    color: var(--cream);
+  }
+
+  .deliverable-what {
+    font-family: var(--sans);
+    font-size: 12px;
+    line-height: 1.7;
+    color: var(--text-gray);
+    margin-bottom: 20px;
+  }
+
+  .deliverable-value-label {
+    font-family: var(--sans);
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  .deliverable-value {
+    font-family: var(--serif);
+    font-size: 16px;
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(245, 240, 235, 0.7);
+    line-height: 1.6;
+  }
+
+  /* ============ INVESTMENT SECTION ============ */
+  .investment {
+    background: var(--dark-gray);
+  }
+
+  .investment-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 80px;
+    margin-top: 60px;
+    align-items: start;
+  }
+
+  .investment-total {
+    border: 1px solid rgba(201, 169, 110, 0.2);
+    padding: 48px 36px;
+    text-align: center;
+    position: relative;
+  }
+
+  .investment-total::before {
+    content: 'TOTAL INVESTMENT';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--sans);
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: var(--gold);
+    background: var(--dark-gray);
+    padding: 0 12px;
+    white-space: nowrap;
+  }
+
+  .investment-amount {
+    font-family: var(--serif);
+    font-size: 72px;
+    font-weight: 300;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+
+  .investment-duration {
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-gray);
+  }
+
+  .investment-phases {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .investment-phase {
+    background: var(--black);
+    padding: 28px 32px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 24px;
+    align-items: center;
+  }
+
+  .investment-phase-label {
+    font-family: var(--sans);
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .investment-phase-name {
+    font-family: var(--serif);
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--cream);
+  }
+
+  .investment-phase-sub {
+    font-family: var(--sans);
+    font-size: 11px;
+    color: var(--text-gray);
+    margin-top: 4px;
+  }
+
+  .investment-phase-fee {
+    font-family: var(--serif);
+    font-size: 24px;
+    font-weight: 300;
+    color: var(--gold);
+    text-align: right;
+  }
+
+  /* ============ CLOSING ============ */
+  .closing {
+    background: var(--black);
+    text-align: center;
+  }
+
+  .closing-text {
+    font-family: var(--serif);
+    font-size: clamp(28px, 4vw, 52px);
+    font-weight: 300;
+    line-height: 1.4;
+    max-width: 900px;
+    margin: 0 auto 48px;
+  }
+
+  .closing-text em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .closing-contacts {
+    display: flex;
+    gap: 60px;
+    justify-content: center;
+    margin-top: 60px;
+    flex-wrap: wrap;
+  }
+
+  .closing-contact {
+    text-align: center;
+  }
+
+  .closing-contact-name {
+    font-family: var(--serif);
+    font-size: 18px;
+    font-weight: 400;
+    margin-bottom: 4px;
+  }
+
+  .closing-contact-role {
+    font-family: var(--sans);
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+
+  .closing-contact-email {
+    font-family: var(--sans);
+    font-size: 12px;
+    color: var(--text-gray);
+  }
+
+  .closing-logo {
+    margin-top: 100px;
+    font-family: var(--sans);
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    color: var(--cream);
+  }
+
+  .closing-confidential {
+    margin-top: 24px;
+    font-family: var(--sans);
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(153, 153, 153, 0.5);
+  }
+
+  /* ============ COMPETITION ROW ============ */
+  .competition {
+    background: var(--dark-gray);
+  }
+
+  .competition-row {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+    margin-top: 60px;
+  }
+
+  .competition-item {
+    background: var(--black);
+    padding: 32px 20px;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+  }
+
+  .competition-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .competition-brand {
+    font-family: var(--serif);
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--cream);
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+
+  .competition-quality {
+    font-family: var(--sans);
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  /* ============ ANIMATIONS ============ */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 1024px) {
+    .forces-grid { grid-template-columns: 1fr; }
+    .approach-phases { grid-template-columns: repeat(2, 1fr); }
+    .team-grid { grid-template-columns: repeat(2, 1fr); }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .concepts-grid { grid-template-columns: 1fr 1fr; }
+    .deliverables-grid { grid-template-columns: 1fr; }
+    .scenario-floats { display: none; }
+    .why-grid { grid-template-columns: 1fr; }
+    .investment-grid { grid-template-columns: 1fr; }
+    .competition-row { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  @media (max-width: 768px) {
+    .nav { padding: 16px 24px; }
+    .section-inner { padding: 60px 24px; }
+    .approach-phases { grid-template-columns: 1fr; }
+    .team-grid { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: 1fr 1fr; }
+    .concepts-grid { grid-template-columns: 1fr; padding: 0 24px 80px; }
+    .hero-meta { gap: 24px; }
+    .competition-row { grid-template-columns: repeat(2, 1fr); }
+    .closing-contacts { gap: 32px; }
+    .investment-phase { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- PROGRESS BAR -->
+<div class="nav-progress" id="progressBar"></div>
+
+<!-- NAVIGATION -->
+<nav class="nav" id="nav">
+  <div class="nav-logo">IDEO</div>
+  <div class="nav-section" id="navSection"></div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="hero section" data-section="Creating New Verticals for Growth">
+  <div class="hero-particles" id="particles"></div>
+  <div class="hero-overline">IDEO × Choice Hotels</div>
+  <h1 class="hero-title">Creating New<br><em>Verticals</em><br>for Growth</h1>
+  <p class="hero-subtitle">Turning Choice Hotels' industry-leading tech stack into a category-defining experience advantage</p>
+  <div class="scroll-indicator">
+    <div class="scroll-line"></div>
+  </div>
+  <div class="hero-meta">
+    <span>March 2026</span>
+    <span>A Proposal</span>
+    <span>Private &amp; Confidential</span>
+  </div>
+</section>
+
+<!-- ============ PROVOCATION ============ -->
+<section class="section provocation" data-section="The Challenge">
+  <div class="section-inner">
+    <p class="provocation-text fade-in">
+      Every consultancy you're speaking with will deliver a rigorous strategy deck — market sizing, competitive benchmarks, and a roadmap grounded in today's realities. And all of it will be logical, well-structured — and <span class="highlight">insufficient.</span><br><br>
+      Because the next era of hospitality won't be defined by incremental improvements to today's model. It will be defined by a fundamental shift in how people discover, choose, and experience travel in an <span class="highlight">AI-first world.</span><br><br>
+      How might we turn your industry-leading tech stack into a <span class="highlight">category-defining experience advantage</span> — positioning Choice Hotels to win in the next era of hospitality?
+    </p>
+  </div>
+</section>
+
+<!-- ============ THREE FORCES ============ -->
+<section class="section forces" data-section="The Opportunity">
+  <div class="section-inner">
+    <div class="forces-header">
+      <div class="section-label fade-in">The Opportunity</div>
+      <h2 class="section-title fade-in">Three forces are reshaping<br>the future of hospitality.</h2>
+    </div>
+    <div class="forces-grid">
+      <div class="force-card">
+        <div class="force-number">01</div>
+        <div class="force-title">AI Reshapes the Journey</div>
+        <div class="force-text">AI is reshaping the customer journey end-to-end — from discovery and booking to in-stay experience and loyalty. Winning this moment requires more than strategy or technology alone. You'll need to win not only the infrastructure layer, but the experience layer designed on top of it. Choice Hotels' proprietary tech stack creates a rare structural advantage.</div>
+      </div>
+      <div class="force-card">
+        <div class="force-number">02</div>
+        <div class="force-title">Experience Over Amenities</div>
+        <div class="force-text">Across hospitality, the premium market has become increasingly competitive and increasingly easy to replicate. Finishes are more refined, menus more considered, yet experiences feel interchangeable. The next frontier of differentiation is not what a space contains or looks like — it's how it behaves, how it recognizes you, and how it makes you feel.</div>
+      </div>
+      <div class="force-card">
+        <div class="force-number">03</div>
+        <div class="force-title">Loyalty is Being Redefined</div>
+        <div class="force-text">Loyalty is often reduced to status tiers and transactional rewards — acknowledged, but not deeply felt. The most compelling growth opportunities for Choice Hotels may not come from within hospitality at all. New verticals and experience ecosystems can transform a hotel brand into a platform for the full arc of how people live, travel, and belong.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ THE COMPETITION ============ -->
+<section class="section competition" data-section="The New Competition">
+  <div class="section-inner">
+    <div class="section-label fade-in">The Challenge</div>
+    <h2 class="section-title fade-in">You are not going to win<br>by out-speccing the competition.</h2>
+    <p class="fade-in" style="font-family:var(--serif);font-size:20px;font-weight:300;color:var(--text-gray);max-width:700px;margin:20px auto 0 0;line-height:1.6">The competition isn't just other hotels and Airbnbs. You have to stand out by standing for something different. The new benchmark is set by the best experiences across every category.</p>
+    <div class="competition-row">
+      <div class="competition-item">
+        <div class="competition-brand">Ritz Carlton</div>
+        <div class="competition-quality">Anticipatory Service</div>
+      </div>
+      <div class="competition-item">
+        <div class="competition-brand">Hermès</div>
+        <div class="competition-quality">Memorableness</div>
+      </div>
+      <div class="competition-item">
+        <div class="competition-brand">Apple</div>
+        <div class="competition-quality">Seamlessness</div>
+      </div>
+      <div class="competition-item">
+        <div class="competition-brand">Quiet Luxury</div>
+        <div class="competition-quality">Aspiration</div>
+      </div>
+      <div class="competition-item">
+        <div class="competition-brand">Amazon</div>
+        <div class="competition-quality">Convenience</div>
+      </div>
+      <div class="competition-item">
+        <div class="competition-brand">Wellness Culture</div>
+        <div class="competition-quality">Wellbeing Focus</div>
+      </div>
+      <div class="competition-item">
+        <div class="competition-brand">AI</div>
+        <div class="competition-quality">Personalization</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHY IDEO ============ -->
+<section class="section why-ideo" data-section="Why IDEO">
+  <div class="section-inner">
+    <div class="section-label fade-in">Why IDEO</div>
+    <h2 class="section-title fade-in">We identify creative ways to grow.<br>We make <em style="font-family:var(--serif);color:var(--gold)">market leaders.</em></h2>
+    <div class="why-grid">
+      <div class="why-left fade-in">
+        For more than 40 years, IDEO has been synonymous with Design Thinking, helping organizations reimagine what's possible through human-centered innovation. We uncover deep customer insights that translate into scalable solutions and measurable ROI.<br><br>
+        IDEO brings a rare cross-disciplinary vantage point — decades of category-defining work in mobility, food and beverage, health, media, retail, and beyond — to help organizations see around corners that industry-only thinking can't reach.<br><br>
+        With a global team of 250+ designers across San Francisco, Shanghai, London, Boston, and Chicago, we bring diverse perspectives to your challenge.
+      </div>
+      <div class="why-right">
+        <div class="why-point fade-in">
+          <div class="why-point-label">Retail &amp; Membership</div>
+          <div class="why-point-text">We push the edges of retail, membership, and the design of new products and services. Our deep expertise provides a jumping-off point that is two steps ahead of your category.</div>
+        </div>
+        <div class="why-point fade-in">
+          <div class="why-point-label">Luxury Hospitality</div>
+          <div class="why-point-text">We know luxury consumers — and we've designed the signature rituals, service models, and experience systems that make hotels, airlines, and brands feel unmistakably distinct.</div>
+        </div>
+        <div class="why-point fade-in">
+          <div class="why-point-label">Travel &amp; Aviation</div>
+          <div class="why-point-text">We have shaped the future of travel globally — across airlines, airports, and experience ecosystems. We understand the pressures of high-yield products and complex service orchestration.</div>
+        </div>
+        <div class="why-point fade-in">
+          <div class="why-point-label">Business Growth</div>
+          <div class="why-point-text">We don't just design experiences — we design holistic solutions that reinvent categories and drive top-line growth. Our work unlocks new revenue streams, strengthens loyalty, and accelerates brand transformation.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ IMPACT STATS ============ -->
+<section class="section stats" data-section="Our Impact">
+  <div class="section-inner">
+    <div class="section-label fade-in" style="text-align:center">Measurable Impact</div>
+    <h2 class="section-title fade-in" style="text-align:center">Our work moves the needle.</h2>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-card-number">$230M</div>
+        <div class="stat-card-label">Annual ancillary revenue from the "EvenMore" program we designed for JetBlue</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-number">5★</div>
+        <div class="stat-card-label">Skytrax rating for Lufthansa Business Class after implementing our service components</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-number">NPS 78</div>
+        <div class="stat-card-label">Guest satisfaction for Ritz-Carlton after our "Moments that Matter" program — nearly double industry average</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-number">70+</div>
+        <div class="stat-card-label">Signed contracts for IHG's Garner brand within months of launch — a midscale brand we designed end-to-end</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ APPROACH ============ -->
+<section class="section approach" data-section="Our Approach">
+  <div class="section-inner">
+    <div style="text-align:center;margin-bottom:20px">
+      <div class="section-label fade-in">Our Approach</div>
+      <h2 class="section-title fade-in">Over 13 weeks, we move from<br>understanding forces to defining verticals.</h2>
+      <p class="fade-in" style="font-family:var(--serif);font-size:20px;font-weight:300;color:var(--text-gray);max-width:700px;margin:20px auto 0;line-height:1.6">Through each phase, we narrow the sandbox for future opportunities — with outputs that build from one stage to the next.</p>
+    </div>
+    <div class="approach-phases">
+      <div class="phase-card">
+        <div class="phase-label">Phase 01</div>
+        <div class="phase-weeks">Weeks 1–2</div>
+        <div class="phase-name">Build Focus</div>
+        <div class="phase-desc">Refine brief, align on constraints, and immerse in Choice Hotels' brand, technology, and existing insight to surface categories of opportunity.</div>
+        <div class="phase-activities">
+          <div class="phase-activity">Kick-off workshop with core team</div>
+          <div class="phase-activity">Stakeholder interviews across functions</div>
+          <div class="phase-activity">Brand &amp; technology immersion</div>
+          <div class="phase-activity">Review of existing research</div>
+          <div class="phase-activity">Develop 3–5 future of travel hypotheses</div>
+          <div class="phase-activity">Working hypotheses on guest futures</div>
+        </div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-label">Phase 02</div>
+        <div class="phase-weeks">Weeks 3–5</div>
+        <div class="phase-name">Sense &amp; Synthesise</div>
+        <div class="phase-desc">Engage expert perspectives and cross-industry trends to identify future signals shaping the landscape and surface unmet needs of tomorrow's traveler.</div>
+        <div class="phase-activities">
+          <div class="phase-activity">Expert interviews across analogue categories</div>
+          <div class="phase-activity">AI-enabled trend &amp; signal analysis</div>
+          <div class="phase-activity">IDEO global 'hive mind' signal swarm</div>
+          <div class="phase-activity">Inspirational visits &amp; experiences</div>
+          <div class="phase-activity">Develop 10–15 opportunity areas</div>
+          <div class="phase-activity">Prioritisation workshop with Choice Hotels</div>
+        </div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-label">Phase 03</div>
+        <div class="phase-weeks">Weeks 6–9</div>
+        <div class="phase-name">Co-Create &amp; Test</div>
+        <div class="phase-desc">Co-create concepts to bring tangibility to the opportunities. Prototype and test with internal teams and 'edge' customers who live aspects of these futures today.</div>
+        <div class="phase-activities">
+          <div class="phase-activity">Co-create concepts for prioritised opportunities</div>
+          <div class="phase-activity">Prototype &amp; visualise tangible ideas</div>
+          <div class="phase-activity">Test with edge customers &amp; internal experts</div>
+          <div class="phase-activity">Identify unmet needs &amp; build resonance</div>
+          <div class="phase-activity">Refine verticals based on feedback</div>
+          <div class="phase-activity">Define what must be true per vertical</div>
+        </div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-label">Phase 04</div>
+        <div class="phase-weeks">Weeks 10–13</div>
+        <div class="phase-name">Bring to Life</div>
+        <div class="phase-desc">Deliver an immersive experience that brings future scenarios and tangible vertical expressions to life — so stakeholders can feel the future firsthand.</div>
+        <div class="phase-activities">
+          <div class="phase-activity">Refine 3–5 final vertical propositions</div>
+          <div class="phase-activity">Immersive storytelling &amp; prototypes</div>
+          <div class="phase-activity">Future scenario environment design</div>
+          <div class="phase-activity">Customer value proposition concepts</div>
+          <div class="phase-activity">Strategic next steps &amp; riskiest assumptions</div>
+          <div class="phase-activity">Final stakeholder immersion presentation</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SCENARIO WORLDS (GROWTH TERRITORIES) ============ -->
+<section class="scenarios" data-section="Growth Territories">
+
+  <div class="scenario-world scenario-1" data-section="The Hyper-Personal Stay">
+    <div class="scenario-bg"></div>
+    <div class="scenario-content fade-in">
+      <div class="scenario-number">01</div>
+      <div class="scenario-year">Growth Territory — Personalization</div>
+      <h3 class="scenario-title">The Hyper-Personal Stay</h3>
+      <p class="scenario-description">Choice Hotels' fully integrated, proprietary tech stack creates a structural advantage no competitor can replicate overnight. In an AI-first era, this is the foundation of an experience layer that remembers guests — not just their preferences, but their patterns, rituals, and intent. A stay that improves with every visit. Loyalty made tangible.</p>
+      <div class="scenario-signals">
+        <span class="signal-tag">AI Personalization</span>
+        <span class="signal-tag">Predictive Service</span>
+        <span class="signal-tag">Guest Data Platform</span>
+        <span class="signal-tag">Loyalty Reinvented</span>
+        <span class="signal-tag">Choice Advantage</span>
+      </div>
+    </div>
+    <div class="scenario-floats">
+      <div class="scenario-stat">
+        <div class="stat-number">73%</div>
+        <div class="stat-label">of travelers expect personalization</div>
+      </div>
+      <div class="scenario-stat">
+        <div class="stat-number">$1.4T</div>
+        <div class="stat-label">Global travel market by 2027</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scenario-world scenario-2" data-section="The Wellness Platform">
+    <div class="scenario-bg"></div>
+    <div class="scenario-content fade-in">
+      <div class="scenario-number">02</div>
+      <div class="scenario-year">Growth Territory — Wellness &amp; Lifestyle</div>
+      <h3 class="scenario-title">The Wellness Platform</h3>
+      <p class="scenario-description">Wellness is no longer a hotel amenity. It's a lifestyle — and travelers increasingly seek experiences that recognize them, adapt to their needs, and support how they want to feel. The most compelling growth opportunities for Choice Hotels may not come from within hospitality at all. A wellness vertical could transform brand occasions and unlock entirely new revenue streams.</p>
+      <div class="scenario-signals">
+        <span class="signal-tag">Lifestyle Travel</span>
+        <span class="signal-tag">Wellbeing Economy</span>
+        <span class="signal-tag">Sleep Science</span>
+        <span class="signal-tag">Mindful Recovery</span>
+        <span class="signal-tag">New Occasions</span>
+      </div>
+    </div>
+    <div class="scenario-floats">
+      <div class="scenario-stat">
+        <div class="stat-number">$814B</div>
+        <div class="stat-label">Global wellness tourism market</div>
+      </div>
+      <div class="scenario-stat">
+        <div class="stat-number">7.5%</div>
+        <div class="stat-label">Annual growth rate</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scenario-world scenario-3" data-section="The New Local">
+    <div class="scenario-bg"></div>
+    <div class="scenario-content fade-in">
+      <div class="scenario-number">03</div>
+      <div class="scenario-year">Growth Territory — Community &amp; Place</div>
+      <h3 class="scenario-title">The New Local</h3>
+      <p class="scenario-description">In a world of algorithmic sameness, the strongest hotel brands won't be defined by more features. They'll be defined by a single, unmistakable sense of place. What if each Choice Hotels property offered something distinct — an experience shaped by the character of its city, expressed through moments and rituals that guests could only have there? A constellation of destinations, each worth seeking out in its own right.</p>
+      <div class="scenario-signals">
+        <span class="signal-tag">Sense of Place</span>
+        <span class="signal-tag">Local Commerce</span>
+        <span class="signal-tag">Community Anchoring</span>
+        <span class="signal-tag">Cultural Curation</span>
+        <span class="signal-tag">Belonging</span>
+      </div>
+    </div>
+    <div class="scenario-floats">
+      <div class="scenario-stat">
+        <div class="stat-number">67%</div>
+        <div class="stat-label">Travelers seek authentic local experiences</div>
+      </div>
+      <div class="scenario-stat">
+        <div class="stat-number">2.4×</div>
+        <div class="stat-label">Revenue lift from experience-led stays</div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ============ CASE STUDIES ============ -->
+<section class="concepts" data-section="Relevant Work">
+  <div class="concepts-intro">
+    <div class="section-label fade-in">Relevant Work</div>
+    <h2 class="section-title fade-in">We've been here before —<br>across hospitality, travel, and retail.</h2>
+    <p class="fade-in" style="font-family:var(--serif);font-size:18px;font-weight:300;color:var(--text-gray);max-width:600px;margin:20px auto 0;line-height:1.6">A selection of work directly relevant to Choice Hotels' ambitions. Click each to explore the detail.</p>
+  </div>
+  <div class="concepts-grid">
+
+    <div class="concept-card fade-in">
+      <div class="concept-card-front">
+        <div class="concept-category">Hospitality × Service Design</div>
+        <div class="concept-name">Ritz-Carlton: Moments that Matter</div>
+        <div class="concept-tagline">Designing the guest experience that nearly doubled industry NPS — from check-in to departure.</div>
+        <button class="concept-expand" onclick="toggleConcept(this)">Explore →</button>
+        <div class="concept-detail">
+          <div class="concept-detail-section">
+            <div class="concept-detail-label">What We Delivered</div>
+            <p>A seamless guest experience across online, offline, pre-booking, onsite, and departure moments. "Moments that Matter" — specific ways to uniquely enhance key touchpoints, plus codification and playbooks for global trainers.</p>
+          </div>
+          <div class="concept-detail-section">
+            <div class="concept-detail-label">The Impact</div>
+            <p>Average NPS of 78 two years post-launch — nearly double the industry average of 39. Playbooks and workshops deployed globally for in-house trainers.</p>
+          </div>
+          <div class="concept-detail-section">
+            <div class="concept-detail-label">Why It's Relevant</div>
+            <p>This demonstrates how Choice Hotels might equip their teams to deliver elevated, locally relevant experiences through operational tools and emotional storytelling — at scale across their estate.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="concept-card fade-in">
+      <div class="concept-card-front">
+        <div class="concept-category">Aviation × Revenue Design</div>
+        <div class="concept-name">JetBlue EvenMore: $230M Program</div>
+        <div class="concept-tagline">Designing the modular service program that became JetBlue's biggest ancillary revenue contributor for over a decade.</div>
+        <button class="concept-expand" onclick="toggleConcept(this)">Explore →</button>
+        <div class="concept-detail">
+          <div class="concept-detail-section">
+            <div class="concept-detail-label">What We Delivered</div>
+            <p>A modular system of opt-in service enhancements — including "Even More Space" and "Even More Speed" — that allowed travelers to customize each trip while preserving JetBlue's brand values.</p>
+          </div>
+          <div class="concept-detail-section">
+            <div class="concept-detail-label">The Impact</div>
+            <p>$230M in annual ancillary revenue. 30% CAGR for JetBlue's leading ancillary program. Attracted business travelers without compromising its democratic brand.</p>
+          </div>
+          <div class="concept-detail-section">
+            <div class="concept-detail-label">Why It's Relevant</div>
+            <p>This demonstrates how modular, value-driven experiences can generate new revenue streams while deepening customer loyalty — directly applicable to Choice Hotels' ancillary and vertical growth ambitions.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="concept-card fade-in">
+      <div class="concept-card-front">
+        <div class="concept-category">Hotel Brand Design</div>
+        <div class="concept-name">IHG Garner: A Brand Built for Growth</div>
+        <div class="concept-tagline">Designing a midscale conversion brand that stands apart — for travelers and owners alike — and immediately accelerated IHG's global portfolio strategy.</div>
+        <button class="concept-expand" onclick="toggleConcept(this)">Explore →</button>
+        <div class="concept-detail">
+          <div class="concept-detail-section">
+            <div class="concept-detail-label">What We Delivered</div>
+            <p>A complete brand world for Garner: custom hand-rendered logo, bespoke navigation icons, interior and exterior signage system, brand launch video, and a full customer experience moment translation.</p>
+          </div>
+          <div class="concept-detail-section">
+            <div class="concept-detail-label">The Impact</div>
+            <p>70+ signed contracts across North America, Europe, and Asia within months of launch in fall 2023. Central to IHG's midscale growth strategy in a tight financing market.</p>
+          </div>
+          <div class="concept-detail-section">
+            <div class="concept-detail-label">Why It's Relevant</div>
+            <p>We understand the midscale hospitality segment intimately — the pressures on owners, the needs of travelers, and how to create differentiated brand experiences that work at scale across a conversion estate.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="concept-card fade-in">
+      <div class="concept-card-front">
+        <div class="concept-category">Membership × Financial Services</div>
+        <div class="concept-name">American Express: 10+ Year Partnership</div>
+        <div class="concept-tagline">Designing emotionally resonant member experiences that reinforce brand value and leverage emerging technologies.</div>
+        <button class="concept-expand" onclick="toggleConcept(this)">Explore →</button>
+        <div class="concept-detail">
+          <div class="concept-detail-section">
+            <div class="concept-detail-label">What We Delivered</div>
+            <p>Over 10+ years, IDEO partnered with teams across American Express to amplify brand and business through customer-first strategies, products, and services — reframing financial services through the lens of human needs.</p>
+          </div>
+          <div class="concept-detail-section">
+            <div class="concept-detail-label">Why It's Relevant</div>
+            <p>We helped Amex create unique, emotionally resonant member experiences that reinforce brand and leverage emerging technologies — directly applicable to Choice Hotels' loyalty and membership evolution.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="concept-card fade-in">
+      <div class="concept-card-front">
+        <div class="concept-category">Retail × In-Store Experience</div>
+        <div class="concept-name">Sephora: Reinventing Beauty Retail</div>
+        <div class="concept-tagline">New in-store experiences that increased engagement and became a global blueprint for store innovation.</div>
+        <button class="concept-expand" onclick="toggleConcept(this)">Explore →</button>
+        <div class="concept-detail">
+          <div class="concept-detail-section">
+            <div class="concept-detail-label">What We Delivered</div>
+            <p>Research into how younger beauty consumers navigate trust, influence, and product discovery. New retail experience concepts built around Sephora's role as a trusted multi-brand curator. In-store formats enabling more personalised consultations.</p>
+          </div>
+          <div class="concept-detail-section">
+            <div class="concept-detail-label">Why It's Relevant</div>
+            <p>This demonstrates how brands can design new experiences that build trust and deepen engagement — and how to create value for guests who aren't yet your customer, turning discovery into loyalty.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="concept-card fade-in">
+      <div class="concept-card-front">
+        <div class="concept-category">Aviation × Experience Transformation</div>
+        <div class="concept-name">Japan Airlines: Seven Signature Moments</div>
+        <div class="concept-tagline">Reimagining the check-in experience — bridging digital and physical touchpoints to eliminate traveler stress entirely.</div>
+        <button class="concept-expand" onclick="toggleConcept(this)">Explore →</button>
+        <div class="concept-detail">
+          <div class="concept-detail-section">
+            <div class="concept-detail-label">What We Delivered</div>
+            <p>A comprehensive Service Handbook and Strategic Roadmap centered on "Seven Signature Moments" of the passenger journey — from redesigned ticketing emails and signage to spatial layout and a sensory design framework incorporating soothing textures and greenery.</p>
+          </div>
+          <div class="concept-detail-section">
+            <div class="concept-detail-label">The Impact</div>
+            <p>JAL has plans to roll out the new "stress-free" experience across 5 airports. A unified set of Experience Principles ensures every interaction feels cohesive, hospitable, and intentionally designed.</p>
+          </div>
+          <div class="concept-detail-section">
+            <div class="concept-detail-label">Why It's Relevant</div>
+            <p>We brought Japanese hospitality principles to elevate the experience to something uniquely ownable — and we would look to do the same for Choice Hotels, drawing on what makes your brand genuinely distinct.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ DELIVERABLES ============ -->
+<section class="section deliverables" data-section="Key Deliverables">
+  <div class="section-inner">
+    <div class="section-label fade-in" style="text-align:center">Key Deliverables</div>
+    <h2 class="section-title fade-in" style="text-align:center">Four outputs that build<br>confidence at every stage.</h2>
+    <div class="deliverables-grid">
+      <div class="deliverable-item">
+        <div class="deliverable-number">01</div>
+        <div class="deliverable-name">Possible Futures Landscape</div>
+        <div class="deliverable-what">A capture of possible futures explored during Phase 1 and associated opportunities — creating a shared understanding of where the world is moving and where Choice Hotels could play.</div>
+        <div class="deliverable-value-label">Value to Choice Hotels</div>
+        <div class="deliverable-value">Helps focus exploration, aligns stakeholders around key forces of change, and frames the opportunity space for new verticals.</div>
+      </div>
+      <div class="deliverable-item">
+        <div class="deliverable-number">02</div>
+        <div class="deliverable-name">3–5 Prioritised Verticals</div>
+        <div class="deliverable-what">Tangible business ideas and clear customer value propositions, supported by business indicators, signals, and customer insight to give confidence — with strategic rationale for each.</div>
+        <div class="deliverable-value-label">Value to Choice Hotels</div>
+        <div class="deliverable-value">Confidently recommends where to focus investment and exploration. Clarifies how each vertical builds on your existing strengths while opening new territory.</div>
+      </div>
+      <div class="deliverable-item">
+        <div class="deliverable-number">03</div>
+        <div class="deliverable-name">Immersive Storytelling Prototypes</div>
+        <div class="deliverable-what">Touchpoints to engage, immerse, and excite key stakeholders about possible futures and potential verticals — environments, physical or digital storytelling, and prototypes that make the future feel real.</div>
+        <div class="deliverable-value-label">Value to Choice Hotels</div>
+        <div class="deliverable-value">Makes future opportunities concrete and easier to evaluate. Helps stakeholders understand the potential experience and value to customers of each vertical.</div>
+      </div>
+      <div class="deliverable-item">
+        <div class="deliverable-number">04</div>
+        <div class="deliverable-name">Strategic Next Steps</div>
+        <div class="deliverable-what">A high-level plan outlining the key considerations for decision-making, riskiest assumptions to test, and next steps to progress chosen verticals — from exploration to action.</div>
+        <div class="deliverable-value-label">Value to Choice Hotels</div>
+        <div class="deliverable-value">Provides a path forward, helping Choice Hotels move confidently from future thinking into focused experimentation and activation.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TEAM ============ -->
+<section class="section team" data-section="Your Team">
+  <div class="section-inner">
+    <div class="section-label fade-in" style="text-align:center">Proposed Core Team</div>
+    <h2 class="section-title fade-in" style="text-align:center">A multidisciplinary team built for<br>strategy, design, and experience.</h2>
+    <p class="fade-in" style="font-family:var(--serif);font-size:18px;font-weight:300;color:var(--text-gray);max-width:700px;margin:20px auto 0;line-height:1.6;text-align:center">We don't work for our clients — we work with your people, systems, and realities from day one. Our collaboration model is built for speed to impact.</p>
+    <div class="team-grid">
+      <div class="team-member">
+        <div class="team-avatar">AJ</div>
+        <div class="team-role">Director, Brand Design</div>
+        <div class="team-name">AJ Mapes</div>
+        <div class="team-desc">Articulates complex systems and deep human needs, translating strategy into tangible visions and concepts that inspire action and alignment.</div>
+      </div>
+      <div class="team-member">
+        <div class="team-avatar">BP</div>
+        <div class="team-role">Director, Environments</div>
+        <div class="team-name">Bri Patawaran</div>
+        <div class="team-desc">Provides storytelling across the research, engagement strategy, and plan activation — bringing spatial and experiential thinking to every stage.</div>
+      </div>
+      <div class="team-member">
+        <div class="team-avatar">KC</div>
+        <div class="team-role">Senior Industrial Design Lead</div>
+        <div class="team-name">Kyle Cheon</div>
+        <div class="team-desc">Takes a holistic view in the creation of user experiences while defining physical function, form, and aesthetic of products and spaces.</div>
+      </div>
+      <div class="team-member">
+        <div class="team-avatar">BJ</div>
+        <div class="team-role">Senior Design Director</div>
+        <div class="team-name">Bianca Jimenez Rivera</div>
+        <div class="team-desc">Grounds design and strategy in the voices of guests and organizes live prototyping and testing — ensuring solutions are deeply human-centered.</div>
+      </div>
+      <div class="team-member">
+        <div class="team-avatar">FH</div>
+        <div class="team-role">Senior Design Director, Brand &amp; Strategy</div>
+        <div class="team-name">Fabian Herrmann</div>
+        <div class="team-desc">Drives strategy, engages with stakeholders, and ensures design excellence throughout — connecting human insight to business outcomes.</div>
+      </div>
+      <div class="team-member">
+        <div class="team-avatar">HB</div>
+        <div class="team-role">Senior Design Director, Branded Environments</div>
+        <div class="team-name">Hitasha Bhatia</div>
+        <div class="team-desc">Drives environment design, engages with stakeholders, and ensures design excellence — specialist in translating brand into place and space.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INVESTMENT ============ -->
+<section class="section investment" data-section="Investment">
+  <div class="section-inner">
+    <div class="section-label fade-in">Investment</div>
+    <h2 class="section-title fade-in">A fixed-fee engagement<br>built for confidence.</h2>
+    <div class="investment-grid">
+      <div class="fade-in">
+        <div class="investment-total">
+          <div class="investment-amount">$1.5M</div>
+          <div class="investment-duration">20 Weeks Total</div>
+        </div>
+        <p style="font-family:var(--sans);font-size:12px;line-height:1.7;color:var(--text-gray);margin-top:24px;">Exclusive of project expenses for research, travel, and prototyping — estimated at an additional 15–20% on top of the fixed fee.<br><br>Project fees are based on the understanding of the project as described in this proposal. Should scope or timeline change, a revised fee will be submitted for approval.</p>
+      </div>
+      <div class="investment-phases fade-in">
+        <div class="investment-phase">
+          <div>
+            <div class="investment-phase-label">Phase 1</div>
+            <div class="investment-phase-sub">7 weeks</div>
+          </div>
+          <div>
+            <div class="investment-phase-name">Insights &amp; Strategy</div>
+          </div>
+          <div class="investment-phase-fee">$525K</div>
+        </div>
+        <div class="investment-phase">
+          <div>
+            <div class="investment-phase-label">Phase 2</div>
+            <div class="investment-phase-sub">8 weeks</div>
+          </div>
+          <div>
+            <div class="investment-phase-name">Concept Design</div>
+          </div>
+          <div class="investment-phase-fee">$600K</div>
+        </div>
+        <div class="investment-phase">
+          <div>
+            <div class="investment-phase-label">Phase 3</div>
+            <div class="investment-phase-sub">5 weeks</div>
+          </div>
+          <div>
+            <div class="investment-phase-name">Scalable Framework</div>
+          </div>
+          <div class="investment-phase-fee">$375K</div>
+        </div>
+        <div style="background:var(--mid-gray);padding:20px 32px;margin-top:2px;">
+          <p style="font-family:var(--sans);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Hourly Rates</p>
+          <p style="font-family:var(--sans);font-size:12px;color:var(--text-gray);line-height:1.7;">IDEO Employees: $385/hr &nbsp;&nbsp;|&nbsp;&nbsp; IDEO Principals: $700/hr</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CLOSING ============ -->
+<section class="section closing" data-section="Let's Begin">
+  <div class="section-inner">
+    <p class="closing-text fade-in">
+      How to design a truly memorable, visionary, and differentiated experience that offers <em>creative new verticals for growth.</em>
+    </p>
+    <p class="fade-in" style="font-family:var(--serif);font-size:20px;font-weight:300;color:var(--text-gray);max-width:600px;margin:0 auto 60px;line-height:1.7;">That's the question we're here to answer — together. Not by presenting a roadmap, but by co-creating the future of Choice Hotels from the inside out.</p>
+    <div class="closing-contacts fade-in">
+      <div class="closing-contact">
+        <div class="closing-contact-name">Hitasha Bhatia</div>
+        <div class="closing-contact-role">Senior Design Director</div>
+        <div class="closing-contact-email">hitasha@ideo.com</div>
+      </div>
+      <div class="closing-contact">
+        <div class="closing-contact-name">Fabian Herrmann</div>
+        <div class="closing-contact-role">Senior Design Director</div>
+        <div class="closing-contact-email">fabian@ideo.com</div>
+      </div>
+      <div class="closing-contact">
+        <div class="closing-contact-name">Mariah Welch</div>
+        <div class="closing-contact-role">Partnerships Director</div>
+        <div class="closing-contact-email">mwelch@ideo.com</div>
+      </div>
+      <div class="closing-contact">
+        <div class="closing-contact-name">Kavya Singh</div>
+        <div class="closing-contact-role">Senior Design Lead</div>
+        <div class="closing-contact-email">ksingh@ideo.com</div>
+      </div>
+    </div>
+    <div class="closing-logo fade-in">IDEO</div>
+    <div class="closing-confidential fade-in">Private &amp; Confidential — March 2026</div>
+  </div>
+</section>
+
+<script>
+  // ============ PARTICLES ============
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 30; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.animationDelay = Math.random() * 8 + 's';
+    p.style.animationDuration = (6 + Math.random() * 6) + 's';
+    container.appendChild(p);
+  }
+
+  // ============ SCROLL PROGRESS + NAV ============
+  const progressBar = document.getElementById('progressBar');
+  const nav = document.getElementById('nav');
+  const navSection = document.getElementById('navSection');
+  const sections = document.querySelectorAll('[data-section]');
+
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = (scrolled / total) * 100;
+    progressBar.style.width = pct + '%';
+
+    if (scrolled > 60) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+
+    // Update nav section label
+    let current = '';
+    sections.forEach(section => {
+      const rect = section.getBoundingClientRect();
+      if (rect.top <= 100 && rect.bottom > 100) {
+        current = section.dataset.section || '';
+      }
+    });
+    navSection.textContent = current;
+  });
+
+  // ============ INTERSECTION OBSERVER ============
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll(
+    '.fade-in, .force-card, .phase-card, .team-member, .stat-card, .deliverable-item, .competition-item, .scenario-world, .scenario-stat'
+  ).forEach(el => observer.observe(el));
+
+  // ============ CONCEPT CARD EXPAND ============
+  function toggleConcept(btn) {
+    const card = btn.closest('.concept-card');
+    const isExpanded = card.classList.contains('expanded');
+    document.querySelectorAll('.concept-card').forEach(c => c.classList.remove('expanded'));
+    document.querySelectorAll('.concept-expand').forEach(b => b.textContent = 'Explore →');
+    if (!isExpanded) {
+      card.classList.add('expanded');
+      btn.textContent = 'Close ←';
+    }
+  }
+</script>
+
+</body>
+</html>
