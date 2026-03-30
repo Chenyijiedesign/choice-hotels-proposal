@@ -2077,36 +2077,57 @@
         }
       }
 
-      // ============ IMAGINE TOGETHER ============
+    </script>
+
+    <!-- ============ FIREBASE + IMAGINE TOGETHER ============ -->
+    <script type="module">
+      import { initializeApp }       from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+      import { getFirestore, collection, addDoc, onSnapshot,
+               query, orderBy, serverTimestamp, getDocs }
+                                     from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
+
+      const firebaseConfig = {
+        apiKey:            "AIzaSyABIfsbzVb6IH0zwCAcNp8C5Z0bEVysk6o",
+        authDomain:        "choicehotel-1029f.firebaseapp.com",
+        projectId:         "choicehotel-1029f",
+        storageBucket:     "choicehotel-1029f.firebasestorage.app",
+        messagingSenderId: "108945464175",
+        appId:             "1:108945464175:web:e6ff817eef201197e0e69a"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db  = getFirestore(app);
+      const COL = "imaginations";
+
       const DEFAULTS = [
-        {
-          idea: "Biometric arrival — your face is your key, your history shapes the room before you walk in",
-          tag: "Inspiration"
-        },
-        {
-          idea: "A wellness-first stay where the AI concierge curates your morning routine like a personal coach",
-          tag: "Inspiration"
-        },
-        {
-          idea: "A lobby that transforms into a neighborhood market at night, connecting guests with local makers",
-          tag: "Inspiration"
-        },
-        {
-          idea: "Rooms that adapt their lighting, scent, and temperature to your circadian rhythm in real time",
-          tag: "Inspiration"
-        }
+        { idea: "Biometric arrival — your face is your key, your history shapes the room before you walk in",         tag: "Inspiration" },
+        { idea: "A wellness-first stay where the AI concierge curates your morning routine like a personal coach",    tag: "Inspiration" },
+        { idea: "A lobby that transforms into a neighborhood market at night, connecting guests with local makers",   tag: "Inspiration" },
+        { idea: "Rooms that adapt their lighting, scent, and temperature to your circadian rhythm in real time",     tag: "Inspiration" }
       ];
 
-      function buildPrompt(idea) {
-        return `futuristic luxury hotel interior 2030, ${idea}, cinematic architectural photography, warm ambient lighting, premium hospitality design, photorealistic, 8k`;
+      // ---- helpers ----
+      function ideaSeed(idea) {
+        return Math.abs(idea.split('').reduce((a, c) => (a << 5) - a + c.charCodeAt(0), 0));
       }
 
-      function createCard(idea, tag, isLoading) {
-        const card = document.createElement('div');
-        card.className = 'imagine-card' + (isLoading ? ' loading' : '');
+      function imageUrl(idea) {
+        const prompt = `futuristic luxury hotel interior 2030, ${idea}, cinematic architectural photography, warm ambient lighting, premium hospitality design, photorealistic, 8k`;
+        return `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=800&height=600&nologo=true&seed=${ideaSeed(idea)}`;
+      }
 
-        const loadingIcon = document.createElement('div');
-        loadingIcon.className = 'imagine-loading-icon';
+      function renderCard(idea, tag, prepend = false) {
+        const gallery = document.getElementById('imagineGallery');
+
+        // Don't duplicate cards already in the gallery
+        const existing = [...gallery.querySelectorAll('.imagine-card-idea')];
+        if (existing.some(el => el.textContent === `"${idea}"`)) return;
+
+        const card = document.createElement('div');
+        card.className = 'imagine-card loading';
+
+        const spinner = document.createElement('div');
+        spinner.className = 'imagine-loading-icon';
 
         const overlay = document.createElement('div');
         overlay.className = 'imagine-card-overlay';
@@ -2120,74 +2141,72 @@
         ideaEl.textContent = `"${idea}"`;
 
         overlay.appendChild(ideaEl);
-        card.appendChild(loadingIcon);
+        card.appendChild(spinner);
         card.appendChild(overlay);
         card.appendChild(tagEl);
 
-        if (!isLoading) {
-          const img = document.createElement('img');
-          img.className = 'imagine-card-img';
-          img.alt = idea;
-          const seed = Math.abs(idea.split('').reduce((a, c) => (a << 5) - a + c.charCodeAt(0), 0));
-          img.src = `https://image.pollinations.ai/prompt/${encodeURIComponent(buildPrompt(idea))}?width=800&height=600&nologo=true&seed=${seed}`;
-          card.insertBefore(img, loadingIcon);
-        }
+        if (prepend) gallery.insertBefore(card, gallery.firstChild);
+        else         gallery.appendChild(card);
 
-        return card;
-      }
-
-      async function addCard(idea, tag) {
-        const gallery = document.getElementById('imagineGallery');
-        const card = createCard(idea, tag, true);
-        gallery.insertBefore(card, gallery.firstChild);
-
-        const seed = Math.abs(idea.split('').reduce((a, c) => (a << 5) - a + c.charCodeAt(0), 0));
-        const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(buildPrompt(idea))}?width=800&height=600&nologo=true&seed=${seed}`;
-
-        const img = document.createElement('img');
+        const img = new Image();
         img.className = 'imagine-card-img';
         img.alt = idea;
-
-        img.onload = () => {
-          card.insertBefore(img, card.firstChild);
-          card.classList.remove('loading');
-        };
-
-        img.onerror = () => {
-          // Fallback: show card without image
-          card.classList.remove('loading');
-        };
-
-        img.src = url;
+        img.onload  = () => { card.insertBefore(img, card.firstChild); card.classList.remove('loading'); };
+        img.onerror = () => { card.classList.remove('loading'); };
+        img.src = imageUrl(idea);
       }
 
-      function submitIdea() {
-        const input = document.getElementById('imagineInput');
-        const btn = document.getElementById('imagineBtn');
-        const idea = input.value.trim();
-        if (!idea) return;
+      // ---- seed defaults if collection is empty ----
+      async function maybeSeeds() {
+        const snap = await getDocs(collection(db, COL));
+        if (snap.empty) {
+          for (const d of DEFAULTS) {
+            await addDoc(collection(db, COL), { idea: d.idea, tag: d.tag, ts: serverTimestamp() });
+          }
+        }
+      }
 
-        input.value = '';
-        btn.disabled = true;
-        btn.textContent = 'Generating…';
-
-        addCard(idea, 'Your Idea').then(() => {
-          btn.disabled = false;
-          btn.textContent = 'Imagine →';
+      // ---- real-time listener: renders every card from Firestore ----
+      function startLiveGallery() {
+        const q = query(collection(db, COL), orderBy('ts', 'asc'));
+        onSnapshot(q, snap => {
+          snap.docChanges().forEach(change => {
+            if (change.type === 'added') {
+              const { idea, tag } = change.doc.data();
+              renderCard(idea, tag, false);   // append in chronological order
+            }
+          });
         });
       }
 
-      document.getElementById('imagineInput').addEventListener('keydown', (e) => {
+      // ---- submit ----
+      async function submitIdea() {
+        const input = document.getElementById('imagineInput');
+        const btn   = document.getElementById('imagineBtn');
+        const idea  = input.value.trim();
+        if (!idea) return;
+
+        input.value    = '';
+        btn.disabled   = true;
+        btn.textContent = 'Saving…';
+
+        try {
+          await addDoc(collection(db, COL), { idea, tag: 'Your Idea', ts: serverTimestamp() });
+        } finally {
+          btn.disabled   = false;
+          btn.textContent = 'Imagine →';
+        }
+      }
+
+      // expose to HTML onclick / keydown
+      window.submitIdea = submitIdea;
+      document.getElementById('imagineInput').addEventListener('keydown', e => {
         if (e.key === 'Enter') submitIdea();
       });
 
-      // Load default inspiration cards on page load
-      window.addEventListener('DOMContentLoaded', () => {
-        // Stagger the default cards slightly
-        DEFAULTS.forEach((d, i) => {
-          setTimeout(() => addCard(d.idea, d.tag), i * 200);
-        });
-      });
+      // boot
+      await maybeSeeds();
+      startLiveGallery();
     </script>
   </body>
 </html>
