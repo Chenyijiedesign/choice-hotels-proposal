@@ -1664,6 +1664,113 @@
         color: rgba(255, 255, 255, 0.2);
       }
 
+      /* ============ LOCK SCREEN ============ */
+      #lockScreen {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background: var(--black);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+        transition: opacity 0.6s ease;
+      }
+      #lockScreen.fade-out { opacity: 0; pointer-events: none; }
+      .lock-overline {
+        font-family: var(--sans);
+        font-size: 11px;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: var(--alchemy);
+        margin-bottom: 32px;
+      }
+      .lock-title {
+        font-family: var(--serif);
+        font-size: clamp(28px, 4vw, 52px);
+        font-weight: 300;
+        color: var(--cream);
+        text-align: center;
+        line-height: 1.2;
+        margin-bottom: 48px;
+      }
+      .lock-title em { font-style: italic; color: var(--alchemy); }
+      .lock-form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+        max-width: 320px;
+      }
+      .lock-input {
+        width: 100%;
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.15);
+        color: var(--cream);
+        font-family: var(--sans);
+        font-size: 14px;
+        letter-spacing: 3px;
+        padding: 14px 20px;
+        outline: none;
+        text-align: center;
+        transition: border-color 0.3s;
+      }
+      .lock-input::placeholder { color: rgba(255,255,255,0.2); letter-spacing: 2px; }
+      .lock-input:focus { border-color: var(--alchemy); }
+      .lock-input.shake {
+        animation: lockShake 0.4s ease;
+        border-color: #ff4444;
+      }
+      @keyframes lockShake {
+        0%,100% { transform: translateX(0); }
+        20%      { transform: translateX(-8px); }
+        40%      { transform: translateX(8px); }
+        60%      { transform: translateX(-5px); }
+        80%      { transform: translateX(5px); }
+      }
+      .lock-btn {
+        width: 100%;
+        background: transparent;
+        border: 2px solid var(--alchemy);
+        color: var(--alchemy);
+        font-family: var(--sans);
+        font-size: 11px;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        font-weight: 600;
+        padding: 14px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: color 0.35s ease;
+      }
+      .lock-btn::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: var(--alchemy);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.35s ease;
+        z-index: 0;
+      }
+      .lock-btn:hover::before { transform: scaleX(1); }
+      .lock-btn:hover { color: #000; }
+      .lock-btn span { position: relative; z-index: 1; }
+      .lock-error {
+        font-family: var(--sans);
+        font-size: 10px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #ff4444;
+        opacity: 0;
+        transition: opacity 0.3s;
+        margin-top: 4px;
+      }
+      .lock-error.show { opacity: 1; }
+
       /* ============ QUESTIONS SECTION ============ */
       .questions {
         background: var(--black);
@@ -1765,6 +1872,52 @@
     </script>
   </head>
   <body>
+    <!-- ============ LOCK SCREEN ============ -->
+    <div id="lockScreen">
+      <div class="lock-overline">IDEO × Choice Hotels</div>
+      <h1 class="lock-title">Designing for Growth:<br><em>Private Access Only</em></h1>
+      <div class="lock-form">
+        <input class="lock-input" id="lockInput" type="password" placeholder="Enter password" autocomplete="off">
+        <button class="lock-btn" id="lockBtn"><span>Enter →</span></button>
+        <p class="lock-error" id="lockError">Incorrect password</p>
+      </div>
+    </div>
+
+    <script>
+      // Lock screen — password check (base64 encoded, client-side demo protection)
+      const _k = 'Z29vZGNob2ljZQ==';
+      const lock = document.getElementById('lockScreen');
+      const input = document.getElementById('lockInput');
+      const errEl = document.getElementById('lockError');
+
+      function unlock() {
+        lock.classList.add('fade-out');
+        setTimeout(() => lock.remove(), 650);
+        sessionStorage.setItem('ch-unlocked', '1');
+      }
+
+      // Already unlocked this session
+      if (sessionStorage.getItem('ch-unlocked') === '1') {
+        lock.remove();
+      }
+
+      function attempt() {
+        if (btoa(input.value) === _k) {
+          unlock();
+        } else {
+          input.classList.remove('shake');
+          void input.offsetWidth; // reflow to restart animation
+          input.classList.add('shake');
+          errEl.classList.add('show');
+          input.value = '';
+          setTimeout(() => { input.classList.remove('shake'); errEl.classList.remove('show'); }, 2000);
+        }
+      }
+
+      document.getElementById('lockBtn').addEventListener('click', attempt);
+      input.addEventListener('keydown', e => { if (e.key === 'Enter') attempt(); });
+    </script>
+
     <!-- PROGRESS BAR -->
     <div class="nav-progress" id="progressBar"></div>
 
