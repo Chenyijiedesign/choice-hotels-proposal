@@ -12,6 +12,10 @@
 
 **Conservative Shift:** In Brazil, 49% of the population shows high levels of conservatism, with 60% wishing the country would "go back to how it was before".
 
+**Demographic Shifts & Aging Populations:** Longer lifespans and declining birth rates are reshaping labor markets, consumer demand, and expectations around healthcare and retirement.
+
+**Changing Norms Around Work & Wellbeing:** Generations entering the workforce are prioritizing flexibility, purpose, and mental health, driving organizations to rethink employee experience and workplace design.
+
 ## Technological Trends: From Hype to Agentic Reality
 
 **Agentic AI Expansion:** 2026 marks the shift from AI assistants to "Agentic AI" — autonomous systems that execute end-to-end tasks and manage complex business workflows.
@@ -24,6 +28,10 @@
 
 **Generative Engine Optimization (GEO):** As users move from search engines to "answer engines" (e.g., ChatGPT, Gemini), brands are shifting strategies to GEO to ensure they are cited in AI-generated answers.
 
+**Gen AI, Robotics & Automation Acceleration:** Generative AI and robotics are rapidly redefining productivity, creativity, and decision-making across industries, with both efficiency gains and ethical challenges at scale.
+
+**Digital Trust & Cybersecurity:** As reliance on digital systems grows, breaches, misinformation, and surveillance fears are pushing trust, privacy, and resilience to the center of organizational strategy.
+
 ## Economic Trends: Resilience Amidst "Weaponized Interdependence"
 
 **K-Shaped Growth:** While global GDP growth is projected at 3.2% for 2025, the recovery is "K-shaped," with middle-to-low income consumers remaining pressured by everyday expenses.
@@ -33,6 +41,10 @@
 **Blue-Collar Renaissance:** AI is eroding entry-level white-collar roles in law and finance, leading Gen Z to pursue stable, high-paying "AI-proof" trades like HVAC, welding, and solar installation.
 
 **Transactional World Order:** Global trade is moving toward "world ordering" — a state where order is created daily through negotiations and "brutally transactional" bilateral deals rather than lasting institutions.
+
+**Volatility in Global Supply Chains:** Disruptions from climate events, geopolitical tensions, and shifting trade alliances continue to challenge resilience and localization strategies across industries.
+
+**Inequity & Shifts in Consumer Power:** Rising inequality and affordability pressures are driving polarization in markets, while middle-class erosion is changing long-term demand patterns and brand loyalty.
 
 ## Environmental Trends: Adaptation and Resource Scarcity
 
@@ -44,6 +56,10 @@
 
 **Renewable Acceleration:** Photovoltaic (PV) solar energy is becoming a "cornerstone" of the global energy transition, though supply chain reshoring is creating new regional cost dynamics.
 
+**Climate Instability & Extreme Weather:** Increasing frequency of wildfires, flooding, and heat events are forcing organizations to rethink infrastructure, insurance, and continuity planning.
+
+**Resource Scarcity & Circularity:** Pressures on water, minerals, and food systems are accelerating the shift toward regenerative and circular models, with consumers and regulators pushing adoption.
+
 ## Political Trends: Fragmentation and Sovereignty
 
 **Geopolitician-in-Chief:** The U.S. "Liberation Day" tariff campaign has accelerated the transition to a multipolar world, forcing a renegotiation of global trade rules.
@@ -53,3 +69,7 @@
 **Democracy Under Strain:** Experts cite "Systemic Political Fear" (31%) and the "crisis of liberal democracy" as major emotional drivers for 2026.
 
 **Weaponized Interdependence:** Global fragmentation is deepening as nations use trade and finance as instruments of political power.
+
+**Increasing Geopolitical Fragmentation:** Growing competition between global blocs (e.g., U.S.-China, Russia-West) is shaping markets, supply chains, and technological ecosystems in ways that force companies to pick sides.
+
+**Regulatory Intervention & Accountability:** Governments are stepping in on AI, climate, data, and healthcare — forcing organizations to anticipate not just what's profitable, but what's permissible.
