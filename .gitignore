@@ -1,2 +1,4 @@
 .DS_Store
 service-account.json
+.env
+node_modules/

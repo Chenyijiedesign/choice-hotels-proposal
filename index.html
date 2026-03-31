@@ -1357,7 +1357,7 @@
       }
 
       .imagine-input::placeholder {
-        color: rgba(153,153,153,0.5);
+        color: rgba(153, 153, 153, 0.5);
       }
 
       .imagine-btn {
@@ -1371,7 +1371,9 @@
         text-transform: uppercase;
         padding: 20px 36px;
         cursor: pointer;
-        transition: background 0.3s ease, letter-spacing 0.3s ease;
+        transition:
+          background 0.3s ease,
+          letter-spacing 0.3s ease;
         white-space: nowrap;
         flex-shrink: 0;
       }
@@ -1394,9 +1396,21 @@
         margin-top: 52px;
       }
 
-      @media (max-width: 1200px) { .imagine-gallery { grid-template-columns: repeat(3, 1fr); } }
-      @media (max-width: 900px)  { .imagine-gallery { grid-template-columns: repeat(2, 1fr); } }
-      @media (max-width: 600px)  { .imagine-gallery { grid-template-columns: 1fr; } }
+      @media (max-width: 1200px) {
+        .imagine-gallery {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+      @media (max-width: 900px) {
+        .imagine-gallery {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (max-width: 600px) {
+        .imagine-gallery {
+          grid-template-columns: 1fr;
+        }
+      }
 
       .imagine-card {
         position: relative;
@@ -1410,7 +1424,10 @@
       }
 
       @keyframes cardAppear {
-        to { opacity: 1; transform: translateY(0); }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
 
       .imagine-card-img {
@@ -1428,7 +1445,12 @@
       .imagine-card-overlay {
         position: absolute;
         inset: 0;
-        background: linear-gradient(to top, rgba(10,10,10,0.92) 0%, rgba(10,10,10,0.2) 50%, transparent 100%);
+        background: linear-gradient(
+          to top,
+          rgba(10, 10, 10, 0.92) 0%,
+          rgba(10, 10, 10, 0.2) 50%,
+          transparent 100%
+        );
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
@@ -1463,13 +1485,14 @@
       }
 
       .imagine-card.loading::before {
-        content: '';
+        content: "";
         position: absolute;
         inset: 0;
-        background: linear-gradient(90deg,
-          rgba(201,169,110,0.04) 25%,
-          rgba(201,169,110,0.12) 50%,
-          rgba(201,169,110,0.04) 75%
+        background: linear-gradient(
+          90deg,
+          rgba(201, 169, 110, 0.04) 25%,
+          rgba(201, 169, 110, 0.12) 50%,
+          rgba(201, 169, 110, 0.04) 75%
         );
         background-size: 200% 100%;
         animation: shimmer 1.6s infinite;
@@ -1487,33 +1510,259 @@
         transform: translate(-50%, -50%);
         width: 28px;
         height: 28px;
-        border: 2px solid rgba(201,169,110,0.2);
+        border: 2px solid rgba(201, 169, 110, 0.2);
         border-top-color: var(--gold);
         border-radius: 50%;
         animation: spin 0.8s linear infinite;
       }
 
-      .imagine-card.loading .imagine-loading-icon { display: block; }
+      .imagine-card.loading .imagine-loading-icon {
+        display: block;
+      }
 
       @keyframes spin {
-        to { transform: translate(-50%, -50%) rotate(360deg); }
+        to {
+          transform: translate(-50%, -50%) rotate(360deg);
+        }
       }
 
       @keyframes shimmer {
-        0%   { background-position: 200% 0; }
-        100% { background-position: -200% 0; }
+        0% {
+          background-position: 200% 0;
+        }
+        100% {
+          background-position: -200% 0;
+        }
       }
 
-      .imagine-hint {
-        font-family: var(--sans);
-        font-size: 11px;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        color: rgba(153,153,153,0.4);
+      /* ============ STEEP / MAGIC 8-BALL ============ */
+      .steep {
+        background: var(--black);
+        flex-direction: column;
+        padding: 0;
+      }
+      .steep-inner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100vh;
+        padding: 60px 48px 40px;
+        position: relative;
+      }
+      .steep-header {
         text-align: center;
+        margin-bottom: 24px;
+      }
+      .steep-title {
+        font-family: var(--serif);
+        font-size: clamp(32px, 5vw, 64px);
+        font-weight: 300;
+        line-height: 1.1;
+        letter-spacing: -1px;
+        color: var(--cream);
+      }
+      .steep-title em {
+        font-style: italic;
+        color: var(--alchemy);
+      }
+
+      .ball-container {
+        width: min(340px, 48vw);
+        height: min(340px, 48vw);
+        cursor: grab;
+        position: relative;
+        flex-shrink: 0;
+      }
+      .ball-container:active {
+        cursor: grabbing;
+      }
+      .ball-container canvas {
+        display: block;
+      }
+
+      .steep-categories {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        justify-content: center;
         margin-top: 20px;
       }
+      .steep-cat {
+        font-family: var(--sans);
+        font-size: 10px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        padding: 9px 18px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        background: transparent;
+        color: var(--text-gray);
+        cursor: pointer;
+        transition: all 0.25s ease;
+        border-radius: 2px;
+      }
+      .steep-cat:hover {
+        border-color: var(--alchemy);
+        color: var(--alchemy);
+      }
+      .steep-cat.active {
+        border-color: var(--alchemy);
+        background: var(--alchemy);
+        color: #000;
+        font-weight: 600;
+      }
+
+      .steep-generate-btn {
+        margin-top: 24px;
+        font-family: var(--sans);
+        font-size: 12px;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        font-weight: 600;
+        padding: 16px 48px;
+        background: transparent;
+        border: 2px solid var(--alchemy);
+        color: var(--alchemy);
+        cursor: pointer;
+        transition: all 0.35s ease;
+        position: relative;
+        overflow: hidden;
+      }
+      .steep-generate-btn::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: var(--alchemy);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.35s ease;
+        z-index: 0;
+      }
+      .steep-generate-btn:hover::before {
+        transform: scaleX(1);
+      }
+      .steep-generate-btn:hover {
+        color: #000;
+      }
+      .steep-generate-btn span {
+        position: relative;
+        z-index: 1;
+      }
+      .steep-generate-btn:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+
+      .steep-hint {
+        margin-top: 12px;
+        font-family: var(--sans);
+        font-size: 10px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.2);
+      }
+
+      /* ============ QUESTIONS SECTION ============ */
+      .questions {
+        background: var(--black);
+        display: none;
+      }
+      .questions-category {
+        font-family: var(--sans);
+        font-size: 11px;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: var(--alchemy);
+        margin-bottom: 48px;
+        opacity: 0;
+        transition: opacity 0.8s ease;
+      }
+      .questions-category.visible {
+        opacity: 1;
+      }
+      .question-card {
+        border-left: 2px solid var(--alchemy);
+        padding: 32px 40px;
+        margin-bottom: 20px;
+        opacity: 0;
+        transform: translateX(-24px);
+        transition:
+          opacity 0.8s ease,
+          transform 0.8s ease;
+      }
+      .question-card.visible {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      .question-number {
+        font-family: var(--serif);
+        font-size: 56px;
+        font-weight: 300;
+        color: rgba(217, 255, 0, 0.08);
+        line-height: 1;
+        margin-bottom: 12px;
+      }
+      .question-text {
+        font-family: var(--serif);
+        font-size: clamp(18px, 2.2vw, 26px);
+        font-weight: 300;
+        line-height: 1.65;
+        color: var(--cream);
+      }
+      .steep-again-btn {
+        margin-top: 52px;
+        font-family: var(--sans);
+        font-size: 10px;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        background: none;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        color: var(--text-gray);
+        padding: 14px 32px;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: none;
+      }
+      .steep-again-btn.visible {
+        display: inline-block;
+      }
+      .steep-again-btn:hover {
+        border-color: var(--alchemy);
+        color: var(--alchemy);
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .fade-in {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s ease;
+      }
+      .fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
     </style>
+
+    <!-- Three.js import map -->
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+          "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+      }
+    </script>
   </head>
   <body>
     <!-- PROGRESS BAR -->
@@ -1534,7 +1783,7 @@
       <div class="hero-overline">IDEO × Choice Hotels</div>
       <h1 class="hero-title">
         Designing for Growth:<br />Experience Strategy for<br /><em
-          >the Guest of the Futre</em
+          >the Guest of the Future</em
         >
       </h1>
       <p class="hero-subtitle">
@@ -1551,458 +1800,78 @@
       </div>
     </section>
 
-    <!-- ============ PROVOCATION ============ -->
-    <section class="section provocation" data-section="The Challenge">
-      <div class="section-inner">
-        <p class="provocation-text fade-in">
-          <span class="highlight">The Challenge:</span>
-          <br />Expand your brand experience into new platforms for growth
-        </p>
-        <br /><br />
-        <p class="provocation-body fade-in">
-          Because the next era of hospitality won't be defined by incremental
-          improvements to today's model. It will be defined by a fundamental
-          shift in how people discover, choose, and experience travel in an
-          <span class="highlight">AI-first world.</span><br /><br />
-          How might we turn your industry-leading tech stack into a
-          <span class="highlight">category-defining experience advantage</span>
-          — positioning Choice Hotels to win in the next era of hospitality?
-        </p>
-      </div>
-    </section>
-
-    <!-- ============ THREE FORCES ============ -->
-    <section class="section forces" data-section="The Opportunity">
-      <div class="section-inner">
-        <div class="forces-header">
-          <div class="section-label fade-in">The Opportunity</div>
-          <h2 class="section-title fade-in">
-            Three forces are reshaping<br />the future of hospitality.
-          </h2>
-        </div>
-        <div class="forces-grid">
-          <div class="force-card">
-            <div class="force-number">01</div>
-            <div class="force-title">AI Reshapes the Journey</div>
-            <div class="force-text">
-              AI is reshaping the customer journey end-to-end — from discovery
-              and booking to in-stay experience and loyalty. Winning this moment
-              requires more than strategy or technology alone. You'll need to
-              win not only the infrastructure layer, but the experience layer
-              designed on top of it. Choice Hotels' proprietary tech stack
-              creates a rare structural advantage.
-            </div>
-          </div>
-          <div class="force-card">
-            <div class="force-number">02</div>
-            <div class="force-title">Experience Over Amenities</div>
-            <div class="force-text">
-              Across hospitality, the premium market has become increasingly
-              competitive and increasingly easy to replicate. Finishes are more
-              refined, menus more considered, yet experiences feel
-              interchangeable. The next frontier of differentiation is not what
-              a space contains or looks like — it's how it behaves, how it
-              recognizes you, and how it makes you feel.
-            </div>
-          </div>
-          <div class="force-card">
-            <div class="force-number">03</div>
-            <div class="force-title">Loyalty is Being Redefined</div>
-            <div class="force-text">
-              Loyalty is often reduced to status tiers and transactional rewards
-              — acknowledged, but not deeply felt. The most compelling growth
-              opportunities for Choice Hotels may not come from within
-              hospitality at all. New verticals and experience ecosystems can
-              transform a hotel brand into a platform for the full arc of how
-              people live, travel, and belong.
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ THE COMPETITION ============ -->
-    <section class="section competition" data-section="The New Competition">
-      <div class="section-inner">
-        <div class="section-label fade-in">The Challenge</div>
-        <h2 class="section-title fade-in">
-          You are not going to win<br />by out-speccing the competition.
-        </h2>
-        <p
-          class="fade-in"
-          style="
-            font-family: var(--serif);
-            font-size: 20px;
-            font-weight: 300;
-            color: var(--text-gray);
-            max-width: 700px;
-            margin: 20px auto 0 0;
-            line-height: 1.6;
-          "
-        >
-          The competition isn't just other hotels and Airbnbs. You have to stand
-          out by standing for something different. The new benchmark is set by
-          the best experiences across every category.
-        </p>
-        <div class="competition-row">
-          <div class="competition-item">
-            <div class="competition-brand">Ritz Carlton</div>
-            <div class="competition-quality">Anticipatory Service</div>
-          </div>
-          <div class="competition-item">
-            <div class="competition-brand">Hermès</div>
-            <div class="competition-quality">Memorableness</div>
-          </div>
-          <div class="competition-item">
-            <div class="competition-brand">Apple</div>
-            <div class="competition-quality">Seamlessness</div>
-          </div>
-          <div class="competition-item">
-            <div class="competition-brand">Quiet Luxury</div>
-            <div class="competition-quality">Aspiration</div>
-          </div>
-          <div class="competition-item">
-            <div class="competition-brand">Amazon</div>
-            <div class="competition-quality">Convenience</div>
-          </div>
-          <div class="competition-item">
-            <div class="competition-brand">Wellness Culture</div>
-            <div class="competition-quality">Wellbeing Focus</div>
-          </div>
-          <div class="competition-item">
-            <div class="competition-brand">AI</div>
-            <div class="competition-quality">Personalization</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ WHY IDEO ============ -->
-    <section class="section why-ideo" data-section="Why IDEO">
-      <div class="section-inner">
-        <div class="section-label fade-in">Why IDEO</div>
-        <h2 class="section-title fade-in">
-          We identify creative ways to grow.<br />We make
-          <em style="font-family: var(--serif); color: var(--alchemy)"
-            >market leaders.</em
-          >
-        </h2>
-        <div class="why-grid">
-          <div class="why-left fade-in">
-            For more than 40 years, IDEO has been synonymous with Design
-            Thinking, helping organizations reimagine what's possible through
-            human-centered innovation. We uncover deep customer insights that
-            translate into scalable solutions and measurable ROI.<br /><br />
-            IDEO brings a rare cross-disciplinary vantage point — decades of
-            category-defining work in mobility, food and beverage, health,
-            media, retail, and beyond — to help organizations see around corners
-            that industry-only thinking can't reach.<br /><br />
-            With a global team of 250+ designers across San Francisco, Shanghai,
-            London, Boston, and Chicago, we bring diverse perspectives to your
-            challenge.
-          </div>
-          <div class="why-right">
-            <div class="why-point fade-in">
-              <div class="why-point-label">Retail &amp; Membership</div>
-              <div class="why-point-text">
-                We push the edges of retail, membership, and the design of new
-                products and services. Our deep expertise provides a jumping-off
-                point that is two steps ahead of your category.
-              </div>
-            </div>
-            <div class="why-point fade-in">
-              <div class="why-point-label">Luxury Hospitality</div>
-              <div class="why-point-text">
-                We know luxury consumers — and we've designed the signature
-                rituals, service models, and experience systems that make
-                hotels, airlines, and brands feel unmistakably distinct.
-              </div>
-            </div>
-            <div class="why-point fade-in">
-              <div class="why-point-label">Travel &amp; Aviation</div>
-              <div class="why-point-text">
-                We have shaped the future of travel globally — across airlines,
-                airports, and experience ecosystems. We understand the pressures
-                of high-yield products and complex service orchestration.
-              </div>
-            </div>
-            <div class="why-point fade-in">
-              <div class="why-point-label">Business Growth</div>
-              <div class="why-point-text">
-                We don't just design experiences — we design holistic solutions
-                that reinvent categories and drive top-line growth. Our work
-                unlocks new revenue streams, strengthens loyalty, and
-                accelerates brand transformation.
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ IMPACT STATS ============ -->
-    <section class="section stats" data-section="Our Impact">
-      <div class="section-inner">
-        <div class="section-label fade-in" style="text-align: center">
-          Measurable Impact
-        </div>
-        <h2 class="section-title fade-in" style="text-align: center">
-          Our work moves the needle.
-        </h2>
-        <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-card-number">$230M</div>
-            <div class="stat-card-label">
-              Annual ancillary revenue from the "EvenMore" program we designed
-              for JetBlue
-            </div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-card-number">5★</div>
-            <div class="stat-card-label">
-              Skytrax rating for Lufthansa Business Class after implementing our
-              service components
-            </div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-card-number">NPS 78</div>
-            <div class="stat-card-label">
-              Guest satisfaction for Ritz-Carlton after our "Moments that
-              Matter" program — nearly double industry average
-            </div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-card-number">70+</div>
-            <div class="stat-card-label">
-              Signed contracts for IHG's Garner brand within months of launch —
-              a midscale brand we designed end-to-end
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ APPROACH ============ -->
-    <section class="section approach" data-section="Our Approach">
-      <div class="section-inner">
-        <div style="text-align: center; margin-bottom: 20px">
-          <div class="section-label fade-in">Our Approach</div>
-          <h2 class="section-title fade-in">
-            Over 13 weeks, we move from<br />understanding forces to defining
-            verticals.
-          </h2>
-          <p
-            class="fade-in"
+    <!-- ============ STEEP MAGIC 8-BALL ============ -->
+    <section
+      class="section steep"
+      data-section="Imagine Together"
+      id="steepSection"
+    >
+      <div class="steep-inner">
+        <div class="steep-header">
+          <div
+            class="section-label fade-in"
             style="
-              font-family: var(--serif);
-              font-size: 20px;
-              font-weight: 300;
-              color: var(--text-gray);
-              max-width: 700px;
-              margin: 20px auto 0;
-              line-height: 1.6;
+              color: var(--alchemy);
+              font-family: var(--sans);
+              font-size: 11px;
+              letter-spacing: 5px;
+              text-transform: uppercase;
+              margin-bottom: 16px;
             "
           >
-            Through each phase, we narrow the sandbox for future opportunities —
-            with outputs that build from one stage to the next.
-          </p>
+            STEEP Futures
+          </div>
+          <h2 class="steep-title fade-in">
+            Let's imagine the<br /><em>future together</em>
+          </h2>
         </div>
-        <div class="approach-phases">
-          <div class="phase-card">
-            <div class="phase-label">Phase 01</div>
-            <div class="phase-weeks">Weeks 1–2</div>
-            <div class="phase-name">Build Focus</div>
-            <div class="phase-desc">
-              Refine brief, align on constraints, and immerse in Choice Hotels'
-              brand, technology, and existing insight to surface categories of
-              opportunity.
-            </div>
-            <div class="phase-activities">
-              <div class="phase-activity">Kick-off workshop with core team</div>
-              <div class="phase-activity">
-                Stakeholder interviews across functions
-              </div>
-              <div class="phase-activity">Brand &amp; technology immersion</div>
-              <div class="phase-activity">Review of existing research</div>
-              <div class="phase-activity">
-                Develop 3–5 future of travel hypotheses
-              </div>
-              <div class="phase-activity">
-                Working hypotheses on guest futures
-              </div>
-            </div>
-          </div>
-          <div class="phase-card">
-            <div class="phase-label">Phase 02</div>
-            <div class="phase-weeks">Weeks 3–5</div>
-            <div class="phase-name">Sense &amp; Synthesise</div>
-            <div class="phase-desc">
-              Engage expert perspectives and cross-industry trends to identify
-              future signals shaping the landscape and surface unmet needs of
-              tomorrow's traveler.
-            </div>
-            <div class="phase-activities">
-              <div class="phase-activity">
-                Expert interviews across analogue categories
-              </div>
-              <div class="phase-activity">
-                AI-enabled trend &amp; signal analysis
-              </div>
-              <div class="phase-activity">
-                IDEO global 'hive mind' signal swarm
-              </div>
-              <div class="phase-activity">
-                Inspirational visits &amp; experiences
-              </div>
-              <div class="phase-activity">Develop 10–15 opportunity areas</div>
-              <div class="phase-activity">
-                Prioritisation workshop with Choice Hotels
-              </div>
-            </div>
-          </div>
-          <div class="phase-card">
-            <div class="phase-label">Phase 03</div>
-            <div class="phase-weeks">Weeks 6–9</div>
-            <div class="phase-name">Co-Create &amp; Test</div>
-            <div class="phase-desc">
-              Co-create concepts to bring tangibility to the opportunities.
-              Prototype and test with internal teams and 'edge' customers who
-              live aspects of these futures today.
-            </div>
-            <div class="phase-activities">
-              <div class="phase-activity">
-                Co-create concepts for prioritised opportunities
-              </div>
-              <div class="phase-activity">
-                Prototype &amp; visualise tangible ideas
-              </div>
-              <div class="phase-activity">
-                Test with edge customers &amp; internal experts
-              </div>
-              <div class="phase-activity">
-                Identify unmet needs &amp; build resonance
-              </div>
-              <div class="phase-activity">
-                Refine verticals based on feedback
-              </div>
-              <div class="phase-activity">
-                Define what must be true per vertical
-              </div>
-            </div>
-          </div>
-          <div class="phase-card">
-            <div class="phase-label">Phase 04</div>
-            <div class="phase-weeks">Weeks 10–13</div>
-            <div class="phase-name">Bring to Life</div>
-            <div class="phase-desc">
-              Deliver an immersive experience that brings future scenarios and
-              tangible vertical expressions to life — so stakeholders can feel
-              the future firsthand.
-            </div>
-            <div class="phase-activities">
-              <div class="phase-activity">
-                Refine 3–5 final vertical propositions
-              </div>
-              <div class="phase-activity">
-                Immersive storytelling &amp; prototypes
-              </div>
-              <div class="phase-activity">
-                Future scenario environment design
-              </div>
-              <div class="phase-activity">
-                Customer value proposition concepts
-              </div>
-              <div class="phase-activity">
-                Strategic next steps &amp; riskiest assumptions
-              </div>
-              <div class="phase-activity">
-                Final stakeholder immersion presentation
-              </div>
-            </div>
-          </div>
+
+        <div class="ball-container" id="ballContainer"></div>
+
+        <div class="steep-categories" id="steepCategories">
+          <button class="steep-cat active" data-cat="Social">Social</button>
+          <button class="steep-cat" data-cat="Technological">
+            Technological
+          </button>
+          <button class="steep-cat" data-cat="Economic">Economic</button>
+          <button class="steep-cat" data-cat="Environmental">
+            Environmental
+          </button>
+          <button class="steep-cat" data-cat="Political">Political</button>
         </div>
+
+        <button class="steep-generate-btn" id="generateBtn">
+          <span id="btnLabel">Reveal the Future →</span>
+        </button>
+        <p class="steep-hint">Pick a lens — the ball reveals what's possible</p>
       </div>
     </section>
 
-    <!-- ============ IMAGINE TOGETHER ============ -->
-    <section class="section imagine" data-section="Imagine Together">
+    <!-- ============ QUESTIONS ============ -->
+    <section
+      class="section questions"
+      data-section="Future Provocations"
+      id="questionsSection"
+    >
       <div class="section-inner">
-        <div style="text-align:center">
-          <div class="section-label fade-in">Co-Creation Space</div>
-          <h2 class="section-title fade-in">Let's imagine the future <em style="font-family:var(--serif);color:var(--gold)">together</em></h2>
-          <p class="imagine-question fade-in">How might guests experience Choice Hotels in 2030?</p>
-        </div>
-
-        <div class="imagine-input-wrap fade-in">
-          <input
-            class="imagine-input"
-            id="imagineInput"
-            type="text"
-            placeholder="Share your idea — any format, any scale, any possibility…"
-            maxlength="200"
-          />
-          <button class="imagine-btn" id="imagineBtn" onclick="submitIdea()">Imagine →</button>
-        </div>
-        <p class="imagine-hint fade-in">Press Enter or click Imagine — AI will visualize your idea</p>
-
-        <div class="imagine-gallery" id="imagineGallery"></div>
-      </div>
-    </section>
-
-    <!-- ============ CLOSING ============ -->
-    <section class="section closing" data-section="Let's Begin">
-      <div class="section-inner">
-        <p class="closing-text fade-in">
-          How to design a truly memorable, visionary, and differentiated
-          experience that offers <em>creative new verticals for growth.</em>
-        </p>
-        <p
-          class="fade-in"
-          style="
-            font-family: var(--serif);
-            font-size: 20px;
-            font-weight: 300;
-            color: var(--text-gray);
-            max-width: 600px;
-            margin: 0 auto 60px;
-            line-height: 1.7;
+        <div class="questions-category" id="questionsCategory"></div>
+        <div id="questionsList"></div>
+        <button
+          class="steep-again-btn"
+          onclick="
+            document
+              .getElementById('steepSection')
+              .scrollIntoView({ behavior: 'smooth' })
           "
         >
-          That's the question we're here to answer — together. Not by presenting
-          a roadmap, but by co-creating the future of Choice Hotels from the
-          inside out.
-        </p>
-        <div class="closing-contacts fade-in">
-          <div class="closing-contact">
-            <div class="closing-contact-name">Hitasha Bhatia</div>
-            <div class="closing-contact-role">Senior Design Director</div>
-            <div class="closing-contact-email">hitasha@ideo.com</div>
-          </div>
-          <div class="closing-contact">
-            <div class="closing-contact-name">Fabian Herrmann</div>
-            <div class="closing-contact-role">Senior Design Director</div>
-            <div class="closing-contact-email">fabian@ideo.com</div>
-          </div>
-          <div class="closing-contact">
-            <div class="closing-contact-name">Mariah Welch</div>
-            <div class="closing-contact-role">Partnerships Director</div>
-            <div class="closing-contact-email">mwelch@ideo.com</div>
-          </div>
-          <div class="closing-contact">
-            <div class="closing-contact-name">Kavya Singh</div>
-            <div class="closing-contact-role">Senior Design Lead</div>
-            <div class="closing-contact-email">ksingh@ideo.com</div>
-          </div>
-        </div>
-        <div class="closing-logo fade-in">IDEO</div>
-        <div class="closing-confidential fade-in">
-          Private &amp; Confidential — March 2026
-        </div>
+          Try Another Lens ↺
+        </button>
       </div>
     </section>
 
+    <!-- ============ SCRIPTS ============ -->
     <script>
-      // ============ PARTICLES ============
+      // Particles
       const container = document.getElementById("particles");
       for (let i = 0; i < 30; i++) {
         const p = document.createElement("div");
@@ -2013,200 +1882,425 @@
         container.appendChild(p);
       }
 
-      // ============ SCROLL PROGRESS + NAV ============
+      // Scroll progress + nav label
       const progressBar = document.getElementById("progressBar");
       const nav = document.getElementById("nav");
       const navSection = document.getElementById("navSection");
       const sections = document.querySelectorAll("[data-section]");
-
       window.addEventListener("scroll", () => {
-        const scrolled = window.scrollY;
-        const total =
-          document.documentElement.scrollHeight - window.innerHeight;
-        const pct = (scrolled / total) * 100;
+        const pct =
+          (window.scrollY /
+            (document.documentElement.scrollHeight - window.innerHeight)) *
+          100;
         progressBar.style.width = pct + "%";
-
-        if (scrolled > 60) {
-          nav.classList.add("scrolled");
-        } else {
-          nav.classList.remove("scrolled");
-        }
-
-        // Update nav section label
-        let current = "";
-        sections.forEach((section) => {
-          const rect = section.getBoundingClientRect();
-          if (rect.top <= 100 && rect.bottom > 100) {
-            current = section.dataset.section || "";
-          }
+        nav.classList.toggle("scrolled", window.scrollY > 60);
+        let cur = "";
+        sections.forEach((s) => {
+          const r = s.getBoundingClientRect();
+          if (r.top <= 100 && r.bottom > 100) cur = s.dataset.section || "";
         });
-        navSection.textContent = current;
+        navSection.textContent = cur;
       });
 
-      // ============ INTERSECTION OBSERVER ============
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("visible");
-            }
-          });
-        },
+      // Intersection fade-ins
+      const io = new IntersectionObserver(
+        (entries) =>
+          entries.forEach((e) => {
+            if (e.isIntersecting) e.target.classList.add("visible");
+          }),
         { threshold: 0.1 },
       );
+      document.querySelectorAll(".fade-in").forEach((el) => io.observe(el));
 
-      document
-        .querySelectorAll(
-          ".fade-in, .force-card, .phase-card, .team-member, .stat-card, .deliverable-item, .competition-item, .scenario-world, .scenario-stat",
-        )
-        .forEach((el) => observer.observe(el));
+      // Hero → STEEP: snap on any downward scroll while near the top
+      (function () {
+        const steep = document.getElementById("steepSection");
+        if (!steep) return;
+        let snapping = false;
+        window.addEventListener(
+          "wheel",
+          function (e) {
+            if (snapping) {
+              e.preventDefault();
+              return;
+            }
+            if (window.scrollY > window.innerHeight * 0.4) return;
+            if (e.deltaY <= 0) return;
+            e.preventDefault();
+            snapping = true;
+            window.scrollTo({ top: steep.offsetTop, behavior: "smooth" });
+            setTimeout(() => {
+              snapping = false;
+            }, 900);
+          },
+          { passive: false },
+        );
 
-      // ============ CONCEPT CARD EXPAND ============
-      function toggleConcept(btn) {
-        const card = btn.closest(".concept-card");
-        const isExpanded = card.classList.contains("expanded");
-        document
-          .querySelectorAll(".concept-card")
-          .forEach((c) => c.classList.remove("expanded"));
-        document
-          .querySelectorAll(".concept-expand")
-          .forEach((b) => (b.textContent = "Explore →"));
-        if (!isExpanded) {
-          card.classList.add("expanded");
-          btn.textContent = "Close ←";
-        }
-      }
-
+        let _ty = 0;
+        window.addEventListener(
+          "touchstart",
+          (e) => {
+            _ty = e.touches[0].clientY;
+          },
+          { passive: true },
+        );
+        window.addEventListener(
+          "touchend",
+          (e) => {
+            if (window.scrollY > window.innerHeight * 0.4) return;
+            if (_ty - e.changedTouches[0].clientY > 30) {
+              window.scrollTo({ top: steep.offsetTop, behavior: "smooth" });
+            }
+          },
+          { passive: true },
+        );
+      })();
     </script>
 
-    <!-- ============ FIREBASE + IMAGINE TOGETHER ============ -->
+    <!-- Three.js magic 8-ball + STEEP logic -->
     <script type="module">
-      import { initializeApp }       from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
-      import { getFirestore, collection, addDoc, onSnapshot,
-               query, orderBy, serverTimestamp, getDocs }
-                                     from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
+      import * as THREE from "three";
+      import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
-      const firebaseConfig = {
-        apiKey:            "AIzaSyABIfsbzVb6IH0zwCAcNp8C5Z0bEVysk6o",
-        authDomain:        "choicehotel-1029f.firebaseapp.com",
-        projectId:         "choicehotel-1029f",
-        storageBucket:     "choicehotel-1029f.firebasestorage.app",
-        messagingSenderId: "108945464175",
-        appId:             "1:108945464175:web:e6ff817eef201197e0e69a"
-      };
+      // ---- Scene setup ----
+      const wrap = document.getElementById("ballContainer");
+      const W = wrap.offsetWidth,
+        H = wrap.offsetHeight;
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
+      camera.position.z = 3.6;
 
-      const app = initializeApp(firebaseConfig);
-      const db  = getFirestore(app);
-      const COL = "imaginations";
+      const renderer = new THREE.WebGLRenderer({
+        antialias: true,
+        alpha: true,
+      });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setSize(W, H);
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.3;
+      wrap.appendChild(renderer.domElement);
 
-      const DEFAULTS = [
-        { idea: "Biometric arrival — your face is your key, your history shapes the room before you walk in",         tag: "Inspiration" },
-        { idea: "A wellness-first stay where the AI concierge curates your morning routine like a personal coach",    tag: "Inspiration" },
-        { idea: "A lobby that transforms into a neighborhood market at night, connecting guests with local makers",   tag: "Inspiration" },
-        { idea: "Rooms that adapt their lighting, scent, and temperature to your circadian rhythm in real time",     tag: "Inspiration" }
-      ];
+      // ---- Ball group ----
+      const group = new THREE.Group();
+      scene.add(group);
 
-      // ---- helpers ----
-      function ideaSeed(idea) {
-        return Math.abs(idea.split('').reduce((a, c) => (a << 5) - a + c.charCodeAt(0), 0));
-      }
+      // Outer sphere — dark glassy
+      const sphereMat = new THREE.MeshStandardMaterial({
+        color: 0x050810,
+        roughness: 0.07,
+        metalness: 0.18,
+      });
+      group.add(
+        new THREE.Mesh(new THREE.SphereGeometry(1, 128, 64), sphereMat),
+      );
 
-      function imageUrl(idea) {
-        const prompt = `futuristic luxury hotel interior 2030, ${idea}, cinematic architectural photography, warm ambient lighting, premium hospitality design, photorealistic, 8k`;
-        return `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=800&height=600&nologo=true&seed=${ideaSeed(idea)}`;
-      }
+      // Rim glow shell
+      const glowMat = new THREE.MeshBasicMaterial({
+        color: 0xd9ff00,
+        transparent: true,
+        opacity: 0.05,
+        side: THREE.BackSide,
+      });
+      group.add(
+        new THREE.Mesh(new THREE.SphereGeometry(1.03, 64, 32), glowMat),
+      );
 
-      function renderCard(idea, tag, prepend = false) {
-        const gallery = document.getElementById('imagineGallery');
+      // ---- Face canvas texture ----
+      const faceCanvas = document.createElement("canvas");
+      faceCanvas.width = faceCanvas.height = 512;
+      const faceTex = new THREE.CanvasTexture(faceCanvas);
 
-        // Don't duplicate cards already in the gallery
-        const existing = [...gallery.querySelectorAll('.imagine-card-idea')];
-        if (existing.some(el => el.textContent === `"${idea}"`)) return;
-
-        const card = document.createElement('div');
-        card.className = 'imagine-card loading';
-
-        const spinner = document.createElement('div');
-        spinner.className = 'imagine-loading-icon';
-
-        const overlay = document.createElement('div');
-        overlay.className = 'imagine-card-overlay';
-
-        const tagEl = document.createElement('div');
-        tagEl.className = 'imagine-card-tag';
-        tagEl.textContent = tag;
-
-        const ideaEl = document.createElement('div');
-        ideaEl.className = 'imagine-card-idea';
-        ideaEl.textContent = `"${idea}"`;
-
-        overlay.appendChild(ideaEl);
-        card.appendChild(spinner);
-        card.appendChild(overlay);
-        card.appendChild(tagEl);
-
-        if (prepend) gallery.insertBefore(card, gallery.firstChild);
-        else         gallery.appendChild(card);
-
-        const img = new Image();
-        img.className = 'imagine-card-img';
-        img.alt = idea;
-        img.onload  = () => { card.insertBefore(img, card.firstChild); card.classList.remove('loading'); };
-        img.onerror = () => { card.classList.remove('loading'); };
-        img.src = imageUrl(idea);
-      }
-
-      // ---- seed defaults if collection is empty ----
-      async function maybeSeeds() {
-        const snap = await getDocs(collection(db, COL));
-        if (snap.empty) {
-          for (const d of DEFAULTS) {
-            await addDoc(collection(db, COL), { idea: d.idea, tag: d.tag, ts: serverTimestamp() });
-          }
+      function drawFace(cat) {
+        const ctx = faceCanvas.getContext("2d");
+        ctx.clearRect(0, 0, 512, 512);
+        // Outer glow ring
+        const ring = ctx.createRadialGradient(256, 256, 160, 256, 256, 252);
+        ring.addColorStop(0, "rgba(0,0,0,0)");
+        ring.addColorStop(1, "rgba(217,255,0,0.12)");
+        ctx.beginPath();
+        ctx.arc(256, 256, 252, 0, Math.PI * 2);
+        ctx.fillStyle = ring;
+        ctx.fill();
+        // Inner circle
+        const inner = ctx.createRadialGradient(230, 225, 0, 256, 256, 218);
+        inner.addColorStop(0, "#0d1a08");
+        inner.addColorStop(1, "#060e04");
+        ctx.beginPath();
+        ctx.arc(256, 256, 218, 0, Math.PI * 2);
+        ctx.fillStyle = inner;
+        ctx.fill();
+        // Border
+        ctx.beginPath();
+        ctx.arc(256, 256, 218, 0, Math.PI * 2);
+        ctx.strokeStyle = "rgba(217,255,0,0.55)";
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+        // Text
+        if (cat) {
+          ctx.fillStyle = "#d9ff00";
+          const size = cat.length > 10 ? 38 : 46;
+          ctx.font = `600 ${size}px Inter, sans-serif`;
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText(cat.toUpperCase(), 256, 256);
+        } else {
+          ctx.fillStyle = "rgba(217,255,0,0.6)";
+          ctx.font = "200 130px Cormorant Garamond, serif";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText("8", 256, 270);
         }
+        faceTex.needsUpdate = true;
       }
 
-      // ---- real-time listener: renders every card from Firestore ----
-      function startLiveGallery() {
-        const q = query(collection(db, COL), orderBy('ts', 'asc'));
-        onSnapshot(q, snap => {
-          snap.docChanges().forEach(change => {
-            if (change.type === 'added') {
-              const { idea, tag } = change.doc.data();
-              renderCard(idea, tag, false);   // append in chronological order
+      const faceMesh = new THREE.Mesh(
+        new THREE.CircleGeometry(0.53, 64),
+        new THREE.MeshBasicMaterial({ map: faceTex, transparent: true }),
+      );
+      faceMesh.position.z = 1.008;
+      group.add(faceMesh);
+
+      // ---- Back face — classic "8" in cream circle ----
+      const backCanvas = document.createElement("canvas");
+      backCanvas.width = backCanvas.height = 512;
+      const backCtx = backCanvas.getContext("2d");
+      // Cream circle
+      const backFill = backCtx.createRadialGradient(230, 225, 0, 256, 256, 218);
+      backFill.addColorStop(0, "#f5f0eb");
+      backFill.addColorStop(1, "#e4ded7");
+      backCtx.beginPath();
+      backCtx.arc(256, 256, 218, 0, Math.PI * 2);
+      backCtx.fillStyle = backFill;
+      backCtx.fill();
+      backCtx.beginPath();
+      backCtx.arc(256, 256, 218, 0, Math.PI * 2);
+      backCtx.strokeStyle = "rgba(0,0,0,0.12)";
+      backCtx.lineWidth = 3;
+      backCtx.stroke();
+      // "8" numeral
+      backCtx.fillStyle = "#1a1a1a";
+      backCtx.font = "700 160px Arial Black, Arial, sans-serif";
+      backCtx.textAlign = "center";
+      backCtx.textBaseline = "middle";
+      backCtx.fillText("8", 256, 268);
+      const backTex = new THREE.CanvasTexture(backCanvas);
+      const backMesh = new THREE.Mesh(
+        new THREE.CircleGeometry(0.53, 64),
+        new THREE.MeshBasicMaterial({ map: backTex, transparent: true }),
+      );
+      backMesh.position.z = -1.008;
+      backMesh.rotation.y = Math.PI;
+      group.add(backMesh);
+
+      drawFace("Social");
+
+      // ---- Lighting ----
+      scene.add(new THREE.AmbientLight(0xffffff, 0.12));
+      const key = new THREE.DirectionalLight(0xffffff, 3.0);
+      key.position.set(3, 4, 5);
+      scene.add(key);
+      const fill = new THREE.DirectionalLight(0x88aaff, 0.7);
+      fill.position.set(-4, -1, 2);
+      scene.add(fill);
+      const rim = new THREE.DirectionalLight(0xd9ff00, 0.5);
+      rim.position.set(-2, 3, -4);
+      scene.add(rim);
+
+      // ---- Orbit controls ----
+      const controls = new OrbitControls(camera, renderer.domElement);
+      controls.enableZoom = false;
+      controls.enablePan = false;
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.06;
+      controls.autoRotate = false;
+      controls.saveState(); // snapshot clean position so reset() clears velocity
+
+      // ---- Spin animation (for generate) ----
+      window._spinBall = () =>
+        new Promise((resolve) => {
+          controls.autoRotate = false;
+          controls.enabled = false;
+          const startY = group.rotation.y;
+          const target = startY + Math.PI * 10;
+          const t0 = performance.now(),
+            dur = 2000;
+          function step(now) {
+            const t = Math.min((now - t0) / dur, 1);
+            const e = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+            group.rotation.y = startY + (target - startY) * e;
+            group.rotation.x = Math.sin(t * Math.PI) * 0.5;
+            if (t < 1) {
+              requestAnimationFrame(step);
+            } else {
+              group.rotation.x = 0;
+              group.rotation.y = 0;
+              controls.enabled = true;
+              controls.autoRotate = false;
+              resolve();
             }
-          });
+          }
+          requestAnimationFrame(step);
         });
-      }
 
-      // ---- submit ----
-      async function submitIdea() {
-        const input = document.getElementById('imagineInput');
-        const btn   = document.getElementById('imagineBtn');
-        const idea  = input.value.trim();
-        if (!idea) return;
+      // ---- Spring-back on pointer release (rotation only, no zoom) ----
+      let _spring = null;
 
-        input.value    = '';
-        btn.disabled   = true;
-        btn.textContent = 'Saving…';
-
-        try {
-          await addDoc(collection(db, COL), { idea, tag: 'Your Idea', ts: serverTimestamp() });
-        } finally {
-          btn.disabled   = false;
-          btn.textContent = 'Imagine →';
-        }
-      }
-
-      // expose to HTML onclick / keydown
-      window.submitIdea = submitIdea;
-      document.getElementById('imagineInput').addEventListener('keydown', e => {
-        if (e.key === 'Enter') submitIdea();
+      renderer.domElement.addEventListener("pointerdown", () => {
+        _spring = null;
+        controls.enabled = true;
       });
 
-      // boot
-      await maybeSeeds();
-      startLiveGallery();
+      renderer.domElement.addEventListener("pointerup", () => {
+        if (!controls.enabled) return; // ignore during spin
+        controls.enabled = false;
+        // Capture current spherical angles so spring works past 90°
+        const r = camera.position.length();
+        _spring = {
+          r,
+          phi: Math.acos(Math.max(-1, Math.min(1, camera.position.y / r))),
+          theta: Math.atan2(camera.position.x, camera.position.z),
+          vphi: 0,
+          vtheta: 0,
+        };
+      });
+
+      // ---- Render loop ----
+      (function animate() {
+        requestAnimationFrame(animate);
+
+        if (_spring) {
+          const K = 0.1,
+            D = 0.68;
+          // Spring angles toward front-face default (phi=π/2, theta=0)
+          _spring.vphi = _spring.vphi * D + K * (Math.PI / 2 - _spring.phi);
+          _spring.vtheta = _spring.vtheta * D + K * (0 - _spring.theta);
+          _spring.phi += _spring.vphi;
+          _spring.theta += _spring.vtheta;
+          // Convert spherical back to Cartesian (radius locked)
+          const r = _spring.r,
+            phi = _spring.phi,
+            th = _spring.theta;
+          camera.position.set(
+            r * Math.sin(phi) * Math.sin(th),
+            r * Math.cos(phi),
+            r * Math.sin(phi) * Math.cos(th),
+          );
+          camera.lookAt(0, 0, 0);
+
+          if (
+            Math.abs(_spring.vphi) < 0.0005 &&
+            Math.abs(_spring.vtheta) < 0.0005
+          ) {
+            _spring = null;
+            controls.reset(); // resets position AND clears internal velocity buffer
+            controls.enabled = true;
+          }
+        } else {
+          controls.update();
+        }
+
+        renderer.render(scene, camera);
+      })();
+
+      // ---- Resize ----
+      window.addEventListener("resize", () => {
+        const s = wrap.offsetWidth;
+        renderer.setSize(s, s);
+      });
+
+      // ---- STEEP category switching ----
+      let currentCat = "Social";
+      document.querySelectorAll(".steep-cat").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document
+            .querySelectorAll(".steep-cat")
+            .forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          currentCat = btn.dataset.cat;
+          drawFace(currentCat);
+        });
+      });
+
+      // ---- Generate ----
+      document
+        .getElementById("generateBtn")
+        .addEventListener("click", async () => {
+          const btn = document.getElementById("generateBtn");
+          const label = document.getElementById("btnLabel");
+          btn.disabled = true;
+          label.textContent = "Thinking…";
+
+          // Spin + API call in parallel
+          const [_, result] = await Promise.allSettled([
+            window._spinBall(),
+            (async () => {
+              const res = await fetch("/api/generate", {
+                method: "POST",
+                headers: { "content-type": "application/json" },
+                body: JSON.stringify({ category: currentCat }),
+              });
+              if (!res.ok) {
+                const e = await res.json();
+                throw new Error(e.error || res.status);
+              }
+              const data = await res.json();
+              return data.text;
+            })(),
+          ]);
+
+          btn.disabled = false;
+          label.textContent = "Reveal the Future →";
+
+          if (result.status === "rejected") {
+            label.textContent = "Error — Try Again";
+            setTimeout(() => {
+              label.textContent = "Reveal the Future →";
+            }, 3000);
+            return;
+          }
+
+          // Parse response — plain text, two paragraphs: concept + questions
+          const raw = result.value.trim().replace(/\*\*/g, ""); // strip markdown bold
+          const paragraphs = raw
+            .split(/\n\n+/)
+            .map((p) => p.trim())
+            .filter(Boolean);
+          const concept = paragraphs[0] || "";
+          const questions = paragraphs.slice(1).join("\n\n");
+
+          // Update face to show category
+          drawFace(currentCat);
+
+          // Reveal questions section
+          const qSection = document.getElementById("questionsSection");
+          qSection.style.display = "flex";
+          qSection.scrollIntoView({ behavior: "smooth" });
+          const catEl = document.getElementById("questionsCategory");
+          catEl.textContent = currentCat + " Futures";
+          setTimeout(() => catEl.classList.add("visible"), 500);
+
+          const list = document.getElementById("questionsList");
+          list.innerHTML = "";
+
+          // Concept card
+          const conceptCard = document.createElement("div");
+          conceptCard.className = "question-card";
+          conceptCard.innerHTML = `<div class="question-text">${concept}</div>`;
+          list.appendChild(conceptCard);
+          setTimeout(() => conceptCard.classList.add("visible"), 700);
+
+          // Questions card
+          if (questions) {
+            const qCard = document.createElement("div");
+            qCard.className = "question-card";
+            qCard.innerHTML = `<div class="question-text" style="color:var(--text-gray)">${questions}</div>`;
+            list.appendChild(qCard);
+            setTimeout(() => qCard.classList.add("visible"), 1050);
+          }
+
+          // Show "Try Another Lens" once questions are ready
+          document.querySelector(".steep-again-btn").classList.add("visible");
+        });
     </script>
   </body>
 </html>
