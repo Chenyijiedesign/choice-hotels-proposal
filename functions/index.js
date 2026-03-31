@@ -25,8 +25,32 @@ function buildSystemPrompt() {
   return prompt;
 }
 
+// Call Anthropic with automatic retry on 529 Overloaded
+async function callAnthropic(apiKey, body, attempt = 1) {
+  const MAX_ATTEMPTS = 4;
+  const upstream = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01',
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  });
+
+  // Retry on 529 (Overloaded) or 503 (Service Unavailable) with exponential backoff
+  if ((upstream.status === 529 || upstream.status === 503) && attempt < MAX_ATTEMPTS) {
+    const delay = Math.pow(2, attempt) * 1000; // 2s, 4s, 8s
+    console.log(`Anthropic overloaded (attempt ${attempt}/${MAX_ATTEMPTS}), retrying in ${delay}ms...`);
+    await new Promise(r => setTimeout(r, delay));
+    return callAnthropic(apiKey, body, attempt + 1);
+  }
+
+  return upstream;
+}
+
 exports.api = onRequest(
-  { secrets: [ANTHROPIC_API_KEY], cors: true, invoker: 'public' },
+  { secrets: [ANTHROPIC_API_KEY], cors: true, invoker: 'public', timeoutSeconds: 120 },
   async (req, res) => {
     // Only allow POST requests
     if (req.method !== 'POST') {
@@ -41,33 +65,29 @@ exports.api = onRequest(
     const system = buildSystemPrompt();
 
     try {
-      const upstream = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: {
-          'x-api-key': apiKey,
-          'anthropic-version': '2023-06-01',
-          'content-type': 'application/json',
-        },
-        body: JSON.stringify({
-          model,
-          max_tokens: 1024,
-          system,
-          messages: [{
-            role: 'user',
-            content: `Generate one concept for the ${category} signal from the STEEP futures framework. Follow the output format and rules exactly.`
-          }]
-        })
+      const upstream = await callAnthropic(apiKey, {
+        model,
+        max_tokens: 1024,
+        system,
+        messages: [{
+          role: 'user',
+          content: `Generate one concept for the ${category} signal from the STEEP futures framework. Follow the output format and rules exactly.`
+        }]
       });
 
       if (!upstream.ok) {
         const err = await upstream.json();
-        return res.status(upstream.status).json({ error: err.error?.message || upstream.statusText });
+        const msg = upstream.status === 529
+          ? 'Claude is busy right now — please try again in a moment'
+          : (err.error?.message || upstream.statusText);
+        return res.status(upstream.status).json({ error: msg });
       }
 
       const data = await upstream.json();
       res.json({ text: data.content[0].text });
     } catch (err) {
-      res.status(500).json({ error: err.message });
+      console.error('Unexpected error:', err);
+      res.status(500).json({ error: 'Something went wrong — please try again' });
     }
   }
 );

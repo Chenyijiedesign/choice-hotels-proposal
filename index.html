@@ -2387,17 +2387,29 @@
           const [_, result] = await Promise.allSettled([
             window._spinBall(),
             (async () => {
-              const res = await fetch("/api/generate", {
-                method: "POST",
-                headers: { "content-type": "application/json" },
-                body: JSON.stringify({ category: currentCat }),
-              });
-              if (!res.ok) {
-                const e = await res.json();
-                throw new Error(e.error || res.status);
+              // 110s client timeout — slightly less than function's 120s
+              const controller = new AbortController();
+              const timer = setTimeout(() => controller.abort(), 110000);
+              try {
+                const res = await fetch("/api/generate", {
+                  method: "POST",
+                  headers: { "content-type": "application/json" },
+                  body: JSON.stringify({ category: currentCat }),
+                  signal: controller.signal,
+                });
+                clearTimeout(timer);
+                if (!res.ok) {
+                  let msg = `Error ${res.status}`;
+                  try { const e = await res.json(); msg = e.error || msg; } catch {}
+                  throw new Error(msg);
+                }
+                const data = await res.json();
+                return data.text;
+              } catch (err) {
+                clearTimeout(timer);
+                if (err.name === 'AbortError') throw new Error('Request timed out — please try again');
+                throw err;
               }
-              const data = await res.json();
-              return data.text;
             })(),
           ]);
 
@@ -2405,10 +2417,12 @@
           label.textContent = "Reveal the Future →";
 
           if (result.status === "rejected") {
-            label.textContent = "Error — Try Again";
+            const msg = result.reason?.message || "Error";
+            const isBusy = msg.toLowerCase().includes("busy") || msg.toLowerCase().includes("overload") || msg.toLowerCase().includes("503") || msg.toLowerCase().includes("529");
+            label.textContent = isBusy ? "Claude is busy — try again" : "Error — Try Again";
             setTimeout(() => {
               label.textContent = "Reveal the Future →";
-            }, 3000);
+            }, 4000);
             return;
           }
 
