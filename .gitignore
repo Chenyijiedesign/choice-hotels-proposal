@@ -2,3 +2,4 @@
 service-account.json
 .env
 node_modules/
+functions/node_modules/

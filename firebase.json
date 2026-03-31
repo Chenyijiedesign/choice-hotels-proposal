@@ -5,9 +5,25 @@
       "firebase.json",
       "firestore.rules",
       "service-account.json",
+      "server.js",
+      "system-prompt.txt",
       "**/.*",
-      "**/node_modules/**"
+      "**/node_modules/**",
+      "functions/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/api/**",
+        "run": {
+          "serviceId": "api",
+          "region": "us-central1"
+        }
+      }
     ]
+  },
+  "functions": {
+    "source": "functions",
+    "runtime": "nodejs20"
   },
   "firestore": {
     "rules": "firestore.rules"
