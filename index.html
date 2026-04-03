@@ -3,1681 +3,71 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Creating New Verticals for Growth — IDEO × Choice Hotels</title>
+    <script
+      src="https://mcp.figma.com/mcp/html-to-design/capture.js"
+      async
+    ></script>
+    <title>Designing for Growth — IDEO × Choice Hotels</title>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-K820CBGL4F"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-K820CBGL4F');
+    </script>
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap");
 
       :root {
-        --black: #151f27;
-        --white: #f5f0eb;
-        --cream: #f5f0eb;
+        --bg: #151f27;
+        --surface: #110e0a;
+        --cream: #e8ddd0;
         --alchemy: #d9ff00;
-        --alchemy-light: #e0ff2e;
-        --dark-gray: #536575;
-        --mid-gray: #7b92a5;
-        --text-gray: #dfe2e5;
+        --alchemy-dim: rgba(217, 255, 0, 0.22);
+        --mid: #dfe2e5;
         --serif: "Cormorant Garamond", Georgia, serif;
         --sans: "Inter", -apple-system, sans-serif;
       }
 
-      * {
+      *,
+      *::before,
+      *::after {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
       }
-
-      html {
-        scroll-behavior: smooth;
-        scroll-snap-type: y mandatory;
-        overflow-x: hidden;
-      }
-
+      html,
       body {
-        background: var(--black);
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      body {
+        background: var(--bg);
         color: var(--cream);
         font-family: var(--sans);
         -webkit-font-smoothing: antialiased;
-        overflow-x: hidden;
       }
 
-      /* ============ NAVIGATION ============ */
-      .nav {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 1000;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 24px 48px;
-        transition: all 0.6s ease;
-      }
-
-      .nav.scrolled {
-        background: rgba(10, 10, 10, 0.9);
-        backdrop-filter: blur(20px);
-        padding: 16px 48px;
-      }
-
-      .nav-logo {
-        font-family: var(--sans);
-        font-weight: 600;
-        font-size: 13px;
-        letter-spacing: 4px;
-        text-transform: uppercase;
-        color: var(--cream);
-      }
-
-      .nav-progress {
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 2px;
-        background: linear-gradient(
-          90deg,
-          var(--alchemy),
-          var(--alchemy-light)
-        );
-        z-index: 1001;
-        transition: width 0.3s ease;
-      }
-
-      .nav-section {
-        font-family: var(--sans);
-        font-size: 11px;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        color: var(--alchemy);
-        opacity: 0;
-        transition: opacity 0.6s ease;
-      }
-
-      .nav.scrolled .nav-section {
-        opacity: 1;
-      }
-
-      /* ============ SECTIONS ============ */
-      .section {
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        scroll-snap-align: start;
-        overflow: hidden;
-      }
-
-      .section-inner {
-        max-width: 1200px;
-        width: 100%;
-        padding: 80px 48px;
-      }
-
-      /* ============ HERO ============ */
-      .hero {
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        position: relative;
-        background: var(--black);
-      }
-
-      .hero-particles {
-        position: absolute;
-        inset: 0;
-        overflow: hidden;
-        pointer-events: none;
-      }
-
-      .particle {
-        position: absolute;
-        width: 2px;
-        height: 2px;
-        background: var(--alchemy);
-        border-radius: 50%;
-        opacity: 0;
-        animation: float-particle 8s infinite ease-in-out;
-      }
-
-      @keyframes float-particle {
-        0% {
-          opacity: 0;
-          transform: translateY(100vh) scale(0);
-        }
-        20% {
-          opacity: 0.6;
-        }
-        80% {
-          opacity: 0.3;
-        }
-        100% {
-          opacity: 0;
-          transform: translateY(-20vh) scale(1);
-        }
-      }
-
-      .hero-overline {
-        font-family: var(--sans);
-        font-size: 12px;
-        letter-spacing: 6px;
-        text-transform: uppercase;
-        color: var(--alchemy);
-        margin-bottom: 40px;
-        opacity: 0;
-        animation: fadeUp 1s 0.5s forwards;
-      }
-
-      .hero-title {
-        font-family: var(--serif);
-        font-size: clamp(52px, 8vw, 120px);
-        font-weight: 300;
-        line-height: 0.95;
-        letter-spacing: -2px;
-        color: var(--cream);
-        margin-bottom: 32px;
-        opacity: 0;
-        animation: fadeUp 1.2s 0.8s forwards;
-      }
-
-      .hero-title em {
-        font-style: italic;
-        color: var(--alchemy);
-      }
-
-      .hero-subtitle {
-        font-family: var(--serif);
-        font-size: clamp(18px, 2.5vw, 26px);
-        font-weight: 300;
-        color: var(--text-gray);
-        max-width: 600px;
-        line-height: 1.6;
-        opacity: 0;
-        animation: fadeUp 1s 1.2s forwards;
-      }
-
-      .hero-meta {
-        position: absolute;
-        bottom: 48px;
-        display: flex;
-        gap: 60px;
-        font-family: var(--sans);
-        font-size: 11px;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        color: var(--text-gray);
-        opacity: 0;
-        animation: fadeUp 1s 1.6s forwards;
-      }
-
-      .scroll-indicator {
-        position: absolute;
-        bottom: 100px;
-        left: 50%;
-        transform: translateX(-50%);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 8px;
-        opacity: 0;
-        animation: fadeUp 1s 2s forwards;
-      }
-
-      .scroll-line {
-        width: 1px;
-        height: 40px;
-        background: linear-gradient(to bottom, var(--alchemy), transparent);
-        animation: scroll-pulse 2s infinite;
-      }
-
-      @keyframes scroll-pulse {
-        0%,
-        100% {
-          opacity: 0.3;
-          transform: scaleY(0.6);
-        }
-        50% {
-          opacity: 1;
-          transform: scaleY(1);
-        }
-      }
-
-      /* ============ PROVOCATION SECTION ============ */
-      .provocation {
-        background: var(--black);
-        text-align: center;
-      }
-
-      .provocation-text {
-        font-family: var(--serif);
-        font-size: clamp(22px, 3.5vw, 44px);
-        font-weight: 300;
-        line-height: 1.5;
-        max-width: 900px;
-        margin: 0 auto;
-        color: var(--cream);
-      }
-
-      .provocation-text .highlight {
-        color: var(--alchemy);
-        font-style: italic;
-      }
-
-      .provocation-body {
-        font-family: var(--sans);
-        font-size: 16px;
-        font-weight: 300;
-        line-height: 1.8;
-        max-width: 700px;
-        margin: 32px auto 0;
-        color: var(--text-gray);
-      }
-
-      .provocation-body .highlight {
-        color: var(--gold);
-        font-style: italic;
-      }
-
-      /* ============ FORCES SECTION ============ */
-      .forces {
-        background: var(--black);
-      }
-
-      .forces-header {
-        text-align: center;
-        margin-bottom: 80px;
-      }
-
-      .section-label {
-        font-family: var(--sans);
-        font-size: 11px;
-        letter-spacing: 5px;
-        text-transform: uppercase;
-        color: var(--alchemy);
-        margin-bottom: 24px;
-      }
-
-      .section-title {
-        font-family: var(--serif);
-        font-size: clamp(32px, 5vw, 56px);
-        font-weight: 300;
-        line-height: 1.2;
-      }
-
-      .forces-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 40px;
-      }
-
-      .force-card {
-        background: var(--dark-gray);
-        border: 1px solid rgba(201, 169, 110, 0.1);
-        padding: 48px 36px;
-        position: relative;
-        overflow: hidden;
-        opacity: 0;
-        transform: translateY(40px);
-        transition: all 0.8s ease;
-      }
-
-      .force-card.visible {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      .force-card::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 2px;
-        background: linear-gradient(90deg, var(--alchemy), transparent);
-      }
-
-      .force-number {
-        font-family: var(--serif);
-        font-size: 64px;
-        font-weight: 300;
-        color: rgba(230, 231, 237, 0.6);
-        line-height: 1;
-        margin-bottom: 24px;
-      }
-
-      .force-title {
-        font-family: var(--serif);
-        font-size: 24px;
-        font-weight: 400;
-        margin-bottom: 16px;
-        color: var(--alchemy);
-      }
-
-      .force-text {
-        font-family: var(--sans);
-        font-size: 14px;
-        line-height: 1.8;
-        color: var(--text-gray);
-      }
-
-      /* ============ WHY IDEO SECTION ============ */
-      .why-ideo {
-        background: var(--dark-gray);
-      }
-
-      .why-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 60px;
-        margin-top: 60px;
-        align-items: start;
-      }
-
-      .why-left {
-        font-family: var(--serif);
-        font-size: 22px;
-        font-weight: 300;
-        line-height: 1.7;
-        color: rgba(230, 231, 237, 0.85);
-      }
-
-      .why-right {
-        display: flex;
-        flex-direction: column;
-        gap: 24px;
-      }
-
-      .why-point {
-        padding-left: 20px;
-        border-left: 2px solid rgba(201, 169, 110, 0.3);
-      }
-
-      .why-point-label {
-        font-family: var(--sans);
-        font-size: 10px;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        color: var(--alchemy);
-        margin-bottom: 6px;
-      }
-
-      .why-point-text {
-        font-family: var(--sans);
-        font-size: 13px;
-        line-height: 1.7;
-        color: var(--text-gray);
-      }
-
-      /* ============ STATS SECTION ============ */
-      .stats {
-        background: var(--black);
-      }
-
-      .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 2px;
-        margin-top: 60px;
-      }
-
-      .stat-card {
-        background: var(--dark-gray);
-        padding: 48px 32px;
-        text-align: center;
-        opacity: 0;
-        transform: translateY(20px);
-        transition: all 0.6s ease;
-      }
-
-      .stat-card.visible {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      .stat-card-number {
-        font-family: var(--serif);
-        font-size: 56px;
-        font-weight: 300;
-        color: var(--alchemy);
-        line-height: 1;
-        margin-bottom: 12px;
-      }
-
-      .stat-card-label {
-        font-family: var(--sans);
-        font-size: 11px;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        color: var(--text-gray);
-        line-height: 1.6;
-      }
-
-      /* ============ APPROACH SECTION ============ */
-      .approach {
-        background: var(--black);
-      }
-
-      .approach-phases {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 2px;
-        margin-top: 60px;
-      }
-
-      .phase-card {
-        background: var(--dark-gray);
-        padding: 48px 32px;
-        position: relative;
-        cursor: pointer;
-        transition: all 0.5s ease;
-        opacity: 0;
-        transform: translateY(30px);
-      }
-
-      .phase-card.visible {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      .phase-card:hover {
-        background: var(--mid-gray);
-      }
-
-      .phase-card::after {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 3px;
-        background: var(--alchemy);
-        transform: scaleX(0);
-        transition: transform 0.5s ease;
-      }
-
-      .phase-card:hover::after {
-        transform: scaleX(1);
-      }
-
-      .phase-label {
-        font-family: var(--sans);
-        font-size: 11px;
-        letter-spacing: 4px;
-        text-transform: uppercase;
-        color: var(--alchemy);
-        margin-bottom: 8px;
-      }
-
-      .phase-weeks {
-        font-family: var(--sans);
-        font-size: 11px;
-        color: var(--text-gray);
-        margin-bottom: 24px;
-      }
-
-      .phase-name {
-        font-family: var(--serif);
-        font-size: 32px;
-        font-weight: 300;
-        margin-bottom: 20px;
-      }
-
-      .phase-desc {
-        font-family: var(--sans);
-        font-size: 13px;
-        line-height: 1.8;
-        color: var(--text-gray);
-        margin-bottom: 20px;
-      }
-
-      .phase-activities {
-        margin-top: 20px;
-        padding-top: 20px;
-        border-top: 1px solid rgba(201, 169, 110, 0.1);
-      }
-
-      .phase-activity {
-        font-family: var(--sans);
-        font-size: 12px;
-        color: var(--text-gray);
-        padding: 6px 0;
-        padding-left: 16px;
-        position: relative;
-      }
-
-      .phase-activity::before {
-        content: "";
-        position: absolute;
-        left: 0;
-        top: 50%;
-        width: 6px;
-        height: 1px;
-        background: var(--alchemy);
-      }
-
-      /* ============ SCENARIO WORLDS (OPPORTUNITY TERRITORIES) ============ */
-      .scenarios {
-        background: var(--black);
-        padding: 0;
-      }
-
-      .scenario-world {
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        position: relative;
-        overflow: hidden;
-        scroll-snap-align: start;
-      }
-
-      .scenario-bg {
-        position: absolute;
-        inset: 0;
-        opacity: 0.15;
-        transition: opacity 1s ease;
-      }
-
-      .scenario-world:hover .scenario-bg {
-        opacity: 0.25;
-      }
-
-      .scenario-1 .scenario-bg {
-        background:
-          radial-gradient(
-            ellipse at 30% 50%,
-            rgba(201, 169, 110, 0.3),
-            transparent 60%
-          ),
-          radial-gradient(
-            ellipse at 70% 80%,
-            rgba(100, 180, 150, 0.15),
-            transparent 50%
-          );
-      }
-
-      .scenario-2 .scenario-bg {
-        background:
-          radial-gradient(
-            ellipse at 70% 40%,
-            rgba(100, 160, 220, 0.25),
-            transparent 60%
-          ),
-          radial-gradient(
-            ellipse at 20% 70%,
-            rgba(201, 169, 110, 0.2),
-            transparent 50%
-          );
-      }
-
-      .scenario-3 .scenario-bg {
-        background:
-          radial-gradient(
-            ellipse at 50% 30%,
-            rgba(200, 100, 80, 0.2),
-            transparent 60%
-          ),
-          radial-gradient(
-            ellipse at 80% 80%,
-            rgba(201, 169, 110, 0.2),
-            transparent 50%
-          );
-      }
-
-      .scenario-content {
-        position: relative;
-        z-index: 2;
-        max-width: 800px;
-        padding: 80px 48px;
-      }
-
-      .scenario-number {
-        font-family: var(--serif);
-        font-size: 120px;
-        font-weight: 300;
-        color: rgba(201, 169, 110, 0.1);
-        line-height: 1;
-        margin-bottom: -20px;
-      }
-
-      .scenario-title {
-        font-family: var(--serif);
-        font-size: clamp(36px, 5vw, 56px);
-        font-weight: 300;
-        margin-bottom: 24px;
-        line-height: 1.2;
-      }
-
-      .scenario-year {
-        font-family: var(--sans);
-        font-size: 11px;
-        letter-spacing: 5px;
-        color: var(--alchemy);
-        margin-bottom: 32px;
-      }
-
-      .scenario-description {
-        font-family: var(--serif);
-        font-size: 20px;
-        font-weight: 300;
-        line-height: 1.7;
-        color: rgba(245, 240, 235, 0.8);
-        margin-bottom: 40px;
-      }
-
-      .scenario-signals {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-      }
-
-      .signal-tag {
-        font-family: var(--sans);
-        font-size: 10px;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        padding: 8px 16px;
-        border: 1px solid rgba(201, 169, 110, 0.3);
-        color: var(--alchemy);
-      }
-
-      .scenario-floats {
-        position: absolute;
-        right: 48px;
-        top: 50%;
-        transform: translateY(-50%);
-        display: flex;
-        flex-direction: column;
-        gap: 24px;
-        z-index: 2;
-      }
-
-      .scenario-stat {
-        text-align: right;
-        opacity: 0;
-        transform: translateX(30px);
-        transition: all 0.8s ease;
-      }
-
-      .scenario-world.visible .scenario-stat {
-        opacity: 1;
-        transform: translateX(0);
-      }
-
-      .stat-number {
-        font-family: var(--serif);
-        font-size: 48px;
-        font-weight: 300;
-        color: var(--alchemy);
-        line-height: 1;
-      }
-
-      .stat-label {
-        font-family: var(--sans);
-        font-size: 11px;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        color: var(--text-gray);
-        margin-top: 4px;
-      }
-
-      /* ============ CONCEPT CARDS (CASE STUDIES) ============ */
-      .concepts {
-        background: var(--black);
-        min-height: auto;
-      }
-
-      .concepts-intro {
-        text-align: center;
-        padding: 120px 48px 60px;
-      }
-
-      .concepts-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-        gap: 2px;
-        padding: 0 48px 120px;
-        max-width: 1200px;
-        margin: 0 auto;
-      }
-
-      .concept-card {
-        background: var(--dark-gray);
-        border: 1px solid rgba(201, 169, 110, 0.08);
-        position: relative;
-        overflow: hidden;
-        cursor: pointer;
-        min-height: 380px;
-      }
-
-      .concept-card-front {
-        padding: 48px 36px;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        transition: all 0.6s ease;
-        position: relative;
-        z-index: 2;
-      }
-
-      .concept-card:hover .concept-card-front {
-        transform: translateY(-8px);
-      }
-
-      .concept-card::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(
-          135deg,
-          rgba(201, 169, 110, 0.05),
-          transparent
-        );
-        opacity: 0;
-        transition: opacity 0.6s ease;
-      }
-
-      .concept-card:hover::before {
-        opacity: 1;
-      }
-
-      .concept-category {
-        font-family: var(--sans);
-        font-size: 10px;
-        letter-spacing: 4px;
-        text-transform: uppercase;
-        color: var(--alchemy);
-        margin-bottom: 16px;
-      }
-
-      .concept-name {
-        font-family: var(--serif);
-        font-size: 26px;
-        font-weight: 400;
-        margin-bottom: 14px;
-        line-height: 1.3;
-      }
-
-      .concept-tagline {
-        font-family: var(--serif);
-        font-size: 15px;
-        font-weight: 300;
-        font-style: italic;
-        color: var(--text-gray);
-        margin-bottom: 24px;
-        line-height: 1.5;
-      }
-
-      .concept-detail {
-        font-family: var(--sans);
-        font-size: 13px;
-        line-height: 1.7;
-        color: var(--text-gray);
-        max-height: 0;
-        overflow: hidden;
-        transition:
-          max-height 0.8s ease,
-          opacity 0.6s ease;
-        opacity: 0;
-      }
-
-      .concept-card.expanded .concept-detail {
-        max-height: 600px;
-        opacity: 1;
-      }
-
-      .concept-expand {
-        font-family: var(--sans);
-        font-size: 10px;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        color: var(--alchemy);
-        border: none;
-        background: none;
-        cursor: pointer;
-        padding: 12px 0;
-        transition: all 0.3s ease;
-      }
-
-      .concept-expand:hover {
-        letter-spacing: 5px;
-      }
-
-      .concept-detail-section {
-        margin-bottom: 16px;
-      }
-
-      .concept-detail-label {
-        font-family: var(--sans);
-        font-size: 10px;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        color: var(--alchemy);
-        margin-bottom: 6px;
-      }
-
-      /* ============ TEAM SECTION ============ */
-      .team {
-        background: var(--dark-gray);
-      }
-
-      .team-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 2px;
-        margin-top: 60px;
-      }
-
-      .team-member {
-        background: var(--black);
-        padding: 48px 36px;
-        opacity: 0;
-        transform: translateY(20px);
-        transition: all 0.6s ease;
-      }
-
-      .team-member.visible {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      .team-avatar {
-        width: 72px;
-        height: 72px;
-        border-radius: 50%;
-        background: linear-gradient(
-          135deg,
-          var(--alchemy),
-          rgba(201, 169, 110, 0.3)
-        );
-        margin: 0 auto 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: var(--serif);
-        font-size: 24px;
-        color: var(--black);
-      }
-
-      .team-role {
-        font-family: var(--sans);
-        font-size: 10px;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        color: var(--alchemy);
-        margin-bottom: 8px;
-      }
-
-      .team-name {
-        font-family: var(--serif);
-        font-size: 22px;
-        font-weight: 400;
-        margin-bottom: 6px;
-      }
-
-      .team-desc {
-        font-family: var(--sans);
-        font-size: 12px;
-        line-height: 1.7;
-        color: var(--text-gray);
-        margin-top: 12px;
-      }
-
-      /* ============ DELIVERABLES ============ */
-      .deliverables {
-        background: var(--black);
-      }
-
-      .deliverables-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 2px;
-        margin-top: 60px;
-      }
-
-      .deliverable-item {
-        background: var(--dark-gray);
-        padding: 48px 40px;
-        position: relative;
-        overflow: hidden;
-        opacity: 0;
-        transform: translateY(20px);
-        transition: all 0.6s ease;
-      }
-
-      .deliverable-item.visible {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      .deliverable-item::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 2px;
-        background: linear-gradient(90deg, var(--alchemy), transparent);
-      }
-
-      .deliverable-number {
-        font-family: var(--serif);
-        font-size: 72px;
-        font-weight: 300;
-        color: rgba(201, 169, 110, 0.08);
-        line-height: 1;
-        margin-bottom: 16px;
-      }
-
-      .deliverable-name {
-        font-family: var(--serif);
-        font-size: 26px;
-        font-weight: 400;
-        margin-bottom: 16px;
-        color: var(--cream);
-      }
-
-      .deliverable-what {
-        font-family: var(--sans);
-        font-size: 12px;
-        line-height: 1.7;
-        color: var(--text-gray);
-        margin-bottom: 20px;
-      }
-
-      .deliverable-value-label {
-        font-family: var(--sans);
-        font-size: 10px;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        color: var(--alchemy);
-        margin-bottom: 8px;
-      }
-
-      .deliverable-value {
-        font-family: var(--serif);
-        font-size: 16px;
-        font-weight: 300;
-        font-style: italic;
-        color: rgba(245, 240, 235, 0.7);
-        line-height: 1.6;
-      }
-
-      /* ============ INVESTMENT SECTION ============ */
-      .investment {
-        background: var(--dark-gray);
-      }
-
-      .investment-grid {
-        display: grid;
-        grid-template-columns: 1fr 2fr;
-        gap: 80px;
-        margin-top: 60px;
-        align-items: start;
-      }
-
-      .investment-total {
-        border: 1px solid rgba(201, 169, 110, 0.2);
-        padding: 48px 36px;
-        text-align: center;
-        position: relative;
-      }
-
-      .investment-total::before {
-        content: "TOTAL INVESTMENT";
-        position: absolute;
-        top: -10px;
-        left: 50%;
-        transform: translateX(-50%);
-        font-family: var(--sans);
-        font-size: 10px;
-        letter-spacing: 4px;
-        color: var(--alchemy);
-        background: var(--dark-gray);
-        padding: 0 12px;
-        white-space: nowrap;
-      }
-
-      .investment-amount {
-        font-family: var(--serif);
-        font-size: 72px;
-        font-weight: 300;
-        color: var(--alchemy);
-        line-height: 1;
-        margin-bottom: 12px;
-      }
-
-      .investment-duration {
-        font-family: var(--sans);
-        font-size: 11px;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        color: var(--text-gray);
-      }
-
-      .investment-phases {
-        display: flex;
-        flex-direction: column;
-        gap: 2px;
-      }
-
-      .investment-phase {
-        background: var(--black);
-        padding: 28px 32px;
-        display: grid;
-        grid-template-columns: auto 1fr auto;
-        gap: 24px;
-        align-items: center;
-      }
-
-      .investment-phase-label {
-        font-family: var(--sans);
-        font-size: 10px;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        color: var(--alchemy);
-      }
-
-      .investment-phase-name {
-        font-family: var(--serif);
-        font-size: 18px;
-        font-weight: 300;
-        color: var(--cream);
-      }
-
-      .investment-phase-sub {
-        font-family: var(--sans);
-        font-size: 11px;
-        color: var(--text-gray);
-        margin-top: 4px;
-      }
-
-      .investment-phase-fee {
-        font-family: var(--serif);
-        font-size: 24px;
-        font-weight: 300;
-        color: var(--alchemy);
-        text-align: right;
-      }
-
-      /* ============ CLOSING ============ */
-      .closing {
-        background: var(--black);
-        text-align: center;
-      }
-
-      .closing-text {
-        font-family: var(--serif);
-        font-size: clamp(28px, 4vw, 52px);
-        font-weight: 300;
-        line-height: 1.4;
-        max-width: 900px;
-        margin: 0 auto 48px;
-      }
-
-      .closing-text em {
-        font-style: italic;
-        color: var(--alchemy);
-      }
-
-      .closing-contacts {
-        display: flex;
-        gap: 60px;
-        justify-content: center;
-        margin-top: 60px;
-        flex-wrap: wrap;
-      }
-
-      .closing-contact {
-        text-align: center;
-      }
-
-      .closing-contact-name {
-        font-family: var(--serif);
-        font-size: 18px;
-        font-weight: 400;
-        margin-bottom: 4px;
-      }
-
-      .closing-contact-role {
-        font-family: var(--sans);
-        font-size: 10px;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        color: var(--alchemy);
-        margin-bottom: 6px;
-      }
-
-      .closing-contact-email {
-        font-family: var(--sans);
-        font-size: 12px;
-        color: var(--text-gray);
-      }
-
-      .closing-logo {
-        margin-top: 100px;
-        font-family: var(--sans);
-        font-size: 18px;
-        font-weight: 600;
-        letter-spacing: 8px;
-        text-transform: uppercase;
-        color: var(--cream);
-      }
-
-      .closing-confidential {
-        margin-top: 24px;
-        font-family: var(--sans);
-        font-size: 10px;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        color: rgba(153, 153, 153, 0.5);
-      }
-
-      /* ============ COMPETITION ROW ============ */
-      .competition {
-        background: var(--dark-gray);
-      }
-
-      .competition-row {
-        display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        gap: 2px;
-        margin-top: 60px;
-      }
-
-      .competition-item {
-        background: var(--black);
-        padding: 32px 20px;
-        text-align: center;
-        opacity: 0;
-        transform: translateY(20px);
-        transition: all 0.5s ease;
-      }
-
-      .competition-item.visible {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      .competition-brand {
-        font-family: var(--serif);
-        font-size: 18px;
-        font-weight: 400;
-        color: var(--cream);
-        margin-bottom: 10px;
-        line-height: 1.3;
-      }
-
-      .competition-quality {
-        font-family: var(--sans);
-        font-size: 10px;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        color: var(--alchemy);
-      }
-
-      /* ============ ANIMATIONS ============ */
-      @keyframes fadeUp {
-        from {
-          opacity: 0;
-          transform: translateY(30px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      .fade-in {
-        opacity: 0;
-        transform: translateY(30px);
-        transition: all 0.8s ease;
-      }
-
-      .fade-in.visible {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      /* ============ RESPONSIVE ============ */
-      @media (max-width: 1024px) {
-        .forces-grid {
-          grid-template-columns: 1fr;
-        }
-        .approach-phases {
-          grid-template-columns: repeat(2, 1fr);
-        }
-        .team-grid {
-          grid-template-columns: repeat(2, 1fr);
-        }
-        .stats-grid {
-          grid-template-columns: repeat(2, 1fr);
-        }
-        .concepts-grid {
-          grid-template-columns: 1fr 1fr;
-        }
-        .deliverables-grid {
-          grid-template-columns: 1fr;
-        }
-        .scenario-floats {
-          display: none;
-        }
-        .why-grid {
-          grid-template-columns: 1fr;
-        }
-        .investment-grid {
-          grid-template-columns: 1fr;
-        }
-        .competition-row {
-          grid-template-columns: repeat(4, 1fr);
-        }
-      }
-
-      @media (max-width: 768px) {
-        .nav {
-          padding: 16px 24px;
-        }
-        .section-inner {
-          padding: 60px 24px;
-        }
-        .approach-phases {
-          grid-template-columns: 1fr;
-        }
-        .team-grid {
-          grid-template-columns: 1fr;
-        }
-        .stats-grid {
-          grid-template-columns: 1fr 1fr;
-        }
-        .concepts-grid {
-          grid-template-columns: 1fr;
-          padding: 0 24px 80px;
-        }
-        .hero-meta {
-          gap: 24px;
-        }
-        .competition-row {
-          grid-template-columns: repeat(2, 1fr);
-        }
-        .closing-contacts {
-          gap: 32px;
-        }
-        .investment-phase {
-          grid-template-columns: 1fr;
-        }
-      }
-
-      /* ============ IMAGINE TOGETHER ============ */
-      .imagine {
-        background: var(--dark-gray);
-        min-height: 100vh;
-        align-items: flex-start;
-      }
-
-      .imagine .section-inner {
-        padding-top: 100px;
-        padding-bottom: 100px;
-      }
-
-      .imagine-question {
-        font-family: var(--serif);
-        font-size: clamp(18px, 2.5vw, 26px);
-        font-weight: 300;
-        font-style: italic;
-        color: var(--text-gray);
-        text-align: center;
-        margin-top: 20px;
-      }
-
-      .imagine-input-wrap {
-        display: flex;
-        gap: 0;
-        margin: 52px auto 0;
-        max-width: 820px;
-        border: 1px solid rgba(201, 169, 110, 0.25);
-        transition: border-color 0.3s ease;
-      }
-
-      .imagine-input-wrap:focus-within {
-        border-color: var(--gold);
-      }
-
-      .imagine-input {
-        flex: 1;
-        background: var(--black);
-        border: none;
-        outline: none;
-        color: var(--cream);
-        font-family: var(--sans);
-        font-size: 15px;
-        padding: 20px 28px;
-      }
-
-      .imagine-input::placeholder {
-        color: rgba(153, 153, 153, 0.5);
-      }
-
-      .imagine-btn {
-        background: var(--gold);
-        color: var(--black);
-        border: none;
-        font-family: var(--sans);
-        font-size: 11px;
-        font-weight: 600;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        padding: 20px 36px;
-        cursor: pointer;
-        transition:
-          background 0.3s ease,
-          letter-spacing 0.3s ease;
-        white-space: nowrap;
-        flex-shrink: 0;
-      }
-
-      .imagine-btn:hover {
-        background: var(--gold-light);
-        letter-spacing: 5px;
-      }
-
-      .imagine-btn:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-        letter-spacing: 3px;
-      }
-
-      .imagine-gallery {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 12px;
-        margin-top: 52px;
-      }
-
-      @media (max-width: 1200px) {
-        .imagine-gallery {
-          grid-template-columns: repeat(3, 1fr);
-        }
-      }
-      @media (max-width: 900px) {
-        .imagine-gallery {
-          grid-template-columns: repeat(2, 1fr);
-        }
-      }
-      @media (max-width: 600px) {
-        .imagine-gallery {
-          grid-template-columns: 1fr;
-        }
-      }
-
-      .imagine-card {
-        position: relative;
-        overflow: hidden;
-        background: var(--black);
-        border: 1px solid rgba(201, 169, 110, 0.08);
-        aspect-ratio: 4 / 3;
-        opacity: 0;
-        transform: translateY(20px);
-        animation: cardAppear 0.6s ease forwards;
-      }
-
-      @keyframes cardAppear {
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      .imagine-card-img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-        transition: transform 0.6s ease;
-      }
-
-      .imagine-card:hover .imagine-card-img {
-        transform: scale(1.04);
-      }
-
-      .imagine-card-overlay {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(
-          to top,
-          rgba(10, 10, 10, 0.92) 0%,
-          rgba(10, 10, 10, 0.2) 50%,
-          transparent 100%
-        );
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        padding: 20px;
-      }
-
-      .imagine-card-tag {
-        position: absolute;
-        top: 14px;
-        left: 14px;
-        font-family: var(--sans);
-        font-size: 9px;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        color: var(--black);
-        background: var(--gold);
-        padding: 4px 10px;
-      }
-
-      .imagine-card-idea {
-        font-family: var(--serif);
-        font-size: 14px;
-        font-weight: 300;
-        font-style: italic;
-        color: var(--cream);
-        line-height: 1.5;
-      }
-
-      /* Loading shimmer state */
-      .imagine-card.loading .imagine-card-overlay {
-        background: transparent;
-      }
-
-      .imagine-card.loading::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(
-          90deg,
-          rgba(201, 169, 110, 0.04) 25%,
-          rgba(201, 169, 110, 0.12) 50%,
-          rgba(201, 169, 110, 0.04) 75%
-        );
-        background-size: 200% 100%;
-        animation: shimmer 1.6s infinite;
-      }
-
-      .imagine-card.loading .imagine-card-idea {
-        color: var(--text-gray);
-      }
-
-      .imagine-loading-icon {
-        display: none;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 28px;
-        height: 28px;
-        border: 2px solid rgba(201, 169, 110, 0.2);
-        border-top-color: var(--gold);
-        border-radius: 50%;
-        animation: spin 0.8s linear infinite;
-      }
-
-      .imagine-card.loading .imagine-loading-icon {
-        display: block;
-      }
-
-      @keyframes spin {
-        to {
-          transform: translate(-50%, -50%) rotate(360deg);
-        }
-      }
-
-      @keyframes shimmer {
-        0% {
-          background-position: 200% 0;
-        }
-        100% {
-          background-position: -200% 0;
-        }
-      }
-
-      /* ============ STEEP / MAGIC 8-BALL ============ */
-      .steep {
-        background: var(--black);
-        flex-direction: column;
-        padding: 0;
-      }
-      .steep-inner {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        height: 100vh;
-        padding: 60px 48px 40px;
-        position: relative;
-      }
-      .steep-header {
-        text-align: center;
-        margin-bottom: 24px;
-      }
-      .steep-title {
-        font-family: var(--serif);
-        font-size: clamp(32px, 5vw, 64px);
-        font-weight: 300;
-        line-height: 1.1;
-        letter-spacing: -1px;
-        color: var(--cream);
-      }
-      .steep-title em {
-        font-style: italic;
-        color: var(--alchemy);
-      }
-
-      .ball-container {
-        width: min(340px, 48vw);
-        height: min(340px, 48vw);
-        cursor: grab;
-        position: relative;
-        flex-shrink: 0;
-      }
-      .ball-container:active {
-        cursor: grabbing;
-      }
-      .ball-container canvas {
-        display: block;
-      }
-
-      .steep-categories {
-        display: flex;
-        gap: 6px;
-        flex-wrap: wrap;
-        justify-content: center;
-        margin-top: 20px;
-      }
-      .steep-cat {
-        font-family: var(--sans);
-        font-size: 10px;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        padding: 9px 18px;
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        background: transparent;
-        color: var(--text-gray);
-        cursor: pointer;
-        transition: all 0.25s ease;
-        border-radius: 2px;
-      }
-      .steep-cat:hover {
-        border-color: var(--alchemy);
-        color: var(--alchemy);
-      }
-      .steep-cat.active {
-        border-color: var(--alchemy);
-        background: var(--alchemy);
-        color: #000;
-        font-weight: 600;
-      }
-
-      .steep-generate-btn {
-        margin-top: 24px;
-        font-family: var(--sans);
-        font-size: 12px;
-        letter-spacing: 4px;
-        text-transform: uppercase;
-        font-weight: 600;
-        padding: 16px 48px;
-        background: transparent;
-        border: 2px solid var(--alchemy);
-        color: var(--alchemy);
-        cursor: pointer;
-        transition: all 0.35s ease;
-        position: relative;
-        overflow: hidden;
-      }
-      .steep-generate-btn::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: var(--alchemy);
-        transform: scaleX(0);
-        transform-origin: left;
-        transition: transform 0.35s ease;
-        z-index: 0;
-      }
-      .steep-generate-btn:hover::before {
-        transform: scaleX(1);
-      }
-      .steep-generate-btn:hover {
-        color: #000;
-      }
-      .steep-generate-btn span {
-        position: relative;
-        z-index: 1;
-      }
-      .steep-generate-btn:disabled {
-        opacity: 0.45;
-        cursor: not-allowed;
-        pointer-events: none;
-      }
-
-      .steep-hint {
-        margin-top: 12px;
-        font-family: var(--sans);
-        font-size: 10px;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        color: rgba(255, 255, 255, 0.2);
-      }
-
-      /* ============ LOCK SCREEN ============ */
+      /* ================================================================
+         LOCK SCREEN
+      ================================================================ */
       #lockScreen {
         position: fixed;
         inset: 0;
         z-index: 9999;
-        background: var(--black);
+        background: var(--bg);
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 0;
         transition: opacity 0.6s ease;
       }
-      #lockScreen.fade-out { opacity: 0; pointer-events: none; }
+      #lockScreen.fade-out {
+        opacity: 0;
+        pointer-events: none;
+      }
       .lock-overline {
         font-family: var(--sans);
         font-size: 11px;
@@ -1695,7 +85,10 @@
         line-height: 1.2;
         margin-bottom: 48px;
       }
-      .lock-title em { font-style: italic; color: var(--alchemy); }
+      .lock-title em {
+        font-style: italic;
+        color: var(--alchemy);
+      }
       .lock-form {
         display: flex;
         flex-direction: column;
@@ -1706,8 +99,8 @@
       }
       .lock-input {
         width: 100%;
-        background: rgba(255,255,255,0.05);
-        border: 1px solid rgba(255,255,255,0.15);
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(217, 255, 0, 0.2);
         color: var(--cream);
         font-family: var(--sans);
         font-size: 14px;
@@ -1717,23 +110,39 @@
         text-align: center;
         transition: border-color 0.3s;
       }
-      .lock-input::placeholder { color: rgba(255,255,255,0.2); letter-spacing: 2px; }
-      .lock-input:focus { border-color: var(--alchemy); }
+      .lock-input::placeholder {
+        color: rgba(255, 255, 255, 0.18);
+        letter-spacing: 2px;
+      }
+      .lock-input:focus {
+        border-color: var(--alchemy);
+      }
       .lock-input.shake {
         animation: lockShake 0.4s ease;
-        border-color: #ff4444;
+        border-color: #c0624a;
       }
       @keyframes lockShake {
-        0%,100% { transform: translateX(0); }
-        20%      { transform: translateX(-8px); }
-        40%      { transform: translateX(8px); }
-        60%      { transform: translateX(-5px); }
-        80%      { transform: translateX(5px); }
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        20% {
+          transform: translateX(-8px);
+        }
+        40% {
+          transform: translateX(8px);
+        }
+        60% {
+          transform: translateX(-5px);
+        }
+        80% {
+          transform: translateX(5px);
+        }
       }
       .lock-btn {
         width: 100%;
         background: transparent;
-        border: 2px solid var(--alchemy);
+        border: 1.5px solid var(--alchemy);
         color: var(--alchemy);
         font-family: var(--sans);
         font-size: 11px;
@@ -1747,7 +156,7 @@
         transition: color 0.35s ease;
       }
       .lock-btn::before {
-        content: '';
+        content: "";
         position: absolute;
         inset: 0;
         background: var(--alchemy);
@@ -1756,112 +165,422 @@
         transition: transform 0.35s ease;
         z-index: 0;
       }
-      .lock-btn:hover::before { transform: scaleX(1); }
-      .lock-btn:hover { color: #000; }
-      .lock-btn span { position: relative; z-index: 1; }
+      .lock-btn:hover::before {
+        transform: scaleX(1);
+      }
+      .lock-btn:hover {
+        color: var(--bg);
+      }
+      .lock-btn span {
+        position: relative;
+        z-index: 1;
+      }
       .lock-error {
         font-family: var(--sans);
         font-size: 10px;
         letter-spacing: 2px;
         text-transform: uppercase;
-        color: #ff4444;
+        color: #c0624a;
         opacity: 0;
         transition: opacity 0.3s;
         margin-top: 4px;
       }
-      .lock-error.show { opacity: 1; }
-
-      /* ============ QUESTIONS SECTION ============ */
-      .questions {
-        background: var(--black);
-        display: none;
+      .lock-error.show {
+        opacity: 1;
       }
-      .questions-category {
+
+      /* ================================================================
+         IDEO LOGO
+      ================================================================ */
+      .ideo-logo {
+        position: fixed;
+        top: 24px;
+        right: 32px;
+        z-index: 300;
+      }
+
+      /* ================================================================
+         APP SHELL — two-column, full viewport
+      ================================================================ */
+      .app {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        overflow: hidden;
+      }
+
+      /* ================================================================
+         LEFT PANEL — static, never changes
+      ================================================================ */
+      .left-panel {
+        width: 50%;
+        height: 100%;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: clamp(32px, 6vh, 64px) clamp(48px, 7vw, 88px);
+        background: var(--bg);
+        position: relative;
+        z-index: 2;
+        overflow-y: auto;
+      }
+
+      .lp-overline {
         font-family: var(--sans);
-        font-size: 11px;
+        font-size: 10px;
         letter-spacing: 5px;
         text-transform: uppercase;
         color: var(--alchemy);
-        margin-bottom: 48px;
+        margin-bottom: 24px;
         opacity: 0;
-        transition: opacity 0.8s ease;
+        animation: fadeUp 0.8s 0.3s forwards;
       }
-      .questions-category.visible {
-        opacity: 1;
-      }
-      .question-card {
-        border-left: 2px solid var(--alchemy);
-        padding: 32px 40px;
-        margin-bottom: 20px;
-        opacity: 0;
-        transform: translateX(-24px);
-        transition:
-          opacity 0.8s ease,
-          transform 0.8s ease;
-      }
-      .question-card.visible {
-        opacity: 1;
-        transform: translateX(0);
-      }
-      .question-number {
+      .lp-headline {
         font-family: var(--serif);
-        font-size: 56px;
+        font-size: clamp(32px, 4.5vw, 64px);
         font-weight: 300;
-        color: rgba(217, 255, 0, 0.08);
-        line-height: 1;
-        margin-bottom: 12px;
-      }
-      .question-text {
-        font-family: var(--serif);
-        font-size: clamp(18px, 2.2vw, 26px);
-        font-weight: 300;
-        line-height: 1.65;
+        line-height: 1.06;
+        letter-spacing: -1px;
         color: var(--cream);
+        margin-bottom: 32px;
+        opacity: 0;
+        animation: fadeUp 0.8s 0.5s forwards;
       }
-      .steep-again-btn {
-        margin-top: 52px;
+      .lp-headline em {
+        font-style: italic;
+        color: var(--alchemy);
+      }
+      .lp-divider {
+        width: 40px;
+        height: 1px;
+        background: var(--alchemy-dim);
+        margin-bottom: 28px;
+        opacity: 0;
+        animation: fadeUp 0.8s 0.7s forwards;
+      }
+      .lp-desc {
         font-family: var(--sans);
-        font-size: 10px;
+        font-size: 14px;
+        line-height: 24px;
+        color: #dfe2e5;
+        max-width: 520px;
+        text-wrap: balance;
+        opacity: 0;
+        animation: fadeUp 0.8s 0.9s forwards;
+      }
+
+      /* ================================================================
+         RIGHT PANEL — relative container for overlapping views
+      ================================================================ */
+      .right-panel {
+        width: 50%;
+        height: 100%;
+        flex-shrink: 0;
+        position: relative;
+        background: var(--bg);
+        transition: background 0.7s ease;
+      }
+      .app.revealed .right-panel {
+        background: #536575;
+      }
+
+      /* ----------------------------------------------------------------
+         BALL VIEW — default visible, fades out on reveal
+      ---------------------------------------------------------------- */
+      .ball-view {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 36px;
+        transition:
+          opacity 0.65s ease,
+          transform 0.65s ease;
+      }
+      .app.revealed .ball-view {
+        opacity: 0;
+        transform: scale(0.88);
+        pointer-events: none;
+      }
+
+      .ball-container {
+        width: clamp(200px, 36vh, 400px);
+        height: clamp(200px, 36vh, 400px);
+        flex-shrink: 0;
+      }
+
+      .gen-btn {
+        font-family: var(--sans);
+        font-size: 11px;
         letter-spacing: 4px;
         text-transform: uppercase;
-        background: none;
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        color: var(--text-gray);
-        padding: 14px 32px;
+        font-weight: 500;
+        padding: 13px 40px;
+        background: transparent;
+        border: 1.5px solid var(--alchemy);
+        color: var(--alchemy);
         cursor: pointer;
-        transition: all 0.3s;
+        position: relative;
+        overflow: hidden;
+        transition: color 0.35s ease;
+        opacity: 0;
+        animation: fadeUp 0.8s 1.1s forwards;
+      }
+      .gen-btn::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: var(--alchemy);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.35s ease;
+      }
+      .gen-btn:hover::before {
+        transform: scaleX(1);
+      }
+      .gen-btn:hover {
+        color: var(--bg);
+      }
+      .gen-btn span {
+        position: relative;
+        z-index: 1;
+      }
+      .gen-btn:disabled {
+        opacity: 0.3;
+        pointer-events: none;
+      }
+
+      /* ----------------------------------------------------------------
+         RESULT VIEW — hidden by default, fades in on reveal
+      ---------------------------------------------------------------- */
+      .result-view {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: clamp(24px, 5vh, 60px) clamp(28px, 5vw, 60px);
+        opacity: 0;
+        transform: translateY(20px);
+        pointer-events: none;
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+        overflow-y: auto;
+      }
+      .app.revealed .result-view {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+      }
+
+      /* Faded index number — hidden in current design */
+      .prov-index {
         display: none;
       }
-      .steep-again-btn.visible {
-        display: inline-block;
+
+      /* Small alchemy caps label */
+      .prov-label {
+        font-family: var(--sans);
+        font-size: 11px;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: var(--alchemy);
+        margin-top: 0;
+        opacity: 0;
+        transform: translateY(8px);
+        transition:
+          opacity 0.5s ease,
+          transform 0.5s ease;
       }
-      .steep-again-btn:hover {
+      .prov-inner.visible .prov-label {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .prov-inner.visible .prov-label:nth-of-type(1) {
+        transition-delay: 0.2s;
+      }
+      .prov-inner.visible .prov-label:nth-of-type(2) {
+        transition-delay: 0.55s;
+      }
+      .prov-inner.visible .prov-label:nth-of-type(3) {
+        transition-delay: 0.9s;
+      }
+
+      /* Trend — small sans, muted (the condition) */
+      .prov-trend {
+        font-family: var(--sans);
+        font-size: clamp(12px, 1vw, 14px);
+        font-weight: 400;
+        line-height: 1.65;
+        color: var(--mid);
+        margin: 6px 0 20px;
+        opacity: 0;
+        transform: translateY(14px);
+        transition:
+          opacity 0.65s 0.3s ease,
+          transform 0.65s 0.3s ease;
+      }
+      .prov-inner.visible .prov-trend {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Concept — large Cormorant, the hero provocation */
+      .prov-concept {
+        font-family: var(--serif);
+        font-size: clamp(24px, 3.2vw, 48px);
+        font-weight: 300;
+        line-height: 1.12;
+        color: var(--cream);
+        margin: 0 0 28px;
+        opacity: 0;
+        transform: translateY(12px);
+        transition:
+          opacity 0.65s 0.5s ease,
+          transform 0.65s 0.5s ease;
+      }
+      .prov-inner.visible .prov-concept {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Question columns */
+      .prov-questions {
+        display: flex;
+        gap: 10px;
+        margin: 8px 0 32px;
+      }
+      .prov-q {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        opacity: 0;
+        transform: translateY(6px);
+        transition:
+          opacity 0.45s ease,
+          transform 0.45s ease;
+      }
+      .prov-q-num {
+        font-family: var(--serif);
+        font-weight: 700;
+        font-size: 20px;
+        line-height: 1;
+        letter-spacing: 0.3px;
+        color: var(--mid);
+      }
+      .prov-q-text {
+        font-family: var(--sans);
+        font-size: 14px;
+        line-height: 1.5;
+        color: var(--mid);
+      }
+      .prov-inner.visible .prov-q:nth-child(1) {
+        opacity: 1;
+        transform: translateY(0);
+        transition-delay: 1s;
+      }
+      .prov-inner.visible .prov-q:nth-child(2) {
+        opacity: 1;
+        transform: translateY(0);
+        transition-delay: 1.1s;
+      }
+      .prov-inner.visible .prov-q:nth-child(3) {
+        opacity: 1;
+        transform: translateY(0);
+        transition-delay: 1.2s;
+      }
+
+      /* Action row */
+      .prov-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        opacity: 0;
+        transform: translateY(6px);
+        transition:
+          opacity 0.45s 1.35s ease,
+          transform 0.45s 1.35s ease;
+      }
+      .prov-inner.visible .prov-actions {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .act-btn {
+        font-family: var(--sans);
+        font-size: 10px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        font-weight: 500;
+        padding: 11px 22px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: color 0.35s ease;
+        text-decoration: none;
+        display: inline-block;
+        border: 1.5px solid;
+        background: transparent;
+      }
+      .act-btn span {
+        position: relative;
+        z-index: 1;
+      }
+      .act-btn::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.35s ease;
+      }
+      .act-btn:hover::before {
+        transform: scaleX(1);
+      }
+
+      .act-primary {
         border-color: var(--alchemy);
         color: var(--alchemy);
       }
+      .act-primary::before {
+        background: var(--alchemy);
+      }
+      .act-primary:hover {
+        color: var(--bg);
+      }
 
+      .act-ghost {
+        border-color: rgba(217, 255, 0, 0.3);
+        color: var(--mid);
+      }
+      .act-ghost::before {
+        background: rgba(217, 255, 0, 0.08);
+      }
+      .act-ghost:hover {
+        color: var(--alchemy);
+        border-color: var(--alchemy);
+      }
+
+      /* ================================================================
+         SHARED ANIMATIONS
+      ================================================================ */
       @keyframes fadeUp {
         from {
           opacity: 0;
-          transform: translateY(30px);
+          transform: translateY(18px);
         }
         to {
           opacity: 1;
           transform: translateY(0);
         }
       }
-      .fade-in {
-        opacity: 0;
-        transform: translateY(30px);
-        transition: all 0.8s ease;
-      }
-      .fade-in.visible {
-        opacity: 1;
-        transform: translateY(0);
-      }
     </style>
 
-    <!-- Three.js import map -->
     <script type="importmap">
       {
         "imports": {
@@ -1871,254 +590,180 @@
       }
     </script>
   </head>
+
   <body>
     <!-- ============ LOCK SCREEN ============ -->
     <div id="lockScreen">
       <div class="lock-overline">IDEO × Choice Hotels</div>
-      <h1 class="lock-title">Designing for Growth:<br><em>Private Access Only</em></h1>
+      <h1 class="lock-title">
+        Designing for Growth:<br /><em>Private Access Only</em>
+      </h1>
       <div class="lock-form">
-        <input class="lock-input" id="lockInput" type="password" placeholder="Enter password" autocomplete="off">
+        <input
+          class="lock-input"
+          id="lockInput"
+          type="password"
+          placeholder="Enter password"
+          autocomplete="off"
+        />
         <button class="lock-btn" id="lockBtn"><span>Enter →</span></button>
         <p class="lock-error" id="lockError">Incorrect password</p>
       </div>
     </div>
-
     <script>
-      // Lock screen — password check (base64 encoded, client-side demo protection)
-      const _k = 'Z29vZGNob2ljZQ==';
-      const lock = document.getElementById('lockScreen');
-      const input = document.getElementById('lockInput');
-      const errEl = document.getElementById('lockError');
-
+      const _k = "YmVzdGNob2ljZQ==";
+      const lock = document.getElementById("lockScreen");
+      const input = document.getElementById("lockInput");
+      const errEl = document.getElementById("lockError");
       function unlock() {
-        lock.classList.add('fade-out');
+        lock.classList.add("fade-out");
         setTimeout(() => lock.remove(), 650);
-        sessionStorage.setItem('ch-unlocked', '1');
+        sessionStorage.setItem("ch-unlocked", "1");
       }
-
-      // Already unlocked this session
-      if (sessionStorage.getItem('ch-unlocked') === '1') {
-        lock.remove();
-      }
-
       function attempt() {
         if (btoa(input.value) === _k) {
           unlock();
         } else {
-          input.classList.remove('shake');
-          void input.offsetWidth; // reflow to restart animation
-          input.classList.add('shake');
-          errEl.classList.add('show');
-          input.value = '';
-          setTimeout(() => { input.classList.remove('shake'); errEl.classList.remove('show'); }, 2000);
+          input.classList.remove("shake");
+          void input.offsetWidth;
+          input.classList.add("shake");
+          errEl.classList.add("show");
+          input.value = "";
+          setTimeout(() => {
+            input.classList.remove("shake");
+            errEl.classList.remove("show");
+          }, 2000);
         }
       }
-
-      document.getElementById('lockBtn').addEventListener('click', attempt);
-      input.addEventListener('keydown', e => { if (e.key === 'Enter') attempt(); });
-    </script>
-
-    <!-- PROGRESS BAR -->
-    <div class="nav-progress" id="progressBar"></div>
-
-    <!-- NAVIGATION -->
-    <nav class="nav" id="nav">
-      <div class="nav-logo">IDEO</div>
-      <div class="nav-section" id="navSection"></div>
-    </nav>
-
-    <!-- ============ HERO ============ -->
-    <section
-      class="hero section"
-      data-section="Creating New Verticals for Growth"
-    >
-      <div class="hero-particles" id="particles"></div>
-      <div class="hero-overline">IDEO × Choice Hotels</div>
-      <h1 class="hero-title">
-        Designing for Growth:<br />Experience Strategy for<br /><em
-          >the Guest of the Future</em
-        >
-      </h1>
-      <p class="hero-subtitle">
-        Turning Choice Hotels' industry-leading tech stack into a
-        category-defining experience advantage
-      </p>
-      <div class="scroll-indicator">
-        <div class="scroll-line"></div>
-      </div>
-      <div class="hero-meta">
-        <span>March 2026</span>
-        <span>A Proposal</span>
-        <span>Private &amp; Confidential</span>
-      </div>
-    </section>
-
-    <!-- ============ STEEP MAGIC 8-BALL ============ -->
-    <section
-      class="section steep"
-      data-section="Imagine Together"
-      id="steepSection"
-    >
-      <div class="steep-inner">
-        <div class="steep-header">
-          <div
-            class="section-label fade-in"
-            style="
-              color: var(--alchemy);
-              font-family: var(--sans);
-              font-size: 11px;
-              letter-spacing: 5px;
-              text-transform: uppercase;
-              margin-bottom: 16px;
-            "
-          >
-            STEEP Futures
-          </div>
-          <h2 class="steep-title fade-in">
-            Let's imagine the<br /><em>future together</em>
-          </h2>
-        </div>
-
-        <div class="ball-container" id="ballContainer"></div>
-
-        <div class="steep-categories" id="steepCategories">
-          <button class="steep-cat active" data-cat="Social">Social</button>
-          <button class="steep-cat" data-cat="Technological">
-            Technological
-          </button>
-          <button class="steep-cat" data-cat="Economic">Economic</button>
-          <button class="steep-cat" data-cat="Environmental">
-            Environmental
-          </button>
-          <button class="steep-cat" data-cat="Political">Political</button>
-        </div>
-
-        <button class="steep-generate-btn" id="generateBtn">
-          <span id="btnLabel">Reveal the Future →</span>
-        </button>
-        <p class="steep-hint">Pick a lens — the ball reveals what's possible</p>
-      </div>
-    </section>
-
-    <!-- ============ QUESTIONS ============ -->
-    <section
-      class="section questions"
-      data-section="Future Provocations"
-      id="questionsSection"
-    >
-      <div class="section-inner">
-        <div class="questions-category" id="questionsCategory"></div>
-        <div id="questionsList"></div>
-        <button
-          class="steep-again-btn"
-          onclick="
-            document
-              .getElementById('steepSection')
-              .scrollIntoView({ behavior: 'smooth' })
-          "
-        >
-          Try Another Lens ↺
-        </button>
-      </div>
-    </section>
-
-    <!-- ============ SCRIPTS ============ -->
-    <script>
-      // Particles
-      const container = document.getElementById("particles");
-      for (let i = 0; i < 30; i++) {
-        const p = document.createElement("div");
-        p.className = "particle";
-        p.style.left = Math.random() * 100 + "%";
-        p.style.animationDelay = Math.random() * 8 + "s";
-        p.style.animationDuration = 6 + Math.random() * 6 + "s";
-        container.appendChild(p);
-      }
-
-      // Scroll progress + nav label
-      const progressBar = document.getElementById("progressBar");
-      const nav = document.getElementById("nav");
-      const navSection = document.getElementById("navSection");
-      const sections = document.querySelectorAll("[data-section]");
-      window.addEventListener("scroll", () => {
-        const pct =
-          (window.scrollY /
-            (document.documentElement.scrollHeight - window.innerHeight)) *
-          100;
-        progressBar.style.width = pct + "%";
-        nav.classList.toggle("scrolled", window.scrollY > 60);
-        let cur = "";
-        sections.forEach((s) => {
-          const r = s.getBoundingClientRect();
-          if (r.top <= 100 && r.bottom > 100) cur = s.dataset.section || "";
+      if (sessionStorage.getItem("ch-unlocked") === "1") {
+        lock.remove();
+      } else {
+        // Only attach listeners if the lock screen is still in the DOM
+        document.getElementById("lockBtn").addEventListener("click", attempt);
+        input.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") attempt();
         });
-        navSection.textContent = cur;
-      });
-
-      // Intersection fade-ins
-      const io = new IntersectionObserver(
-        (entries) =>
-          entries.forEach((e) => {
-            if (e.isIntersecting) e.target.classList.add("visible");
-          }),
-        { threshold: 0.1 },
-      );
-      document.querySelectorAll(".fade-in").forEach((el) => io.observe(el));
-
-      // Hero → STEEP: snap on any downward scroll while near the top
-      (function () {
-        const steep = document.getElementById("steepSection");
-        if (!steep) return;
-        let snapping = false;
-        window.addEventListener(
-          "wheel",
-          function (e) {
-            if (snapping) {
-              e.preventDefault();
-              return;
-            }
-            if (window.scrollY > window.innerHeight * 0.4) return;
-            if (e.deltaY <= 0) return;
-            e.preventDefault();
-            snapping = true;
-            window.scrollTo({ top: steep.offsetTop, behavior: "smooth" });
-            setTimeout(() => {
-              snapping = false;
-            }, 900);
-          },
-          { passive: false },
-        );
-
-        let _ty = 0;
-        window.addEventListener(
-          "touchstart",
-          (e) => {
-            _ty = e.touches[0].clientY;
-          },
-          { passive: true },
-        );
-        window.addEventListener(
-          "touchend",
-          (e) => {
-            if (window.scrollY > window.innerHeight * 0.4) return;
-            if (_ty - e.changedTouches[0].clientY > 30) {
-              window.scrollTo({ top: steep.offsetTop, behavior: "smooth" });
-            }
-          },
-          { passive: true },
-        );
-      })();
+      }
     </script>
 
-    <!-- Three.js magic 8-ball + STEEP logic -->
+    <!-- IDEO Logo -->
+    <div class="ideo-logo">
+      <svg
+        width="61"
+        height="16"
+        viewBox="0 0 61 16"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g clip-path="url(#clip0_8_37)">
+          <path
+            d="M15.9984 15.9996H0V-0.000293732H15.9984V15.9985V15.9996ZM1.01067 14.9878H14.9867V1.01149H1.01067V14.9878Z"
+            fill="white"
+          />
+          <path
+            d="M8.72431 11.3671V4.63247H12.7975V3.19547H3.18799V4.63247H7.28735V11.3671H3.20107V12.8041H12.8106V11.3671H8.72431Z"
+            fill="white"
+          />
+          <path
+            d="M30.9862 15.9998H14.9878V-5.53131e-05H30.9862V15.9987V15.9998ZM15.9985 14.988H29.9744V1.01173H15.9985V14.988Z"
+            fill="white"
+          />
+          <path
+            d="M22.9939 3.19558H18.1826V12.8053H23.0005C25.6476 12.7977 27.791 10.6498 27.791 8.00045C27.791 5.35106 25.6432 3.19994 22.9928 3.19558H22.9939ZM22.9874 11.3672H19.6207V4.63257H22.9874C24.8473 4.63257 26.2527 6.14043 26.2527 7.99936C26.2527 9.85829 24.8473 11.3661 22.9874 11.3661V11.3672Z"
+            fill="white"
+          />
+          <path
+            d="M45.973 15.9998H29.9746V-5.53131e-05H45.973V15.9987V15.9998ZM30.9864 14.988H44.9624V1.01173H30.9864V14.988Z"
+            fill="white"
+          />
+          <path
+            d="M42.7789 4.63253V3.19554H33.1716H33.1694V12.8042H42.7789V11.3672H34.6097V8.7189H41.0378V7.28191H34.6097V4.63253H42.7789Z"
+            fill="white"
+          />
+          <path
+            d="M60.9608 15.9998H44.9624V-5.53131e-05H60.9608V15.9987V15.9998ZM45.9731 14.988H59.9491V1.01173H45.9731V14.988Z"
+            fill="white"
+          />
+          <path
+            d="M52.9619 13.3483C49.9746 13.3483 47.5444 10.9573 47.5444 7.99937C47.5444 5.04144 49.9746 2.65045 52.9619 2.65045C55.9492 2.65045 58.3783 5.04144 58.3783 7.99937C58.3783 10.9573 55.9481 13.3483 52.9619 13.3483ZM52.9619 4.25207C50.8686 4.25207 49.17 5.92347 49.17 7.99937C49.17 10.0753 50.8697 11.7467 52.9619 11.7467C55.0541 11.7467 56.7538 10.0753 56.7538 7.99937C56.7538 5.92347 55.0541 4.25207 52.9619 4.25207Z"
+            fill="white"
+          />
+        </g>
+        <defs>
+          <clipPath id="clip0_8_37">
+            <rect width="61" height="16" fill="white" />
+          </clipPath>
+        </defs>
+      </svg>
+    </div>
+
+    <!-- ============ APP ============ -->
+    <div class="app" id="app">
+      <!-- LEFT PANEL — static, always visible -->
+      <div class="left-panel">
+        <div class="lp-overline">IDEO × Choice Hotels</div>
+        <h1 class="lp-headline">
+          Explore the Forces Shaping <em>the Guest of Tomorrow</em>
+        </h1>
+        <div class="lp-divider"></div>
+        <p class="lp-desc">
+          The future isn't something to predict — it's something to design.<br /><br />
+          Winning tomorrow requires understanding the forces shaping multiple
+          possible futures — and choosing the path where Choice can lead.<br /><br />
+          We’ve built an AI-enabled prototype to explore some of the key signals
+          and considerations for designing the guest experience of the
+          future.<br /><br />
+          Hit the button on the right to reveal a possible future scenario for
+          Choice Hotels.
+        </p>
+      </div>
+
+      <!-- RIGHT PANEL — contains two overlapping views -->
+      <div class="right-panel">
+        <!-- BALL VIEW — shown by default, fades out on reveal -->
+        <div class="ball-view" id="ballView">
+          <div class="ball-container" id="ballContainer"></div>
+          <button class="gen-btn" id="generateBtn">
+            <span id="btnLabel">Reveal a Future →</span>
+          </button>
+        </div>
+
+        <!-- RESULT VIEW — hidden by default, fades in on reveal -->
+        <div class="result-view" id="resultView">
+          <span class="prov-index" id="provIndex"></span>
+          <div class="prov-inner" id="provInner">
+            <div class="prov-label">In a future where</div>
+            <p class="prov-trend" id="provTrend"></p>
+
+            <p class="prov-concept" id="provConcept"></p>
+
+            <div class="prov-label">Consider:</div>
+            <div class="prov-questions" id="provQuestions"></div>
+
+            <div class="prov-actions">
+              <button class="act-btn act-primary" id="againBtn">
+                <span>Reveal Another ↺</span>
+              </button>
+              <a
+                class="act-btn act-ghost"
+                href="mailto:fherrmann@ideo.com?subject=Choice%20Hotels%20%C3%97%20IDEO%20%E2%80%94%20Future%20Provocation"
+                id="shareBtn"
+              >
+                <span>Share Your Future with Us →</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ THREE.JS + LOGIC ============ -->
     <script type="module">
       import * as THREE from "three";
       import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
-      // ---- Scene setup ----
+      // ---- Scene ----
       const wrap = document.getElementById("ballContainer");
-      const W = wrap.offsetWidth,
-        H = wrap.offsetHeight;
       const scene = new THREE.Scene();
       const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
       camera.position.z = 3.6;
@@ -2128,81 +773,92 @@
         alpha: true,
       });
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      renderer.setSize(W, H);
+      renderer.setSize(wrap.offsetWidth, wrap.offsetHeight);
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
-      renderer.toneMappingExposure = 1.3;
+      renderer.toneMappingExposure = 1.2;
       wrap.appendChild(renderer.domElement);
 
-      // ---- Ball group ----
+      // ---- Ball geometry ----
       const group = new THREE.Group();
       scene.add(group);
 
-      // Outer sphere — dark glassy
-      const sphereMat = new THREE.MeshStandardMaterial({
-        color: 0x050810,
-        roughness: 0.07,
-        metalness: 0.18,
-      });
       group.add(
-        new THREE.Mesh(new THREE.SphereGeometry(1, 128, 64), sphereMat),
+        new THREE.Mesh(
+          new THREE.SphereGeometry(1, 128, 64),
+          new THREE.MeshStandardMaterial({
+            color: 0x0a0704,
+            roughness: 0.1,
+            metalness: 0.15,
+          }),
+        ),
+      );
+      group.add(
+        new THREE.Mesh(
+          new THREE.SphereGeometry(1.03, 64, 32),
+          new THREE.MeshBasicMaterial({
+            color: 0xd9ff00,
+            transparent: true,
+            opacity: 0.04,
+            side: THREE.BackSide,
+          }),
+        ),
       );
 
-      // Rim glow shell
-      const glowMat = new THREE.MeshBasicMaterial({
-        color: 0xd9ff00,
-        transparent: true,
-        opacity: 0.05,
-        side: THREE.BackSide,
-      });
-      group.add(
-        new THREE.Mesh(new THREE.SphereGeometry(1.03, 64, 32), glowMat),
-      );
-
-      // ---- Face canvas texture ----
+      // ---- Front face canvas ----
       const faceCanvas = document.createElement("canvas");
       faceCanvas.width = faceCanvas.height = 512;
       const faceTex = new THREE.CanvasTexture(faceCanvas);
 
-      function drawFace(cat) {
+      function drawFace(breathScale = 1) {
         const ctx = faceCanvas.getContext("2d");
         ctx.clearRect(0, 0, 512, 512);
-        // Outer glow ring
-        const ring = ctx.createRadialGradient(256, 256, 160, 256, 256, 252);
+        const cx = 256,
+          cy = 256;
+        const r = 218 * breathScale;
+
+        // Glow ring
+        const ring = ctx.createRadialGradient(
+          cx,
+          cy,
+          155 * breathScale,
+          cx,
+          cy,
+          250 * breathScale,
+        );
         ring.addColorStop(0, "rgba(0,0,0,0)");
-        ring.addColorStop(1, "rgba(217,255,0,0.12)");
+        ring.addColorStop(1, `rgba(217,255,0,${0.1 * breathScale})`);
         ctx.beginPath();
-        ctx.arc(256, 256, 252, 0, Math.PI * 2);
+        ctx.arc(cx, cy, 250 * breathScale, 0, Math.PI * 2);
         ctx.fillStyle = ring;
         ctx.fill();
+
         // Inner circle
-        const inner = ctx.createRadialGradient(230, 225, 0, 256, 256, 218);
-        inner.addColorStop(0, "#0d1a08");
-        inner.addColorStop(1, "#060e04");
+        const inner = ctx.createRadialGradient(cx - 26, cy - 30, 0, cx, cy, r);
+        inner.addColorStop(0, "#150f09");
+        inner.addColorStop(1, "#080503");
         ctx.beginPath();
-        ctx.arc(256, 256, 218, 0, Math.PI * 2);
+        ctx.arc(cx, cy, r, 0, Math.PI * 2);
         ctx.fillStyle = inner;
         ctx.fill();
+
         // Border
+        const borderAlpha = 0.35 + 0.25 * breathScale;
         ctx.beginPath();
-        ctx.arc(256, 256, 218, 0, Math.PI * 2);
-        ctx.strokeStyle = "rgba(217,255,0,0.55)";
-        ctx.lineWidth = 2.5;
+        ctx.arc(cx, cy, r, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(217,255,0,${borderAlpha})`;
+        ctx.lineWidth = 2;
         ctx.stroke();
+
         // Text
-        if (cat) {
-          ctx.fillStyle = "#d9ff00";
-          const size = cat.length > 10 ? 38 : 46;
-          ctx.font = `600 ${size}px Inter, sans-serif`;
-          ctx.textAlign = "center";
-          ctx.textBaseline = "middle";
-          ctx.fillText(cat.toUpperCase(), 256, 256);
-        } else {
-          ctx.fillStyle = "rgba(217,255,0,0.6)";
-          ctx.font = "200 130px Cormorant Garamond, serif";
-          ctx.textAlign = "center";
-          ctx.textBaseline = "middle";
-          ctx.fillText("8", 256, 270);
-        }
+        const textAlpha = 0.6 + 0.35 * breathScale;
+        ctx.fillStyle = `rgba(217,255,0,${textAlpha})`;
+        ctx.font = "400 38px Cormorant Garamond, Georgia, serif";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText("Reveal a", cx, cy - 26);
+        ctx.font = "300 42px Cormorant Garamond, Georgia, serif";
+        ctx.fillStyle = `rgba(232,221,208,${textAlpha * 0.9})`;
+        ctx.fillText("future", cx, cy + 28);
         faceTex.needsUpdate = true;
       }
 
@@ -2213,100 +869,79 @@
       faceMesh.position.z = 1.008;
       group.add(faceMesh);
 
-      // ---- Back face — classic "8" in cream circle ----
+      // ---- Back face — "8" ----
       const backCanvas = document.createElement("canvas");
       backCanvas.width = backCanvas.height = 512;
-      const backCtx = backCanvas.getContext("2d");
-      // Cream circle
-      const backFill = backCtx.createRadialGradient(230, 225, 0, 256, 256, 218);
-      backFill.addColorStop(0, "#f5f0eb");
-      backFill.addColorStop(1, "#e4ded7");
-      backCtx.beginPath();
-      backCtx.arc(256, 256, 218, 0, Math.PI * 2);
-      backCtx.fillStyle = backFill;
-      backCtx.fill();
-      backCtx.beginPath();
-      backCtx.arc(256, 256, 218, 0, Math.PI * 2);
-      backCtx.strokeStyle = "rgba(0,0,0,0.12)";
-      backCtx.lineWidth = 3;
-      backCtx.stroke();
-      // "8" numeral
-      backCtx.fillStyle = "#1a1a1a";
-      backCtx.font = "700 160px Arial Black, Arial, sans-serif";
-      backCtx.textAlign = "center";
-      backCtx.textBaseline = "middle";
-      backCtx.fillText("8", 256, 268);
-      const backTex = new THREE.CanvasTexture(backCanvas);
+      const bCtx = backCanvas.getContext("2d");
+      const bFill = bCtx.createRadialGradient(230, 225, 0, 256, 256, 218);
+      bFill.addColorStop(0, "#f5ede0");
+      bFill.addColorStop(1, "#e0d4c0");
+      bCtx.beginPath();
+      bCtx.arc(256, 256, 218, 0, Math.PI * 2);
+      bCtx.fillStyle = bFill;
+      bCtx.fill();
+      bCtx.beginPath();
+      bCtx.arc(256, 256, 218, 0, Math.PI * 2);
+      bCtx.strokeStyle = "rgba(0,0,0,0.1)";
+      bCtx.lineWidth = 3;
+      bCtx.stroke();
+      bCtx.fillStyle = "#1a1208";
+      bCtx.font = "700 160px Arial Black, Arial, sans-serif";
+      bCtx.textAlign = "center";
+      bCtx.textBaseline = "middle";
+      bCtx.fillText("8", 256, 268);
       const backMesh = new THREE.Mesh(
         new THREE.CircleGeometry(0.53, 64),
-        new THREE.MeshBasicMaterial({ map: backTex, transparent: true }),
+        new THREE.MeshBasicMaterial({
+          map: new THREE.CanvasTexture(backCanvas),
+          transparent: true,
+        }),
       );
       backMesh.position.z = -1.008;
       backMesh.rotation.y = Math.PI;
       group.add(backMesh);
 
-      drawFace("Social");
+      drawFace();
 
       // ---- Lighting ----
-      scene.add(new THREE.AmbientLight(0xffffff, 0.12));
-      const key = new THREE.DirectionalLight(0xffffff, 3.0);
+      scene.add(new THREE.AmbientLight(0xffffff, 0.1));
+      const key = new THREE.DirectionalLight(0xfff8ee, 2.8);
       key.position.set(3, 4, 5);
       scene.add(key);
-      const fill = new THREE.DirectionalLight(0x88aaff, 0.7);
+      const fill = new THREE.DirectionalLight(0x8877aa, 0.5);
       fill.position.set(-4, -1, 2);
       scene.add(fill);
-      const rim = new THREE.DirectionalLight(0xd9ff00, 0.5);
+      const rim = new THREE.DirectionalLight(0xd9ff00, 0.55);
       rim.position.set(-2, 3, -4);
       scene.add(rim);
 
-      // ---- Orbit controls ----
+      // ---- Controls ----
       const controls = new OrbitControls(camera, renderer.domElement);
       controls.enableZoom = false;
       controls.enablePan = false;
       controls.enableDamping = true;
       controls.dampingFactor = 0.06;
       controls.autoRotate = false;
-      controls.saveState(); // snapshot clean position so reset() clears velocity
+      controls.saveState();
 
-      // ---- Spin animation (for generate) ----
-      window._spinBall = () =>
-        new Promise((resolve) => {
-          controls.autoRotate = false;
-          controls.enabled = false;
-          const startY = group.rotation.y;
-          const target = startY + Math.PI * 10;
-          const t0 = performance.now(),
-            dur = 2000;
-          function step(now) {
-            const t = Math.min((now - t0) / dur, 1);
-            const e = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-            group.rotation.y = startY + (target - startY) * e;
-            group.rotation.x = Math.sin(t * Math.PI) * 0.5;
-            if (t < 1) {
-              requestAnimationFrame(step);
-            } else {
-              group.rotation.x = 0;
-              group.rotation.y = 0;
-              controls.enabled = true;
-              controls.autoRotate = false;
-              resolve();
-            }
-          }
-          requestAnimationFrame(step);
-        });
-
-      // ---- Spring-back on pointer release (rotation only, no zoom) ----
-      let _spring = null;
+      // ---- State ----
+      let _jiggling = false,
+        _spring = null,
+        _onSpringSettle = null,
+        _breathPhase = 0,
+        _spinning = false,
+        _spinVelocity = 0,
+        _spinTarget = 0,
+        _spinOnComplete = null;
 
       renderer.domElement.addEventListener("pointerdown", () => {
         _spring = null;
+        _onSpringSettle = null;
         controls.enabled = true;
       });
-
       renderer.domElement.addEventListener("pointerup", () => {
-        if (!controls.enabled) return; // ignore during spin
+        if (!controls.enabled) return;
         controls.enabled = false;
-        // Capture current spherical angles so spring works past 90°
         const r = camera.position.length();
         _spring = {
           r,
@@ -2324,149 +959,353 @@
         if (_spring) {
           const K = 0.1,
             D = 0.68;
-          // Spring angles toward front-face default (phi=π/2, theta=0)
           _spring.vphi = _spring.vphi * D + K * (Math.PI / 2 - _spring.phi);
           _spring.vtheta = _spring.vtheta * D + K * (0 - _spring.theta);
           _spring.phi += _spring.vphi;
           _spring.theta += _spring.vtheta;
-          // Convert spherical back to Cartesian (radius locked)
-          const r = _spring.r,
-            phi = _spring.phi,
-            th = _spring.theta;
+          const { r, phi, theta: th } = _spring;
           camera.position.set(
             r * Math.sin(phi) * Math.sin(th),
             r * Math.cos(phi),
             r * Math.sin(phi) * Math.cos(th),
           );
           camera.lookAt(0, 0, 0);
-
           if (
             Math.abs(_spring.vphi) < 0.0005 &&
             Math.abs(_spring.vtheta) < 0.0005
           ) {
             _spring = null;
-            controls.reset(); // resets position AND clears internal velocity buffer
-            controls.enabled = true;
+            controls.reset();
+            controls.enabled = !_jiggling;
+            if (_onSpringSettle) {
+              _onSpringSettle();
+              _onSpringSettle = null;
+            }
           }
         } else {
           controls.update();
         }
 
+        if (_spinning) {
+          // Once slow enough, gently spring toward the pre-computed target.
+          // _spinTarget is fixed at spin-start so it never flips direction mid-spin.
+          if (Math.abs(_spinVelocity) < 0.07) {
+            _spinVelocity += (_spinTarget - group.rotation.y) * 0.07;
+          }
+          _spinVelocity *= 0.93;
+          group.rotation.y += _spinVelocity;
+
+          // Settled: tiny velocity and very close to target
+          if (
+            Math.abs(_spinVelocity) < 0.002 &&
+            Math.abs(group.rotation.y - _spinTarget) < 0.04
+          ) {
+            group.rotation.y = 0; // normalise — all 2πN multiples look identical
+            _spinning = false;
+            drawFace(1);
+            if (!_jiggling) controls.enabled = true;
+            if (_spinOnComplete) {
+              _spinOnComplete();
+              _spinOnComplete = null;
+            }
+          }
+        }
+
+        if (_jiggling) {
+          const t = performance.now() / 1000;
+          group.rotation.z = Math.sin(t * 7.1) * 0.06;
+          group.rotation.x = Math.sin(t * 5.5) * 0.04;
+          _breathPhase += 0.016;
+          drawFace(0.97 + 0.06 * (Math.sin(_breathPhase * 1.5) * 0.5 + 0.5));
+        } else if (!_spinning) {
+          group.rotation.z *= 0.82;
+          group.rotation.x *= 0.82;
+          if (Math.abs(group.rotation.z) < 0.001) drawFace(1);
+        }
+
         renderer.render(scene, camera);
       })();
 
-      // ---- Resize ----
-      window.addEventListener("resize", () => {
-        const s = wrap.offsetWidth;
-        renderer.setSize(s, s);
-      });
+      new ResizeObserver(() =>
+        renderer.setSize(wrap.offsetWidth, wrap.offsetHeight),
+      ).observe(wrap);
 
-      // ---- STEEP category switching ----
-      let currentCat = "Social";
-      document.querySelectorAll(".steep-cat").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          document
-            .querySelectorAll(".steep-cat")
-            .forEach((b) => b.classList.remove("active"));
-          btn.classList.add("active");
-          currentCat = btn.dataset.cat;
-          drawFace(currentCat);
+      // ---- Helpers ----
+      let _revealCount = 0;
+
+      function startLoading() {
+        controls.enabled = false;
+        _jiggling = false;
+        _breathPhase = 0;
+        const r = camera.position.length();
+        _spring = {
+          r,
+          phi: Math.acos(Math.max(-1, Math.min(1, camera.position.y / r))),
+          theta: Math.atan2(camera.position.x, camera.position.z),
+          vphi: 0,
+          vtheta: 0,
+        };
+        _onSpringSettle = () => {
+          _jiggling = true;
+        };
+      }
+
+      function stopLoading() {
+        _jiggling = false;
+        controls.enabled = true;
+      }
+
+      // Reveal spin: fast forward spin (~1.5 rotations) that settles at front face
+      function startRevealSpin(onComplete) {
+        _jiggling = false;
+        _spinning = true;
+        _spinVelocity = 0.55;
+        // Pre-compute landing angle once — never recalculated, so spring never flips
+        const twoPi = Math.PI * 2;
+        const totalDisp = _spinVelocity / (1 - 0.93); // ≈ +7.86 rad forward
+        _spinTarget =
+          Math.round((group.rotation.y + totalDisp) / twoPi) * twoPi;
+        _spinOnComplete = onComplete;
+        controls.enabled = false;
+      }
+
+      // Reset spin: reverse spin (~1 rotation back) that spring-settles at front face
+      function startResetSpin(onComplete) {
+        _spinning = true;
+        _spinVelocity = -0.4;
+        // Pre-compute landing angle in the backward direction — never recalculated
+        const twoPi = Math.PI * 2;
+        const totalDisp = _spinVelocity / (1 - 0.93); // ≈ -5.71 rad backward
+        _spinTarget =
+          Math.round((group.rotation.y + totalDisp) / twoPi) * twoPi;
+        _spinOnComplete = onComplete || null;
+        controls.enabled = false;
+      }
+
+      // Parse free-text response into { trend, concept, questions[] }
+      function parseResponse(raw) {
+        const clean = raw.trim();
+
+        // Match just the concept sentence — stops at its own closing "?"
+        // This works whether questions are in a separate paragraph or the same one
+        const conceptRe =
+          /In a future where\s+(.+?),\s*what if Choice Hotels\s+(.+?\?)/is;
+        const m = clean.match(conceptRe);
+
+        let trend = "",
+          concept = "";
+        if (m) {
+          trend = m[1].trim();
+          concept = m[2].trim().replace(/\?$/, "");
+        } else {
+          return { trend: clean, concept: "", questions: [] };
+        }
+
+        // Everything after the matched concept sentence is questions
+        const afterConcept = clean.slice(m.index + m[0].length).trim();
+        const questions = afterConcept
+          ? afterConcept
+              .replace(/\n/g, " ")
+              .split(/(?<=\?)\s+/)
+              .map((q) => q.trim())
+              .filter((q) => q.length > 8 && /\?$/.test(q))
+          : [];
+
+        return { trend, concept, questions };
+      }
+
+      function revealResult(raw) {
+        _revealCount++;
+        const n = String(_revealCount).padStart(2, "0");
+        const idxEl = document.getElementById("provIndex");
+        if (idxEl) idxEl.textContent = n;
+
+        const { trend, concept, questions } = parseResponse(raw);
+        // Capitalize first letter of trend
+        const trendDisplay = trend.charAt(0).toUpperCase() + trend.slice(1);
+        document.getElementById("provTrend").textContent = trendDisplay;
+        // Prepend "What if Choice Hotels" into the big serif concept
+        const conceptBody = concept.replace(/\?$/, "");
+        document.getElementById("provConcept").textContent =
+          "What if Choice Hotels " + conceptBody + "?";
+
+        const qContainer = document.getElementById("provQuestions");
+        qContainer.innerHTML = "";
+        questions.forEach((q, i) => {
+          const col = document.createElement("div");
+          col.className = "prov-q";
+          const num = document.createElement("p");
+          num.className = "prov-q-num";
+          num.textContent = String(i + 1).padStart(2, "0");
+          const text = document.createElement("p");
+          text.className = "prov-q-text";
+          text.textContent = q;
+          col.appendChild(num);
+          col.appendChild(text);
+          qContainer.appendChild(col);
         });
+
+        document.getElementById("app").classList.add("revealed");
+        setTimeout(
+          () => document.getElementById("provInner").classList.add("visible"),
+          450,
+        );
+        gtag("event", "provocation_revealed", {
+          event_category: "content",
+          signal: trendDisplay,
+          reveal_count: _revealCount,
+        });
+      }
+
+      function resetLayout() {
+        document.getElementById("provInner").classList.remove("visible");
+        setTimeout(() => {
+          document.getElementById("app").classList.remove("revealed");
+          ["provTrend", "provConcept", "provQuestions"].forEach((id) => {
+            const el = document.getElementById(id);
+            if (el) {
+              el.textContent = "";
+              el.innerHTML = "";
+            }
+          });
+          // Spin back to front face; once settled, start jiggling while API loads
+          startResetSpin(() => {
+            _jiggling = true;
+          });
+          // Fetch the next provocation in parallel with the spin
+          autoGenerate();
+        }, 300);
+      }
+
+      // ---- All STEEP signals (matched to future-trends-2025-2026.md) ----
+      const STEEP_SIGNALS = [
+        // Social
+        "The Trust Recession",
+        "Nouveau Nihilism & Individualism",
+        "Strategic Joy",
+        "The Affection Deficit",
+        "Conservative Shift",
+        "Demographic Shifts & Aging Populations",
+        "Changing Norms Around Work & Wellbeing",
+        // Technological
+        "Agentic AI Expansion",
+        "AI-Native Development",
+        "Quantum Readiness",
+        "Physical AI",
+        "Generative Engine Optimization (GEO)",
+        "Gen AI, Robotics & Automation Acceleration",
+        "Digital Trust & Cybersecurity",
+        // Economic
+        "K-Shaped Growth",
+        "Trade Uncertainty",
+        "Blue-Collar Renaissance",
+        "Transactional World Order",
+        "Volatility in Global Supply Chains",
+        "Inequity & Shifts in Consumer Power",
+        // Environmental
+        "The Adaptation Advantage",
+        "Climate-AI Paradox",
+        "Circular Economics",
+        "Renewable Acceleration",
+        "Climate Instability & Extreme Weather",
+        "Resource Scarcity & Circularity",
+        // Political
+        "Geopolitician-in-Chief",
+        "AI Sovereignty",
+        "Democracy Under Strain",
+        "Weaponized Interdependence",
+        "Increasing Geopolitical Fragmentation",
+        "Regulatory Intervention & Accountability",
+      ];
+
+      function pickRandomSignal() {
+        return STEEP_SIGNALS[Math.floor(Math.random() * STEEP_SIGNALS.length)];
+      }
+
+      // ---- Shared fetch + reveal logic ----
+      // Called both by the button (after startLoading) and by resetLayout (after startResetSpin)
+      async function autoGenerate() {
+        const btn = document.getElementById("generateBtn");
+        const lbl = document.getElementById("btnLabel");
+        btn.disabled = true;
+        lbl.textContent = "Creating…";
+
+        const signal = pickRandomSignal();
+        console.log(`[reveal] signal → "${signal}"`);
+
+        let raw = null,
+          errorMsg = null;
+        try {
+          const ctrl = new AbortController();
+          const timer = setTimeout(() => ctrl.abort(), 110000);
+          const res = await fetch("/api/generate", {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ signal }),
+            signal: ctrl.signal,
+          });
+          clearTimeout(timer);
+          if (!res.ok) {
+            let msg = `Error ${res.status}`;
+            try {
+              const e = await res.json();
+              msg = e.error || msg;
+            } catch {}
+            throw new Error(msg);
+          }
+          const data = await res.json();
+          raw = data.text;
+        } catch (err) {
+          errorMsg =
+            err.name === "AbortError"
+              ? "Request timed out — try again"
+              : err.message || "Error";
+        }
+
+        _jiggling = false;
+        btn.disabled = false;
+
+        if (errorMsg) {
+          controls.enabled = true;
+          const busy =
+            errorMsg.toLowerCase().includes("busy") ||
+            errorMsg.toLowerCase().includes("overload");
+          lbl.textContent = busy
+            ? "Claude is busy — try again"
+            : "Error — Try Again";
+          setTimeout(() => {
+            lbl.textContent = "Reveal a Future →";
+          }, 4000);
+          return;
+        }
+
+        lbl.textContent = "Reveal a Future →";
+        // If still in the reset spin, chain reveal after it; otherwise go immediately
+        if (_spinning) {
+          _spinOnComplete = () => startRevealSpin(() => revealResult(raw));
+        } else {
+          startRevealSpin(() => revealResult(raw));
+        }
+      }
+
+      // ---- Generate button ----
+      document.getElementById("generateBtn").addEventListener("click", () => {
+        gtag("event", "reveal_future_click", { event_category: "engagement" });
+        startLoading(); // spring to front face → then jiggle
+        autoGenerate();
       });
 
-      // ---- Generate ----
       document
-        .getElementById("generateBtn")
-        .addEventListener("click", async () => {
-          const btn = document.getElementById("generateBtn");
-          const label = document.getElementById("btnLabel");
-          btn.disabled = true;
-          label.textContent = "Thinking…";
+        .getElementById("againBtn")
+        .addEventListener("click", () => {
+          gtag("event", "reveal_another_click", { event_category: "engagement" });
+          resetLayout();
+        });
 
-          // Spin + API call in parallel
-          const [_, result] = await Promise.allSettled([
-            window._spinBall(),
-            (async () => {
-              // 110s client timeout — slightly less than function's 120s
-              const controller = new AbortController();
-              const timer = setTimeout(() => controller.abort(), 110000);
-              try {
-                const res = await fetch("/api/generate", {
-                  method: "POST",
-                  headers: { "content-type": "application/json" },
-                  body: JSON.stringify({ category: currentCat }),
-                  signal: controller.signal,
-                });
-                clearTimeout(timer);
-                if (!res.ok) {
-                  let msg = `Error ${res.status}`;
-                  try { const e = await res.json(); msg = e.error || msg; } catch {}
-                  throw new Error(msg);
-                }
-                const data = await res.json();
-                return data.text;
-              } catch (err) {
-                clearTimeout(timer);
-                if (err.name === 'AbortError') throw new Error('Request timed out — please try again');
-                throw err;
-              }
-            })(),
-          ]);
-
-          btn.disabled = false;
-          label.textContent = "Reveal the Future →";
-
-          if (result.status === "rejected") {
-            const msg = result.reason?.message || "Error";
-            const isBusy = msg.toLowerCase().includes("busy") || msg.toLowerCase().includes("overload") || msg.toLowerCase().includes("503") || msg.toLowerCase().includes("529");
-            label.textContent = isBusy ? "Claude is busy — try again" : "Error — Try Again";
-            setTimeout(() => {
-              label.textContent = "Reveal the Future →";
-            }, 4000);
-            return;
-          }
-
-          // Parse response — plain text, two paragraphs: concept + questions
-          const raw = result.value.trim().replace(/\*\*/g, ""); // strip markdown bold
-          const paragraphs = raw
-            .split(/\n\n+/)
-            .map((p) => p.trim())
-            .filter(Boolean);
-          const concept = paragraphs[0] || "";
-          const questions = paragraphs.slice(1).join("\n\n");
-
-          // Update face to show category
-          drawFace(currentCat);
-
-          // Reveal questions section
-          const qSection = document.getElementById("questionsSection");
-          qSection.style.display = "flex";
-          qSection.scrollIntoView({ behavior: "smooth" });
-          const catEl = document.getElementById("questionsCategory");
-          catEl.textContent = currentCat + " Futures";
-          setTimeout(() => catEl.classList.add("visible"), 500);
-
-          const list = document.getElementById("questionsList");
-          list.innerHTML = "";
-
-          // Concept card
-          const conceptCard = document.createElement("div");
-          conceptCard.className = "question-card";
-          conceptCard.innerHTML = `<div class="question-text">${concept}</div>`;
-          list.appendChild(conceptCard);
-          setTimeout(() => conceptCard.classList.add("visible"), 700);
-
-          // Questions card
-          if (questions) {
-            const qCard = document.createElement("div");
-            qCard.className = "question-card";
-            qCard.innerHTML = `<div class="question-text" style="color:var(--text-gray)">${questions}</div>`;
-            list.appendChild(qCard);
-            setTimeout(() => qCard.classList.add("visible"), 1050);
-          }
-
-          // Show "Try Another Lens" once questions are ready
-          document.querySelector(".steep-again-btn").classList.add("visible");
+      document
+        .getElementById("shareBtn")
+        .addEventListener("click", () => {
+          gtag("event", "share_future_click", { event_category: "engagement" });
         });
     </script>
   </body>
